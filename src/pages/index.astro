@@ -109,6 +109,18 @@ import Frame from '../components/Frame.astro';
 				height: 100%;
 			}
 
+			.about-section {
+				text-align: start;
+				padding: 2rem;
+				min-width: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+
+			.content {
+				margin-top: auto;
+			}
+
 			.title {
         font-family: var(--font-family-serif), serif;
         font-size: 2.5rem; 
@@ -116,20 +128,67 @@ import Frame from '../components/Frame.astro';
         margin-bottom: 1rem;
       }
 			.subtitle {
-        font: var(--font)
-        font-size: 0.8rem; 
+        font: var(--font);
+        font-size: 1rem; 
         color: #555;
-        max-width: 600px; 
-        margin-bottom: 3rem;
       }
+
+			nav {
+				margin-top: 2rem;
+				font: var(--font);
+				font-size: 0.8rem;
+			}
+
+			ul {
+				list-style: none;
+				padding: 0;
+				margin: 0;
+				display: flex;
+				flex-direction: row;
+				gap: 1rem;
+			}
+
+			.gradient {
+				background-image: linear-gradient(
+					125deg,
+					hsl(24deg 88% 45%) 1%,
+					hsl(23deg 74% 52%) 39%,
+					hsl(22deg 77% 57%) 47%,
+					hsl(22deg 80% 62%) 50%,
+					hsl(21deg 82% 66%) 51%,
+					hsl(21deg 86% 71%) 51%,
+					hsl(21deg 89% 75%) 50%,
+					hsl(21deg 93% 80%) 49%,
+					hsl(20deg 96% 84%) 49%,
+					hsl(20deg 100% 88%) 50%,
+					hsl(20deg 100% 92%) 53%,
+					hsl(20deg 100% 96%) 61%,
+					hsl(0deg 0% 100%) 99%
+				);
+			}
 		</style>
 	</head>
 	<body>
 		<main class="container">
 			<Frame>
+				<section class="about-section gradient">
+					<div class="content">
+						<h1 class="title">Living Library</h1>
+						<p class="subtitle">A space for personal storytelling and meaningful conversations. <b>Swipe or Scroll to learn more.</b></p>
+					</div>
+					<nav>
+						<ul>
+							<li><a href="#how-it-works">How It Works</a></li>
+							<li><a href="#events">Events</a></li>
+							<li><a href="#get-involved">Get Involved</a></li>
+						</ul>
+					</nav>
+				</section>
+			</Frame>
+			<Frame id="how-it-works">
 				<Slide 
 					title="How It Works"
-					subtitle="Our simple process creates meaningful connections through personal storytelling. <b>Swipe or Scroll to learn more.</b>"
+					subtitle="Our simple process creates meaningful connections through personal storytelling."
 					imageUrl="images/living_library.png"
 					position="bottom"
 				/>
@@ -157,6 +216,14 @@ import Frame from '../components/Frame.astro';
 					imageUrl="images/perception.png"
 					position="bottom"
 				/>
+			</Frame>
+			<Frame id="get-involved">
+				<section class="about-section">
+					<div class="content">
+						<h1 class="title">Get Involved</h1>
+						<p class="subtitle">Join our community and be part of the movement to build empathy through storytelling.</p>
+					</div>
+				</section>
 			</Frame>
 		</main>
 	</body>
