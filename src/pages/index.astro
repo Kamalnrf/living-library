@@ -100,15 +100,45 @@ import Frame from '../components/Frame.astro';
 			.container::-webkit-scrollbar { 
 				display: none;  
 			}
+
+			.about-section {
+				text-align: center;
+				max-width: 275px;
+				background-color: white;
+				width: 100%;
+				height: 100%;
+			}
+
+			.title {
+        font-family: var(--font-family-serif), serif;
+        font-size: 2.5rem; 
+        color: var(--brand-orange);
+        margin-bottom: 1rem;
+      }
+			.subtitle {
+        font: var(--font)
+        font-size: 0.8rem; 
+        color: #555;
+        max-width: 600px; 
+        margin-bottom: 3rem;
+      }
 		</style>
 	</head>
 	<body>
 		<main class="container">
 			<Frame>
 				<Slide 
+					title="How It Works"
+					subtitle="Our simple process creates meaningful connections through personal storytelling. <b>Swipe or Scroll to learn more.</b>"
+					imageUrl="images/living_library.png"
+					position="bottom"
+				/>
+			</Frame>
+			<Frame>
+				<Slide 
 					title="Borrow a Living Book"
 					subtitle="Choose from our diverse catalog of living books, each with a unique story to share from their lived experience."
-					imageUrl="images/a_hand_gently_reaching_to_leaf.png"
+					imageUrl="images/discovery.png"
 					position="bottom"
 				/>
 			</Frame>
@@ -116,7 +146,7 @@ import Frame from '../components/Frame.astro';
 				<Slide 
 					title="Have a Conversation"
 					subtitle="Engage in a 30-minute open dialogue in a safe, respectful environment where questions are encouraged."
-					imageUrl="images/two_birds_perched_on_a_branch.png"
+					imageUrl="images/conversation.png"
 					position="bottom"
 				/>
 			</Frame>
@@ -124,7 +154,8 @@ import Frame from '../components/Frame.astro';
 				<Slide 
 					title="Return with a Changed Perspective"
 					subtitle="Walk away with new insights, challenged assumptions, and a deeper understanding of diverse experiences."
-					imageUrl="images/single_leaf.png"
+					imageUrl="images/perception.png"
+					position="bottom"
 				/>
 			</Frame>
 		</main>

@@ -7,9 +7,7 @@ const { title, subtitle, imageUrl, position } = Astro.props
 <section class="slide" style={`background-image: url(${imageUrl});`}>
   <div class="content" style={position === 'bottom' ? 'margin-top: auto;' : ''}>
     <h3 class="content-title">{title}</h3>
-    <p class="content-subtitle">
-      {subtitle}
-    </p>
+    <p class="content-subtitle" set:html={subtitle} />
   </div>
 </section>
 
