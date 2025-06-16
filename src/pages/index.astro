@@ -1,16 +1,132 @@
 ---
-
+import Slide from '../components/Slide.astro';
+import Frame from '../components/Frame.astro';
 ---
 
 <html lang="en">
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/jpeg" href="/favicon.jpg" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Living Library</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			href="https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap"
+			rel="stylesheet"
+		/>
+		<style>
+			*, *:before, *:after { 
+				box-sizing: border-box; 
+			}
+
+			:root {
+				/* Font */
+				--font-family: 'Inter', sans-serif;
+				--font-family-serif: 'Besley', serif;
+				--font: clamp(1.4rem, 3vw, 1.4rem) / 1.35 var(--font-family);
+
+				/* Colors */
+				--brand-orange: #c05700; 
+				--off-white: #fbf1d9;
+				--arrow-gray: #b0b0b0;
+				--color-text: #111;
+				--color-text-inverse: #fff;
+				--color-subtext: #777;
+
+				/* Frame */
+				--frame-width: 100%;
+				--frame-max-width: 100%;
+				--frame-height: calc(100vh);
+
+				/* Spacing */
+				--space-1: 20px;
+				--frame-border: 5px solid orange;
+				--frame-max-width: 393px; 
+			}
+
+			@media screen and (min-width: 500px) {
+				:root {
+					--frame-height: calc(100vh - 80px);
+				}
+			}
+
+			html, body { 
+				margin: 0; 
+				padding: 0;
+				height: 100%; 
+			}
+
+			body {
+				background: var(--off-white);
+				font: var(--font);
+				position: relative;
+				color: var(--color-text);
+				overflow: hidden;
+				display: grid;
+				place-items: center;
+				min-height: 100%;
+			}
+
+			@media screen and (min-width: 500px) {
+				body {
+					padding-top: var(--space-1);
+        	padding-left: var(--space-1);
+        	padding-right: var(--space-1);
+        	padding-bottom: var(--space-1);
+				}
+			}
+
+			.container {
+				display: flex;
+				width: calc(var(--frame-width) + 8px);
+				min-height: 100%;
+				overflow: scroll;
+				scroll-snap-type: x mandatory;
+				gap: 5px;
+				margin: 0 0 0 -3px;
+				scrollbar-width: none;
+				max-width: var(--frame-max-width);
+			}
+
+			@media screen and (min-width:393px) {
+				.container {
+					margin: 0 auto;
+					border: var(--frame-border);
+				}
+			}
+
+			.container::-webkit-scrollbar { 
+				display: none;  
+			}
+		</style>
 	</head>
 	<body>
-		<h1>Living Library</h1>
+		<main class="container">
+			<Frame>
+				<Slide 
+					title="Borrow a Living Book"
+					subtitle="Choose from our diverse catalog of living books, each with a unique story to share from their lived experience."
+					imageUrl="images/a_hand_gently_reaching_to_leaf.png"
+					position="bottom"
+				/>
+			</Frame>
+			<Frame>
+				<Slide 
+					title="Have a Conversation"
+					subtitle="Engage in a 30-minute open dialogue in a safe, respectful environment where questions are encouraged."
+					imageUrl="images/two_birds_perched_on_a_branch.png"
+					position="bottom"
+				/>
+			</Frame>
+			<Frame>
+				<Slide 
+					title="Return with a Changed Perspective"
+					subtitle="Walk away with new insights, challenged assumptions, and a deeper understanding of diverse experiences."
+					imageUrl="images/single_leaf.png"
+				/>
+			</Frame>
+		</main>
 	</body>
 </html>

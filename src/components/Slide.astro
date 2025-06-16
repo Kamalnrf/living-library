@@ -1,0 +1,46 @@
+---
+
+const { title, subtitle, imageUrl, position } = Astro.props
+
+---
+
+<section class="slide" style={`background-image: url(${imageUrl});`}>
+  <div class="content" style={position === 'bottom' ? 'margin-top: auto;' : ''}>
+    <h3 class="content-title">{title}</h3>
+    <p class="content-subtitle">
+      {subtitle}
+    </p>
+  </div>
+</section>
+
+<style>
+  .slide {
+    min-height: 100%;
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .content {
+    background-color: rgba(255, 252, 245, 0.9); 
+    padding: 1rem;
+    max-width: 100%;
+    margin-bottom: 4.4rem; 
+  }
+
+  .content-title {
+    font-family: var(--font-family-serif);
+    font-size: 2rem;
+    color: var(--brand-orange);
+    margin-bottom: 0.75rem;
+    font-weight: 700;
+  }
+
+  .content-subtitle {
+    font-family: var(--font);
+    font-size: 1rem;
+    color: var(--color-subtext);
+    line-height: 1.6;
+  }
+</style>

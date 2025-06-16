@@ -1,0 +1,14 @@
+<div class="frame">
+  <slot />
+</div>
+
+<style>
+  .frame {
+    scroll-snap-align: start;
+    min-width: var(--frame-width);
+    min-height: 100%;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+  }
+</style>
