@@ -129,4 +129,19 @@ import Frame from '../components/Frame.astro';
 			</Frame>
 		</main>
 	</body>
+
+	<script>
+    document.addEventListener("click", (e) => {
+			const container = document.querySelector('.container');
+			if (!container) return;
+
+      if(e.clientX > window.innerWidth / 2) {
+        container.scrollLeft = container.scrollLeft + 200;
+      }
+
+      if(e.clientX < window.innerWidth / 2) {
+        container.scrollLeft = container.scrollLeft - 200;
+      }
+    })
+	</script>
 </html>
