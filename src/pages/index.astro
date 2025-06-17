@@ -2,6 +2,7 @@
 import Slide from '../components/Slide.astro';
 import Frame from '../components/Frame.astro';
 import GetInvolved from '../components/GetInvolved.astro';
+import Analytics from '@vercel/analytics/astro'
 ---
 
 <html lang="en">
@@ -212,6 +213,10 @@ import GetInvolved from '../components/GetInvolved.astro';
 				color: var(--muted-orange);
 				font-size: 0.9rem;
 			}
+
+			.visually-hidden {
+				display: none;
+			}
 		</style>
 	</head>
 	<body>
@@ -304,6 +309,9 @@ import GetInvolved from '../components/GetInvolved.astro';
 		</main>
 		<div class="scroll-progress-container">
 			<div class="scroll-progress-bar"></div>
+		</div>
+		<div class="visually-hidden">
+			<Analytics />
 		</div>
 	</body>
 
