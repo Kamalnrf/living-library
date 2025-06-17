@@ -333,9 +333,10 @@ import GetInvolved from '../components/GetInvolved.astro';
 		let clickStartY = 0;
 		let isUserScrolling = false;
 		let scrollTimeout = null;
+		const isAndroid = /Android/i.test(navigator.userAgent);
 
 		// Track when user is actively scrolling
-		if (container) {
+		if (container && !isAndroid) {
 			container.addEventListener('scroll', () => {
 				isUserScrolling = true;
 				clearTimeout(scrollTimeout);
