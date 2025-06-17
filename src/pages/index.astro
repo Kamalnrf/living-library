@@ -117,6 +117,14 @@ import Frame from '../components/Frame.astro';
 				flex-direction: column;
 			}
 
+			.join-a-session-section {
+				text-align: start;
+				padding: 2rem;
+				min-width: 100%;
+				display: flex;
+				flex-direction: column;
+			}
+
 			.content {
 				margin-top: auto;
 			}
@@ -179,7 +187,7 @@ import Frame from '../components/Frame.astro';
 					<nav>
 						<ul>
 							<li><a href="#how-it-works">How It Works</a></li>
-							<li><a href="#events">Join a Session</a></li>
+							<li><a href="https://lu.ma/living-library">Join a Session</a></li>
 							<li><a href="#get-involved">Get Involved</a></li>
 						</ul>
 					</nav>
@@ -217,11 +225,40 @@ import Frame from '../components/Frame.astro';
 					position="bottom"
 				/>
 			</Frame>
+			<Frame>
+				<section class="join-a-session-section">
+					<div class="content">
+						<h1 class="title">Join a Session</h1>
+						<p class="subtitle">Check out our upcoming events and book a session to experience the Living Library.</p>
+						<nav>
+							<ul>
+								<li><a href="#how-it-works">How It Works</a></li>
+								<li><a href="#get-involved">Get Involved</a></li>
+							</ul>
+						</nav>
+					</div>
+				</section>
+				<iframe
+					src="https://lu.ma/embed/calendar/cal-GHDfTF0OIWzcDd9/events?lt=light"
+					width="var(--frame-max-width)"
+					frameborder="0"
+					style="border: 1px solid #bfcbda88; border-radius: 4px; height: 100%;"
+					allowfullscreen=""
+					aria-hidden="false"
+					tabindex="0"
+				></iframe>
+			</Frame>
 			<Frame id="get-involved">
-				<section class="about-section">
+				<section class="join-a-session-section">
 					<div class="content">
 						<h1 class="title">Get Involved</h1>
 						<p class="subtitle">Join our community and be part of the movement to build empathy through storytelling.</p>
+						<nav>
+							<ul>
+								<li><a href="#how-it-works">How It Works</a></li>
+								<li><a href="#join-a-session">Join a Session</a></li>
+							</ul>
+						</nav>
 					</div>
 				</section>
 			</Frame>
