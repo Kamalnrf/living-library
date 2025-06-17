@@ -1,6 +1,7 @@
 ---
 import Slide from '../components/Slide.astro';
 import Frame from '../components/Frame.astro';
+import GetInvolved from '../components/GetInvolved.astro';
 ---
 
 <html lang="en">
@@ -206,6 +207,7 @@ import Frame from '../components/Frame.astro';
 					title="Borrow a Living Book"
 					subtitle="Choose from our diverse catalog of living books, each with a unique story to share from their lived experience."
 					imageUrl="images/discovery.png"
+					alt="A person browsing a catalog of living books. The image is a minimalist illustration, a hand gently reaching toward a glowing leaf on a tree at sunrise, soft orange and gold hues, nature-inspired, clean vector lines, white background, warm and inviting mood."
 					position="bottom"
 				/>
 			</Frame>
@@ -214,6 +216,7 @@ import Frame from '../components/Frame.astro';
 					title="Have a Conversation"
 					subtitle="Engage in a 30-minute open dialogue in a safe, respectful environment where questions are encouraged."
 					imageUrl="images/conversation.png"
+					alt="A person having a conversation with a living book. The image is minimalist illustration, two people facing each other, gentle sunrise light, soft orange and gold hues, nature-inspired, clean vector lines, white background, warm and inviting mood, sense of open conversation"
 					position="bottom"
 				/>
 			</Frame>
@@ -222,6 +225,7 @@ import Frame from '../components/Frame.astro';
 					title="Return with a Changed Perspective"
 					subtitle="Walk away with new insights, challenged assumptions, and a deeper understanding of diverse experiences."
 					imageUrl="images/perception.png"
+					alt="Evokes the feeling of a changed perspective. The image is a minimalist illustration, previously curled tight, now gently unfurling in the morning light. Maybe a drop of dew catches the sun, or the person is subtly different--brighter, more open--than those around it. soft orange and gold hues, nature-inspired, clean vector lines, white background, warm and inviting mood, sense of open conversation"
 					position="bottom"
 				/>
 			</Frame>
@@ -247,21 +251,11 @@ import Frame from '../components/Frame.astro';
 					allowfullscreen=""
 					aria-hidden="false"
 					tabindex="0"
+					title="Living Library Calendar on Luma"
 				></iframe>
 			</Frame>
 			<Frame id="get-involved">
-				<section class="join-a-session-section">
-					<div class="content">
-						<h1 class="title">Get Involved</h1>
-						<p class="subtitle">Join our community and be part of the movement to build empathy through storytelling.</p>
-						<nav>
-							<ul>
-								<li><a href="#how-it-works">How It Works</a></li>
-								<li><a href="#join-a-session">Join a Session</a></li>
-							</ul>
-						</nav>
-					</div>
-				</section>
+				<GetInvolved />
 			</Frame>
 		</main>
 	</body>
