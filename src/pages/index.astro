@@ -44,7 +44,9 @@ import GetInvolved from '../components/GetInvolved.astro';
 				/* Spacing */
 				--space-1: 20px;
 				--frame-border: 5px solid hsl(21deg 86% 71%);
-				--frame-max-width: 393px; 
+				--frame-max-width: 393px;
+				--progress-bar-height: 5px; 
+				--progress-bar-color: var(--brand-orange);
 			}
 
 			@media screen and (min-width: 500px) {
@@ -175,9 +177,28 @@ import GetInvolved from '../components/GetInvolved.astro';
 					hsl(42deg 81% 92%) 99%
 				);
 			}
+
+			.scroll-progress-container {
+				position: fixed;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: var(--progress-bar-height);
+				background-color: transparent; /* Or a light background for the track */
+				z-index: 1000;
+			}
+
+			.scroll-progress-bar {
+				height: 100%;
+				background-color: var(--progress-bar-color);
+				width: 0%; /* Initial width */
+			}
 		</style>
 	</head>
 	<body>
+		<div class="scroll-progress-container">
+			<div class="scroll-progress-bar"></div>
+		</div>
 		<main class="container">
 			<Frame>
 				<section class="about-section gradient">
@@ -238,7 +259,7 @@ import GetInvolved from '../components/GetInvolved.astro';
 							<ul>
 								<li><a href="#how-it-works">How It Works</a></li>
 								<li><a href="#get-involved">Get Involved</a></li>
-								<li><a href="https://lu.ma/living-library">Calendar ↗</a></li>
+								<li><a href="https://lu.ma/living-library">Subscribe ↗</a></li>
 							</ul>
 						</nav>
 					</div>
@@ -272,6 +293,32 @@ import GetInvolved from '../components/GetInvolved.astro';
       if(e.clientX < window.innerWidth / 2) {
         container.scrollLeft = container.scrollLeft - 200;
       }
-    })
+    });
+
+		const container = document.querySelector('.container') as HTMLElement;
+		const progressBar = document.querySelector('.scroll-progress-bar') as HTMLElement;
+
+		if (container && progressBar) {
+			container.addEventListener('scroll', () => {
+				const scrollLeft = container.scrollLeft;
+				const scrollWidth = container.scrollWidth - container.clientWidth;
+				if (scrollWidth === 0) { // Avoid division by zero if not scrollable
+					progressBar.style.width = '0%';
+					return;
+				}
+				const scrollPercent = (scrollLeft / scrollWidth) * 100;
+				progressBar.style.width = scrollPercent + '%';
+			});
+
+			// Initial check in case the page loads scrolled
+			const initialScrollLeft = container.scrollLeft;
+			const initialScrollWidth = container.scrollWidth - container.clientWidth;
+			if (initialScrollWidth > 0) {
+				const initialScrollPercent = (initialScrollLeft / initialScrollWidth) * 100;
+				progressBar.style.width = initialScrollPercent + '%';
+			} else {
+				progressBar.style.width = '0%';
+			}
+		}
 	</script>
 </html>
