@@ -29,12 +29,13 @@ import GetInvolved from '../components/GetInvolved.astro';
 				--font: clamp(1.4rem, 3vw, 1.4rem) / 1.35 var(--font-family);
 
 				/* Colors */
-				--brand-orange: #c05700; 
-				--off-white: #fbf1d9;
-				--arrow-gray: #b0b0b0;
-				--color-text: #111;
-				--color-text-inverse: #fff;
-				--color-subtext: #777;
+				--brand-orange: hsl(24, 88%, 45%); 
+				--muted-orange:  hsl(24, 50%, 45%);
+				--off-white: hsl(42, 80%, 92%);
+				--arrow-gray: hsl(0, 0%, 48%);
+				--color-text: hsl(0, 0%, 7%);
+				--color-text-inverse: hsl(0, 0%, 100%);
+				--color-subtext: hsl(0, 0%, 29%);
 
 				/* Frame */
 				--frame-width: 100%;
@@ -43,10 +44,10 @@ import GetInvolved from '../components/GetInvolved.astro';
 
 				/* Spacing */
 				--space-1: 20px;
-				--frame-border: 5px solid hsl(21deg 86% 71%);
+				--frame-border: 5px solid hsl(24, 50%, 45%, 80%);
 				--frame-max-width: 393px;
 				--progress-bar-height: 5px; 
-				--progress-bar-color: var(--brand-orange);
+				--progress-bar-color: hsl(24, 50%, 45%, 80%);
 			}
 
 			@media screen and (min-width: 500px) {
@@ -107,7 +108,7 @@ import GetInvolved from '../components/GetInvolved.astro';
 			.about-section {
 				text-align: center;
 				max-width: 275px;
-				background-color: white;
+				background-color: var(--off-white);
 				width: 100%;
 				height: 100%;
 			}
@@ -141,7 +142,7 @@ import GetInvolved from '../components/GetInvolved.astro';
 			.subtitle {
         font: var(--font);
         font-size: 1rem; 
-        color: #555;
+        color: var(--color-subtext);
       }
 
 			nav {
@@ -159,22 +160,24 @@ import GetInvolved from '../components/GetInvolved.astro';
 				gap: 1rem;
 			}
 
+			ol {
+				margin: 0;
+				padding: 0 1rem;
+				list-style-type: decimal;
+				font: var(--font);
+				font-size: 1rem;
+				color: var(--color-subtext);
+			}
+
 			.gradient {
 				background-image: linear-gradient(
-					125deg,
+					155deg,
 					hsl(24deg 88% 45%) 1%,
-					hsl(25deg 76% 49%) 39%,
-					hsl(27deg 73% 52%) 47%,
-					hsl(28deg 72% 56%) 50%,
-					hsl(30deg 72% 59%) 51%,
-					hsl(31deg 72% 63%) 51%,
-					hsl(33deg 72% 66%) 50%,
-					hsl(34deg 72% 70%) 49%,
-					hsl(36deg 71% 74%) 49%,
-					hsl(37deg 71% 78%) 50%,
-					hsl(39deg 72% 83%) 53%,
-					hsl(40deg 74% 87%) 61%,
-					hsl(42deg 81% 92%) 99%
+					hsl(28deg 72% 54%) 49%,
+					hsl(31deg 72% 62%) 51%,
+					hsl(34deg 71% 71%) 49%,
+					hsl(38deg 71% 81%) 51%,
+					hsl(42deg 80% 92%) 99%
 				);
 			}
 
@@ -193,6 +196,11 @@ import GetInvolved from '../components/GetInvolved.astro';
 				background-color: var(--progress-bar-color);
 				width: 0%; /* Initial width */
 			}
+
+			a {
+				color: var(--muted-orange);
+				font-size: 0.9rem;
+			}
 		</style>
 	</head>
 	<body>
@@ -204,7 +212,9 @@ import GetInvolved from '../components/GetInvolved.astro';
 				<section class="about-section gradient">
 					<div class="content">
 						<h1 class="title">Living Library</h1>
-						<p class="subtitle">A space for personal storytelling and meaningful conversations. <b>Swipe or Scroll to learn more.</b></p>
+						<p class="subtitle">Real people. Real stories. Real conversations.</p>
+						<p class="subtitle">Connect with someone whose life experience is different from yours and have meaningful conversation</p>
+						<p class="subtitle"><b>Swipe to see how it works →</b></p>
 					</div>
 					<nav>
 						<ul>
@@ -218,15 +228,20 @@ import GetInvolved from '../components/GetInvolved.astro';
 			<Frame id="how-it-works">
 				<Slide 
 					title="How It Works"
-					subtitle="Our simple process creates meaningful connections through personal storytelling."
+					subtitle='Our simple process creates meaningful connections through personal storytelling.'
 					imageUrl="images/living_library.png"
-					position="bottom"
-				/>
+					position="bottom">
+					<ol>
+						<li>Borrow a Living Book</li>
+						<li>Have a Conversation</li>
+						<li>Walk Away Changed</li>
+					</ol>
+				</Slide>
 			</Frame>
 			<Frame>
 				<Slide 
-					title="Borrow a Living Book"
-					subtitle="Choose from our diverse catalog of living books, each with a unique story to share from their lived experience."
+					title="1. Borrow a Living Book"
+					subtitle="Choose from real people who volunteer to share their lived experiences - a refugee, a former addict, someone who's been homeless, a person with disabilities."
 					imageUrl="images/discovery.png"
 					alt="A person browsing a catalog of living books. The image is a minimalist illustration, a hand gently reaching toward a glowing leaf on a tree at sunrise, soft orange and gold hues, nature-inspired, clean vector lines, white background, warm and inviting mood."
 					position="bottom"
@@ -234,7 +249,7 @@ import GetInvolved from '../components/GetInvolved.astro';
 			</Frame>
 			<Frame>
 				<Slide 
-					title="Have a Conversation"
+					title="2. Have a Conversation"
 					subtitle="Engage in a 30-minute open dialogue in a safe, respectful environment where questions are encouraged."
 					imageUrl="images/conversation.png"
 					alt="A person having a conversation with a living book. The image is minimalist illustration, two people facing each other, gentle sunrise light, soft orange and gold hues, nature-inspired, clean vector lines, white background, warm and inviting mood, sense of open conversation"
@@ -243,7 +258,7 @@ import GetInvolved from '../components/GetInvolved.astro';
 			</Frame>
 			<Frame>
 				<Slide 
-					title="Return with a Changed Perspective"
+					title="3. Return with a Changed Perspective"
 					subtitle="Walk away with new insights, challenged assumptions, and a deeper understanding of diverse experiences."
 					imageUrl="images/perception.png"
 					alt="Evokes the feeling of a changed perspective. The image is a minimalist illustration, previously curled tight, now gently unfurling in the morning light. Maybe a drop of dew catches the sun, or the person is subtly different--brighter, more open--than those around it. soft orange and gold hues, nature-inspired, clean vector lines, white background, warm and inviting mood, sense of open conversation"

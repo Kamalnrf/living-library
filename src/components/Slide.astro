@@ -8,6 +8,7 @@ const { title, subtitle, imageUrl, position, alt } = Astro.props
   <div class="content" style={position === 'bottom' ? 'margin-top: auto;' : ''}>
     <h3 class="content-title">{title}</h3>
     <p class="content-subtitle" set:html={subtitle} />
+    <slot />
   </div>
 </section>
 
@@ -29,7 +30,7 @@ const { title, subtitle, imageUrl, position, alt } = Astro.props
 
   .content-title {
     font-family: var(--font-family-serif);
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--brand-orange);
     margin-bottom: 0.75rem;
     font-weight: 700;
