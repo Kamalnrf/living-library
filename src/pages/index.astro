@@ -194,7 +194,7 @@ import GetInvolved from '../components/GetInvolved.astro';
 
 			.scroll-progress-container {
 				position: fixed;
-				top: 0;
+				bottom: 0;
 				left: 0;
 				width: 100%;
 				height: var(--progress-bar-height);
@@ -215,9 +215,6 @@ import GetInvolved from '../components/GetInvolved.astro';
 		</style>
 	</head>
 	<body>
-		<div class="scroll-progress-container">
-			<div class="scroll-progress-bar"></div>
-		</div>
 		<main class="container">
 			<Frame>
 				<section class="about-section gradient">
@@ -305,6 +302,9 @@ import GetInvolved from '../components/GetInvolved.astro';
 				<GetInvolved />
 			</Frame>
 		</main>
+		<div class="scroll-progress-container">
+			<div class="scroll-progress-bar"></div>
+		</div>
 	</body>
 
 	<script>

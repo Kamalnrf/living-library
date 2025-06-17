@@ -5,7 +5,7 @@ const { title, subtitle, imageUrl, position, alt } = Astro.props
 ---
 <section class="slide" style={`background-image: url(${imageUrl});`}>
   <span class="visually-hidden" role="img" aria-label={alt} />
-  <div class="content" style={position === 'bottom' ? 'margin-top: auto;' : ''}>
+  <div class="content">
     <h3 class="content-title">{title}</h3>
     <p class="content-subtitle" set:html={subtitle} />
     <slot />
@@ -25,7 +25,7 @@ const { title, subtitle, imageUrl, position, alt } = Astro.props
     background-color: rgba(255, 252, 245, 0.9); 
     padding: 1rem;
     max-width: 100%;
-    margin-bottom: 4.4rem; 
+    margin-top: 130%;
   }
 
   .content-title {
