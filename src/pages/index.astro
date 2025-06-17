@@ -8,7 +8,7 @@ import GetInvolved from '../components/GetInvolved.astro';
 	<head>
 		<meta charset="utf-8" />
 		<link rel="icon" type="image/jpeg" href="/favicon.jpg" />
-		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no" />
 		<meta name="generator" content={Astro.generator} />
 		<title>Living Library</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -41,13 +41,20 @@ import GetInvolved from '../components/GetInvolved.astro';
 				--frame-width: 100%;
 				--frame-max-width: 100%;
 				--frame-height: calc(100vh);
+				--frame-height-mobile: 100dvh;
 
 				/* Spacing */
 				--space-1: 20px;
 				--frame-border: 5px solid hsl(24, 50%, 45%, 80%);
-				--frame-max-width: 393px;
+				--frame-max-width: 500px;
 				--progress-bar-height: 5px; 
 				--progress-bar-color: hsl(24, 50%, 45%, 60%);
+			}
+
+			@supports (height: 100dvh) {
+				:root {
+					--frame-height: var(--frame-height-mobile);
+				}
 			}
 
 			@media screen and (min-width: 500px) {
@@ -71,6 +78,7 @@ import GetInvolved from '../components/GetInvolved.astro';
 				display: grid;
 				place-items: center;
 				min-height: 100%;
+				overscroll-behavior: none;
 			}
 
 			@media screen and (min-width: 500px) {
@@ -91,10 +99,13 @@ import GetInvolved from '../components/GetInvolved.astro';
 				gap: 5px;
 				margin: 0 0 0 -3px;
 				scrollbar-width: none;
+				-webkit-overflow-scrolling: touch;
+				overscroll-behavior-x: none;
+				will-change: scroll-position;
 				max-width: var(--frame-max-width);
 			}
 
-			@media screen and (min-width:393px) {
+			@media screen and (min-width:500px) {
 				.container {
 					margin: 0 auto;
 					border: var(--frame-border);
@@ -297,43 +308,23 @@ import GetInvolved from '../components/GetInvolved.astro';
 	</body>
 
 	<script>
-    document.addEventListener("click", (e) => {
-			const container = document.querySelector('.container');
-			if (!container) return;
-
-      if(e.clientX > window.innerWidth / 2) {
-        container.scrollLeft = container.scrollLeft + 200;
-      }
-
-      if(e.clientX < window.innerWidth / 2) {
-        container.scrollLeft = container.scrollLeft - 200;
-      }
-    });
-
-		const container = document.querySelector('.container') as HTMLElement;
-		const progressBar = document.querySelector('.scroll-progress-bar') as HTMLElement;
+    // Simple progress bar only - let native scroll behavior handle everything else
+		const container = document.querySelector('.container');
+		const progressBar = document.querySelector('.scroll-progress-bar');
 
 		if (container && progressBar) {
 			container.addEventListener('scroll', () => {
 				const scrollLeft = container.scrollLeft;
 				const scrollWidth = container.scrollWidth - container.clientWidth;
-				if (scrollWidth === 0) { // Avoid division by zero if not scrollable
+				
+				if (scrollWidth <= 0) {
 					progressBar.style.width = '0%';
 					return;
 				}
-				const scrollPercent = (scrollLeft / scrollWidth) * 100;
+				
+				const scrollPercent = Math.min(100, (scrollLeft / scrollWidth) * 100);
 				progressBar.style.width = scrollPercent + '%';
-			});
-
-			// Initial check in case the page loads scrolled
-			const initialScrollLeft = container.scrollLeft;
-			const initialScrollWidth = container.scrollWidth - container.clientWidth;
-			if (initialScrollWidth > 0) {
-				const initialScrollPercent = (initialScrollLeft / initialScrollWidth) * 100;
-				progressBar.style.width = initialScrollPercent + '%';
-			} else {
-				progressBar.style.width = '0%';
-			}
+			}, { passive: true });
 		}
 	</script>
 </html>
