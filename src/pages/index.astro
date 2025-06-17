@@ -308,10 +308,10 @@ import GetInvolved from '../components/GetInvolved.astro';
 	</body>
 
 	<script>
-    // Simple progress bar only - let native scroll behavior handle everything else
-		const container = document.querySelector('.container');
+    const container = document.querySelector('.container');
 		const progressBar = document.querySelector('.scroll-progress-bar');
 
+		// Progress bar update
 		if (container && progressBar) {
 			container.addEventListener('scroll', () => {
 				const scrollLeft = container.scrollLeft;
@@ -325,6 +325,83 @@ import GetInvolved from '../components/GetInvolved.astro';
 				const scrollPercent = Math.min(100, (scrollLeft / scrollWidth) * 100);
 				progressBar.style.width = scrollPercent + '%';
 			}, { passive: true });
+		}
+
+		// Safe click handling that doesn't interfere with native scrolling
+		let clickStartTime = 0;
+		let clickStartX = 0;
+		let clickStartY = 0;
+		let isUserScrolling = false;
+		let scrollTimeout = null;
+
+		// Track when user is actively scrolling
+		if (container) {
+			container.addEventListener('scroll', () => {
+				isUserScrolling = true;
+				clearTimeout(scrollTimeout);
+				scrollTimeout = setTimeout(() => {
+					isUserScrolling = false;
+				}, 150);
+			}, { passive: true });
+
+			// Track mouse/touch down for click validation
+			container.addEventListener('mousedown', (e) => {
+				clickStartTime = Date.now();
+				clickStartX = e.clientX;
+				clickStartY = e.clientY;
+			}, { passive: true });
+
+			container.addEventListener('touchstart', (e) => {
+				clickStartTime = Date.now();
+				clickStartX = e.touches[0].clientX;
+				clickStartY = e.touches[0].clientY;
+			}, { passive: true });
+
+			// Handle clicks only if they're genuine clicks (not scrolls/swipes)
+			container.addEventListener('click', (e) => {
+				const clickDuration = Date.now() - clickStartTime;
+				const deltaX = Math.abs(e.clientX - clickStartX);
+				const deltaY = Math.abs(e.clientY - clickStartY);
+				const movement = Math.sqrt(deltaX * deltaX + deltaY * deltaY);
+
+				// Don't handle if:
+				// - User is currently scrolling
+				// - Click took too long (likely a drag)
+				// - Too much movement (likely a swipe)
+				// - Clicking on interactive elements
+				if (isUserScrolling || 
+					clickDuration > 200 || 
+					movement > 10 ||
+					e.target.tagName === 'A' || 
+					e.target.closest('a') ||
+					e.target.tagName === 'IFRAME' ||
+					e.target.closest('.iframe-container') ||
+					e.target.tagName === 'BUTTON' ||
+					e.target.closest('button')) {
+					return;
+				}
+
+				// Get click position relative to container
+				const rect = container.getBoundingClientRect();
+				const clickX = e.clientX - rect.left;
+				const containerWidth = rect.width;
+
+				// Scroll to next/previous slide
+				if (clickX > containerWidth * 0.6) {
+					// Right side - next slide
+					container.scrollBy({ 
+						left: containerWidth, 
+						behavior: 'smooth' 
+					});
+				} else if (clickX < containerWidth * 0.4) {
+					// Left side - previous slide  
+					container.scrollBy({ 
+						left: -containerWidth, 
+						behavior: 'smooth' 
+					});
+				}
+				// Middle area (0.4 to 0.6) - no action to avoid accidental scrolls
+			});
 		}
 	</script>
 </html>
