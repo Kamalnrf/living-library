@@ -1,0 +1,68 @@
+---
+import {API_URL} from '../../utils/constants'
+import BaseLayout from '../../layouts/BaseLayout.astro'
+import type {LibraryCard} from '../../types'
+import LibraryCardComponent from '../../components/LibraryCard.astro'
+import Envelop from '../../components/Envelop.astro'
+
+export const prerender = false
+
+const {reader} = Astro.params
+const libraryCardDetails = await (async () => {
+  const res = await fetch(`${API_URL}/readers/${reader}/card`)
+  if (!res.ok) {
+    throw Error('failed to fetch reader details')
+  }
+
+  const {
+    status,
+    result,
+  }: {
+    status: 'success'
+    result: LibraryCard
+  } = await res.json()
+
+  if (status !== 'success') {
+    return null
+  }
+
+  return result
+})()
+---
+
+<BaseLayout title={libraryCardDetails?.reader.plain_text}>
+  <div class="container library-card-background">
+    <Envelop>
+      {
+        libraryCardDetails ? (
+          <LibraryCardComponent details={libraryCardDetails} />
+        ) : null
+      }
+    </Envelop>
+  </div>
+</BaseLayout>
+
+<style>
+  .container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100dvh;
+    justify-content: center;
+  }
+
+  .library-card-background {
+    background-image: url('/images/library_with_books.png');
+    background-attachment: fixed;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+
+  @media screen and (min-width: 500px) {
+    .library-card-background {
+      background-size: contain;
+    }
+  }
+</style>

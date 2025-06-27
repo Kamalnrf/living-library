@@ -1,0 +1,231 @@
+---
+import Analytics from '@vercel/analytics/astro'
+
+const {title} = Astro.props
+---
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, user-scalable=no"
+    />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Gloria+Hallelujah&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Sometype+Mono:ital,wght@0,400..700;1,400..700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      /* Box sizing rules */
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+      }
+
+      /* Prevent font size inflation */
+      html {
+        -moz-text-size-adjust: none;
+        -webkit-text-size-adjust: none;
+        text-size-adjust: none;
+      }
+
+      /* Remove default margin in favour of better control in authored CSS */
+      body,
+      h1,
+      h2,
+      h3,
+      h4,
+      p,
+      figure,
+      blockquote,
+      dl,
+      dd {
+        margin-block-end: 0;
+      }
+
+      /* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
+      ul[role='list'],
+      ol[role='list'] {
+        list-style: none;
+      }
+
+      /* Set core body defaults */
+      body {
+        min-height: 100vh;
+        line-height: 1.5;
+      }
+
+      /* Set shorter line heights on headings and interactive elements */
+      h1,
+      h2,
+      h3,
+      h4,
+      button,
+      input,
+      label {
+        line-height: 1.1;
+      }
+
+      /* Balance text wrapping on headings */
+      h1,
+      h2,
+      h3,
+      h4 {
+        text-wrap: balance;
+      }
+
+      /* A elements that don't have a class get default styles */
+      a:not([class]) {
+        text-decoration-skip-ink: auto;
+        color: currentColor;
+      }
+
+      /* Make images easier to work with */
+      img,
+      picture {
+        max-width: 100%;
+        display: block;
+      }
+
+      /* Inherit fonts for inputs and buttons */
+      input,
+      button,
+      textarea,
+      select {
+        font-family: inherit;
+        font-size: inherit;
+      }
+
+      /* Make sure textareas without a rows attribute are not tiny */
+      textarea:not([rows]) {
+        min-height: 10em;
+      }
+
+      /* Anything that has been anchored to should have extra scroll margin */
+      :target {
+        scroll-margin-block: 5ex;
+      }
+
+      :root {
+        /* Font */
+        --font-family: 'Inter', sans-serif;
+        --font-family-serif: 'Besley', serif;
+        --font: clamp(1.4rem, 3vw, 1.4rem) / 1.35 var(--font-family);
+
+        /* Colors */
+        --brand-orange: hsl(24, 88%, 45%);
+        --muted-orange: hsl(24, 50%, 45%);
+        --off-white: hsl(42, 80%, 92%);
+        --arrow-gray: hsl(0, 0%, 48%);
+        --color-text: hsl(0, 0%, 7%);
+        --color-text-inverse: hsl(0, 0%, 100%);
+        --color-subtext: hsl(0, 0%, 29%);
+
+        /* Frame */
+        --frame-width: 100%;
+        --frame-max-width: 100%;
+        --frame-height: calc(100vh);
+        --frame-height-mobile: 100dvh;
+
+        /* Spacing */
+        --space-1: 20px;
+        --frame-border: 5px solid hsl(24, 50%, 45%, 80%);
+        --frame-max-width: 450px;
+        --progress-bar-height: 5px;
+        --progress-bar-color: hsl(24, 50%, 45%, 60%);
+
+        /* Drop-shadow */
+        --shadow-color: 0deg 0% 0%;
+        --shadow-elevation-low: 0.6px 0.6px 0.9px
+            hsl(var(--shadow-color) / 0.08),
+          0.9px 0.9px 1.4px -1.3px hsl(var(--shadow-color) / 0.08),
+          2.2px 2.1px 3.4px -2.5px hsl(var(--shadow-color) / 0.08);
+        --shadow-elevation-medium: 0.6px 0.6px 0.9px
+            hsl(var(--shadow-color) / 0.09),
+          1.8px 1.8px 2.8px -0.8px hsl(var(--shadow-color) / 0.09),
+          4.4px 4.3px 6.9px -1.7px hsl(var(--shadow-color) / 0.09),
+          10.8px 10.5px 16.8px -2.5px hsl(var(--shadow-color) / 0.09);
+        --shadow-elevation-high: 0.6px 0.6px 0.9px
+            hsl(var(--shadow-color) / 0.08),
+          2.9px 2.8px 4.5px -0.4px hsl(var(--shadow-color) / 0.08),
+          5.3px 5.1px 8.2px -0.7px hsl(var(--shadow-color) / 0.08),
+          8.6px 8.3px 13.4px -1.1px hsl(var(--shadow-color) / 0.08),
+          13.7px 13.3px 21.3px -1.5px hsl(var(--shadow-color) / 0.08),
+          21.4px 20.8px 33.3px -1.8px hsl(var(--shadow-color) / 0.08),
+          32.5px 31.6px 50.7px -2.2px hsl(var(--shadow-color) / 0.08),
+          47.9px 46.6px 74.7px -2.5px hsl(var(--shadow-color) / 0.08);
+      }
+
+      @supports (height: 100dvh) {
+        :root {
+          --frame-height: var(--frame-height-mobile);
+        }
+      }
+
+      @media screen and (min-width: 500px) {
+        :root {
+          --frame-height: calc(100vh - 80px);
+        }
+      }
+
+      html,
+      body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+      }
+
+      body {
+        background: var(--off-white);
+        font: var(--font);
+        position: relative;
+        color: var(--color-text);
+        min-height: 100%;
+      }
+
+      @media screen and (min-width: 500px) {
+        body {
+          padding-top: var(--space-1);
+          padding-left: var(--space-1);
+          padding-right: var(--space-1);
+          padding-bottom: var(--space-1);
+        }
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        width: calc(var(--frame-width) + 8px);
+        max-height: 100%;
+        max-width: var(--frame-max-width);
+        overflow: hidden;
+        overscroll-behavior: none;
+      }
+
+      @media screen and (min-width: 500px) {
+        .container {
+          margin: 0 auto;
+          border: var(--frame-border);
+        }
+      }
+
+      .container::-webkit-scrollbar {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <main class="container">
+      <slot />
+    </main>
+    <div class="visually-hidden">
+      <Analytics />
+    </div>
+  </body>
+</html>

@@ -1,0 +1,170 @@
+---
+import type {LibraryCard} from '../types'
+import {isWithinInterval, formatDistance, isAfter} from 'date-fns'
+
+interface Props {
+  details: LibraryCard
+}
+
+const {details} = Astro.props
+---
+
+<style>
+  /* p {
+    margin: 0.5rem;
+  } */
+
+  .card {
+    background-color: #dbdbdb;
+    box-shadow: var(--shadow-elevation-medium);
+    padding: 10px 18px;
+    max-width: 260px;
+    margin: 0 auto;
+    color: #473c2c;
+    font-size: 0.8rem;
+    font-family: 'Sometype Mono', monospace;
+  }
+
+  .noise {
+    position: relative;
+  }
+
+  .noise::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.3'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .details {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    border-radius: 5%;
+    background: transparent;
+    overflow: hidden;
+    margin-top: 18px;
+    border: 1px solid black;
+    table-layout: fixed;
+    font-size: 0.8rem;
+  }
+
+  th,
+  td {
+    padding: 12px 18px;
+    text-align: left;
+    width: auto;
+    font-weight: 400;
+  }
+
+  th {
+    color: #473c2c;
+    letter-spacing: 0.03em;
+    border-bottom: 1px solid black;
+  }
+
+  th:not(:last-child),
+  td:not(:last-child) {
+    border-right: 1px solid black;
+  }
+
+  tr:not(:last-child) td {
+    border-bottom: 1px solid black;
+  }
+
+  td {
+    color: #473c2c;
+    vertical-align: middle;
+    font-family: 'Gloria Hallelujah';
+    text-align: left;
+  }
+
+  .status-returned {
+    color: #2e7d32;
+  }
+
+  .status-due {
+    color: #c62828;
+  }
+
+  .status-time {
+    color: #e65100;
+  }
+
+  @media (max-width: 500px) {
+    th,
+    td {
+      font-size: 0.8rem;
+    }
+  }
+</style>
+
+<div class="card noise">
+  <div class="details">
+    <span>Name: {details.reader.plain_text}</span>
+    <span>Member Since: Jun 2025</span>
+    <span>Date: 28th Jun 2025</span>
+  </div>
+  <table>
+    <tr>
+      <th>Book Title</th>
+      <th>Borrowed</th>
+    </tr>
+    {
+      details.booksRead
+        .sort((a, b) => {
+          const aStart = new Date(a.session.date.start)
+          const bStart = new Date(b.session.date.start)
+
+          if (isAfter(aStart, bStart)) {
+            return 1
+          }
+          return -1
+        })
+        .map(({book, session}) => {
+          const now = Date.now()
+          const startTime = new Date(session.date.start)
+          let currentStatus = {
+            class: 'status-time',
+            text: formatDistance(startTime, now),
+          }
+
+          if (session.date.end) {
+            const endTime = new Date(session.date.end)
+            if (
+              isWithinInterval(now, {
+                start: startTime,
+                end: endTime,
+              })
+            ) {
+              currentStatus = {
+                class: 'status-due',
+                text: 'due soon',
+              }
+            }
+
+            if (isAfter(now, endTime)) {
+              currentStatus = {
+                class: 'status-returned',
+                text: 'returned',
+              }
+            }
+          }
+
+          return (
+            <tr>
+              <td>{book.title.plain_text}</td>
+              <td class={currentStatus.class}>{currentStatus.text}</td>
+            </tr>
+          )
+        })
+    }
+  </table>
+</div>

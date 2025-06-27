@@ -1,0 +1,100 @@
+---
+
+---
+
+<style>
+  .envelope-container {
+    position: fixed;
+    margin: 0 auto;
+    width: 320px;
+    height: 220px;
+  }
+
+  .envelope-container img {
+    position: absolute;
+    left: 0;
+    width: 100%;
+    height: auto;
+    display: block;
+    pointer-events: none;
+  }
+
+  .envelope-bg {
+    top: 0;
+    z-index: 1;
+    scale: 0.99;
+  }
+
+  .envelope-inside {
+    position: absolute;
+    top: -50px;
+    left: 23px;
+    rotate: 9.5deg;
+    z-index: 2;
+    animation: card-slide-in-envelope 3s cubic-bezier(0.68, -0.55, 0.27, 1.55)
+      forwards;
+  }
+
+  @keyframes card-slide-in-envelope {
+    0% {
+      top: -50px;
+      left: 23px;
+      rotate: 9.5deg;
+      opacity: 1;
+    }
+
+    50% {
+      rotate: 5deg;
+      top: -155px;
+    }
+
+    100% {
+      z-index: 4;
+      rotate: 0deg;
+      top: -1.2rem;
+      left: 0.7rem;
+    }
+  }
+
+  .envelope-sides {
+    top: 0;
+    z-index: 2;
+  }
+
+  .envelope-bottom {
+    top: 0;
+    z-index: 3;
+  }
+
+  .living-library-handle {
+    position: absolute;
+    z-index: 4;
+    top: 145%;
+    left: 33%;
+    font-size: 0.6rem;
+    font-family: 'Sometype Mono';
+    color: #03254b;
+  }
+</style>
+
+<div class="envelope-container">
+  <img
+    class="envelope-bg"
+    src="/images/envelope-bg.png"
+    alt="Envelope background"
+  />
+  <div class="envelope-inside">
+    <slot />
+  </div>
+  <img
+    class="envelope-sides"
+    src="/images/envelope-sides.png"
+    alt="Envelope sides"
+  />
+  <img
+    class="envelope-bottom"
+    src="/images/envelope-bottom.png"
+    alt="Envelope bottom flap"
+  />
+  <span class="living-library-handle">@livinglibrarylive</span>
+</div>
