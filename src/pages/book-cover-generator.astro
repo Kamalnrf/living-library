@@ -1,0 +1,826 @@
+---
+// Human Library Book Cover Generator
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Human Library Book Cover Generator</title>
+    <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.7.0/p5.min.js"
+    ></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&family=Lora:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --cream: #faf9f5;
+        --warm-white: #f5f3ee;
+        --charcoal: #2a2a28;
+        --mid-gray: #b0aea5;
+        --light-gray: #e8e6dc;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(
+          135deg,
+          var(--cream) 0%,
+          var(--warm-white) 100%
+        );
+        min-height: 100vh;
+        color: var(--charcoal);
+      }
+
+      .container {
+        display: flex;
+        min-height: 100vh;
+        padding: 20px;
+        gap: 20px;
+      }
+
+      .sidebar {
+        width: 380px;
+        flex-shrink: 0;
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 24px;
+        border-radius: 12px;
+        box-shadow: 0 10px 30px rgba(20, 20, 19, 0.1);
+        overflow-y: auto;
+      }
+
+      .sidebar h1 {
+        font-family: "Lora", serif;
+        font-size: 22px;
+        font-weight: 500;
+        color: var(--charcoal);
+        margin-bottom: 6px;
+      }
+
+      .sidebar .subtitle {
+        color: var(--mid-gray);
+        font-size: 13px;
+        margin-bottom: 28px;
+        line-height: 1.4;
+      }
+
+      .control-section {
+        margin-bottom: 28px;
+      }
+
+      .control-section h3 {
+        font-size: 14px;
+        font-weight: 600;
+        color: var(--charcoal);
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .control-section h3::before {
+        content: "•";
+        color: #d97757;
+        font-weight: bold;
+      }
+
+      .control-group {
+        margin-bottom: 16px;
+      }
+
+      .control-group label {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--charcoal);
+        margin-bottom: 6px;
+      }
+
+      .control-group input[type="text"],
+      .control-group textarea {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--light-gray);
+        border-radius: 8px;
+        font-family: "Poppins", sans-serif;
+        font-size: 14px;
+        background: var(--cream);
+        color: var(--charcoal);
+        transition: all 0.2s;
+      }
+
+      .control-group textarea {
+        resize: vertical;
+        min-height: 120px;
+        line-height: 1.5;
+      }
+
+      .control-group input:focus,
+      .control-group textarea:focus {
+        outline: none;
+        border-color: #d97757;
+        background: white;
+        box-shadow: 0 0 0 2px rgba(217, 119, 87, 0.1);
+      }
+
+      .char-count {
+        font-size: 11px;
+        color: var(--mid-gray);
+        text-align: right;
+        margin-top: 4px;
+      }
+
+      .slider-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .slider-container input[type="range"] {
+        flex: 1;
+        height: 4px;
+        background: var(--light-gray);
+        border-radius: 2px;
+        outline: none;
+        -webkit-appearance: none;
+      }
+
+      .slider-container input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        width: 16px;
+        height: 16px;
+        background: #d97757;
+        border-radius: 50%;
+        cursor: pointer;
+      }
+
+      .value-display {
+        font-family: "Courier New", monospace;
+        font-size: 12px;
+        color: var(--mid-gray);
+        min-width: 40px;
+        text-align: right;
+      }
+
+      .control-group select {
+        width: 100%;
+        padding: 10px 12px;
+        border: 1px solid var(--light-gray);
+        border-radius: 8px;
+        font-family: "Poppins", sans-serif;
+        font-size: 14px;
+        background: var(--cream);
+        color: var(--charcoal);
+        cursor: pointer;
+        transition: all 0.2s;
+      }
+
+      .control-group select:focus {
+        outline: none;
+        border-color: #d97757;
+        background: white;
+      }
+
+      .toggle-label {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        cursor: pointer;
+        font-size: 13px;
+      }
+
+      .toggle-label input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+        accent-color: #d97757;
+        cursor: pointer;
+      }
+
+      .button-row {
+        display: flex;
+        gap: 8px;
+      }
+
+      .button {
+        flex: 1;
+        padding: 10px 16px;
+        border: none;
+        border-radius: 8px;
+        font-family: "Poppins", sans-serif;
+        font-size: 13px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.2s;
+        background: var(--light-gray);
+        color: var(--charcoal);
+      }
+
+      .button:hover {
+        background: #d9d7ce;
+      }
+
+      .button.primary {
+        background: #d97757;
+        color: white;
+      }
+
+      .button.primary:hover {
+        background: #c86641;
+      }
+
+      .canvas-area {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: rgba(255, 255, 255, 0.3);
+        border-radius: 12px;
+        padding: 20px;
+      }
+
+      #canvas-container {
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 20px 60px rgba(20, 20, 19, 0.15);
+        overflow: hidden;
+      }
+
+      .seed-display {
+        font-family: "Courier New", monospace;
+        font-size: 11px;
+        color: var(--mid-gray);
+        margin-top: 8px;
+        text-align: center;
+      }
+
+      .hint {
+        font-size: 11px;
+        color: var(--mid-gray);
+        margin-top: 10px;
+        font-style: italic;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <h1>Human Library</h1>
+        <p class="subtitle">
+          Book Cover Generator — Each story gets a unique visual fingerprint
+        </p>
+
+        <div class="control-section">
+          <h3>Book Content</h3>
+
+          <div class="control-group">
+            <label>Title</label>
+            <input
+              type="text"
+              id="title-input"
+              value="The Turncoat"
+              maxlength="80"
+              oninput="regenerate()"
+            />
+          </div>
+
+          <div class="control-group">
+            <label>Blurb</label>
+            <textarea
+              id="blurb-input"
+              maxlength="1200"
+              oninput="
+                updateCharCount();
+                regenerate();
+              "
+            >
+              Leaving my faith wasn't a clean break; it was a long corridor of
+              questions. I'll talk about skepticism, the social cost of naming
+              myself an atheist, and the ways polarization reshapes families and
+              friendships.</textarea
+            >
+            <div class="char-count"><span id="char-count">0</span>/1200</div>
+          </div>
+        </div>
+
+        <div class="control-section">
+          <h3>Layout</h3>
+
+          <div class="control-group">
+            <label>Aspect Ratio</label>
+            <select id="aspectRatio" onchange="updateAspectRatio()">
+              <option value="1:1">1:1 (Square)</option>
+              <option value="3:2" selected>3:2 (Rectangular - Print)</option>
+              <option value="4:5">4:5 (Instagram Portrait)</option>
+              <option value="9:16">9:16 (Stories)</option>
+            </select>
+          </div>
+
+          <div class="control-group">
+            <label class="toggle-label">
+              <input
+                type="checkbox"
+                id="dynamicHeight"
+                onchange="updateAspectRatio()"
+              />
+              <span>Dynamic height (fit content)</span>
+            </label>
+          </div>
+
+          <div class="control-group">
+            <label>Shape Count</label>
+            <div class="slider-container">
+              <input
+                type="range"
+                id="shapeCount"
+                min="4"
+                max="12"
+                step="1"
+                value="6"
+                oninput="updateParam('shapeCount', this.value)"
+              />
+              <span class="value-display" id="shapeCount-value">6</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label>Shape Size</label>
+            <div class="slider-container">
+              <input
+                type="range"
+                id="shapeSize"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value="1"
+                oninput="updateParam('shapeSize', this.value)"
+              />
+              <span class="value-display" id="shapeSize-value">1.0</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label>Wobble</label>
+            <div class="slider-container">
+              <input
+                type="range"
+                id="wobble"
+                min="0"
+                max="1"
+                step="0.1"
+                value="0.4"
+                oninput="updateParam('wobble', this.value)"
+              />
+              <span class="value-display" id="wobble-value">0.4</span>
+            </div>
+          </div>
+
+          <div class="control-group">
+            <label>Shape Area %</label>
+            <div class="slider-container">
+              <input
+                type="range"
+                id="shapeArea"
+                min="0.1"
+                max="0.8"
+                step="0.05"
+                value="0.2"
+                oninput="updateParam('shapeArea', this.value)"
+              />
+              <span class="value-display" id="shapeArea-value">20%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="control-section">
+          <h3>Actions</h3>
+          <div class="button-row">
+            <button class="button" onclick="resetDefaults()">Reset</button>
+            <button class="button primary" onclick="downloadCanvas()">
+              Download
+            </button>
+          </div>
+          <div class="seed-display">Seed: <span id="seed-display">0</span></div>
+        </div>
+      </div>
+
+      <div class="canvas-area">
+        <div id="canvas-container"></div>
+      </div>
+    </div>
+
+    <script is:inline>
+      // Warm palette - terracotta, pink, coral focused
+      const PALETTE = [
+        "#E07A5F", // Terra cotta
+        "#D4726A", // Dusty rose
+        "#E88D7A", // Coral
+        "#C9787C", // Muted pink
+        "#D4956A", // Warm peach
+        "#E6A07A", // Soft coral
+        "#C97B7B", // Rose
+        "#D98B6A", // Salmon terracotta
+      ];
+
+      const BACKGROUND = "#FAF8F5";
+      const TEXT_COLOR = "#2A2A28";
+
+      let params = {
+        shapeCount: 6,
+        shapeSize: 1.0,
+        wobble: 0.4,
+        shapeArea: 0.2,
+      };
+
+      let currentSeed = 0;
+
+      // Hash function: convert blurb to seed number
+      function hashString(str) {
+        let hash = 0;
+        for (let i = 0; i < str.length; i++) {
+          const char = str.charCodeAt(i);
+          hash = (hash << 5) - hash + char;
+          hash = hash & hash;
+        }
+        return Math.abs(hash);
+      }
+
+      // Seeded random using mulberry32
+      function createSeededRandom(seed) {
+        return function () {
+          let t = (seed += 0x6d2b79f5);
+          t = Math.imul(t ^ (t >>> 15), t | 1);
+          t ^= t + Math.imul(t ^ (t >>> 7), t | 61);
+          return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+        };
+      }
+
+      let seededRandom;
+
+      function setup() {
+        let canvas = createCanvas(400, 400);
+        canvas.parent("canvas-container");
+        noLoop();
+        updateCharCount();
+        regenerate();
+      }
+
+      function regenerate() {
+        const blurb = document.getElementById("blurb-input").value;
+        currentSeed = hashString(blurb);
+        document.getElementById("seed-display").textContent = currentSeed;
+
+        seededRandom = createSeededRandom(currentSeed);
+        calculateAndResize();
+        redraw();
+      }
+
+      function calculateAndResize() {
+        const title =
+          document.getElementById("title-input").value || "Untitled";
+        const blurb = document.getElementById("blurb-input").value || "";
+        const aspectRatio = document.getElementById("aspectRatio").value;
+        const dynamicHeight = document.getElementById("dynamicHeight").checked;
+
+        // Adjust canvas width based on aspect ratio
+        let canvasWidth = 400;
+        if (aspectRatio === "3:2") {
+          canvasWidth = 600; // Wider for Notion Gallery
+        }
+
+        let canvasHeight;
+
+        // Calculate aspect ratio height
+        const ratios = {
+          "1:1": 1,
+          "3:2": 2 / 3,
+          "4:5": 5 / 4,
+          "9:16": 16 / 9,
+        };
+        const ratioHeight = canvasWidth * ratios[aspectRatio];
+
+        if (dynamicHeight) {
+          // Calculate text zone height with correct sizing
+          const padding = 24;
+          const maxTextWidth = canvasWidth - padding * 2;
+
+          textFont("Lora");
+          textSize(24);
+          const titleLines = wrapText(title, maxTextWidth);
+          const titleHeight = titleLines.length * 30;
+
+          textFont("Poppins");
+          textSize(13);
+          const blurbLines = wrapText(blurb, maxTextWidth);
+          const blurbHeight = blurbLines.length * 19;
+
+          // Text zone needs: fade overlap (20) + title + gaps + blurb + branding space
+          const textZoneHeight = 20 + titleHeight + 8 + 10 + blurbHeight + 30;
+
+          // Total canvas height based on shape area percentage
+          // If shapeArea is 40%, text gets 60%, so: textZoneHeight / (1 - shapeArea)
+          canvasHeight = textZoneHeight / (1 - params.shapeArea);
+        } else {
+          canvasHeight = ratioHeight;
+        }
+
+        resizeCanvas(canvasWidth, canvasHeight);
+      }
+
+      function updateAspectRatio() {
+        regenerate();
+      }
+
+      function draw() {
+        // Reset seed at start of every draw
+        seededRandom = createSeededRandom(currentSeed);
+
+        const title =
+          document.getElementById("title-input").value || "Untitled";
+        const blurb = document.getElementById("blurb-input").value || "";
+
+        // Background
+        background(BACKGROUND);
+
+        // Draw shapes in controllable area (default: top 40% of canvas)
+        drawShapes();
+
+        // Text zone
+        drawTextZone(title, blurb);
+      }
+
+      function drawShapes() {
+        // Use the shapeArea parameter to control how much of the canvas shapes occupy
+        const safeZoneHeight = height * params.shapeArea;
+
+        const count = params.shapeCount;
+        const baseSize = 22 * params.shapeSize;
+        const wobbleAmount = params.wobble;
+
+        const topMargin = 15;
+        const sideMargin = 20;
+
+        // Divide canvas into zones for better distribution
+        const zones = [];
+        const zoneCols = 3;
+        const zoneRows = 2;
+        const zoneWidth = (width - sideMargin * 2) / zoneCols;
+        const zoneHeight = (safeZoneHeight - topMargin) / zoneRows;
+
+        for (let row = 0; row < zoneRows; row++) {
+          for (let col = 0; col < zoneCols; col++) {
+            zones.push({
+              x: sideMargin + col * zoneWidth,
+              y: topMargin + row * zoneHeight,
+              w: zoneWidth,
+              h: zoneHeight,
+            });
+          }
+        }
+
+        // Shuffle zones based on seed
+        for (let i = zones.length - 1; i > 0; i--) {
+          const j = Math.floor(seededRandom() * (i + 1));
+          [zones[i], zones[j]] = [zones[j], zones[i]];
+        }
+
+        for (let i = 0; i < count; i++) {
+          const zone = zones[i % zones.length];
+
+          const x = zone.x + seededRandom() * zone.w;
+          const y = zone.y + seededRandom() * zone.h;
+
+          const size = baseSize + seededRandom() * baseSize * 1.0;
+
+          const colorIndex = Math.floor(seededRandom() * PALETTE.length);
+          const col = color(PALETTE[colorIndex]);
+          col.setAlpha(90 + seededRandom() * 60);
+
+          drawBlob(x, y, size, wobbleAmount, col);
+        }
+      }
+
+      function drawBlob(x, y, size, wobbleAmount, col) {
+        noStroke();
+        fill(col);
+
+        // Create organic blob using bezier curves
+        const points = 8;
+        const angleStep = TWO_PI / points;
+
+        beginShape();
+        for (let i = 0; i <= points; i++) {
+          const angle = i * angleStep;
+          const wobble = 1 + (seededRandom() - 0.5) * wobbleAmount * 0.6;
+          const r = size * wobble;
+
+          const px = x + cos(angle) * r;
+          const py = y + sin(angle) * r;
+
+          if (i === 0) {
+            curveVertex(px, py);
+            curveVertex(px, py);
+          } else if (i === points) {
+            curveVertex(px, py);
+            curveVertex(px, py);
+          } else {
+            curveVertex(px, py);
+          }
+        }
+        endShape(CLOSE);
+      }
+
+      function drawTextZone(title, blurb) {
+        const padding = 24;
+        const maxTextWidth = width - padding * 2;
+
+        // Measure title
+        textFont("Lora");
+        textSize(24);
+        const titleLines = wrapText(title, maxTextWidth);
+        const titleLineHeight = 30;
+        const titleHeight = titleLines.length * titleLineHeight;
+
+        // Measure blurb
+        textFont("Poppins");
+        textSize(13);
+        const blurbLines = wrapText(blurb, maxTextWidth);
+        const blurbLineHeight = 19;
+        const blurbHeight = blurbLines.length * blurbLineHeight;
+
+        // Text zone starts right after the shape area
+        const textZoneStart = height * params.shapeArea;
+
+        // Calculate positions from the text zone start
+        const fadeStart = textZoneStart;
+        const fadeEnd = fadeStart + 40;
+        // Title starts within the fade (20px into fade region)
+        const titleStartY = fadeStart + 20;
+        const titleEndY = titleStartY + titleHeight;
+        const dividerY = titleEndY + 8;
+        const blurbStartY = dividerY + 10;
+        const blurbEndY = blurbStartY + blurbHeight;
+
+        // Branding at the bottom
+        const bottomPadding = 15;
+        const brandingY = height - bottomPadding;
+
+        // Gradient fade
+        noStroke();
+        for (let i = 0; i < 40; i++) {
+          const y = fadeStart + i;
+          const alpha = map(i, 0, 40, 0, 255);
+          fill(250, 248, 245, alpha);
+          rect(0, y, width, 1);
+        }
+
+        // Solid background below fade
+        fill(BACKGROUND);
+        rect(0, fadeEnd, width, height - fadeEnd);
+
+        // Title
+        fill(TEXT_COLOR);
+        textFont("Lora");
+        textStyle(NORMAL);
+        textSize(24);
+        textAlign(LEFT, TOP);
+
+        let titleY = titleStartY;
+        for (const line of titleLines) {
+          text(line, padding, titleY);
+          titleY += titleLineHeight;
+        }
+
+        // Divider
+        stroke(TEXT_COLOR);
+        strokeWeight(1);
+        line(padding, dividerY, padding + 40, dividerY);
+
+        // Blurb
+        noStroke();
+        fill(TEXT_COLOR);
+        textFont("Poppins");
+        textSize(13);
+        textLeading(blurbLineHeight);
+        textAlign(LEFT, TOP);
+        text(blurb, padding, blurbStartY, maxTextWidth, blurbHeight + 50);
+
+        // Branding - pinned to bottom
+        fill(150);
+        textSize(9);
+        textAlign(LEFT, BOTTOM);
+        text("HUMAN LIBRARY HYDERABAD", padding, brandingY);
+      }
+
+      // Helper function to wrap text
+      function wrapText(txt, maxWidth) {
+        const words = txt.split(" ");
+        const lines = [];
+        let currentLine = "";
+
+        for (const word of words) {
+          const testLine = currentLine ? currentLine + " " + word : word;
+          const testWidth = textWidth(testLine);
+
+          if (testWidth > maxWidth && currentLine) {
+            lines.push(currentLine);
+            currentLine = word;
+          } else {
+            currentLine = testLine;
+          }
+        }
+
+        if (currentLine) {
+          lines.push(currentLine);
+        }
+
+        return lines.length > 0 ? lines : [""];
+      }
+
+      function updateParam(paramName, value) {
+        params[paramName] = parseFloat(value);
+        if (paramName === "shapeCount") {
+          document.getElementById(paramName + "-value").textContent = value;
+        } else if (paramName === "shapeArea") {
+          document.getElementById(paramName + "-value").textContent =
+            (parseFloat(value) * 100).toFixed(0) + "%";
+        } else {
+          document.getElementById(paramName + "-value").textContent =
+            parseFloat(value).toFixed(1);
+        }
+        regenerate();
+      }
+
+      function updateCharCount() {
+        const count = document.getElementById("blurb-input").value.length;
+        document.getElementById("char-count").textContent = count;
+      }
+
+      function resetDefaults() {
+        params = { shapeCount: 6, shapeSize: 1.0, wobble: 0.4, shapeArea: 0.2 };
+
+        document.getElementById("shapeCount").value = 6;
+        document.getElementById("shapeCount-value").textContent = "6";
+        document.getElementById("shapeSize").value = 1.0;
+        document.getElementById("shapeSize-value").textContent = "1.0";
+        document.getElementById("wobble").value = 0.4;
+        document.getElementById("wobble-value").textContent = "0.4";
+        document.getElementById("shapeArea").value = 0.2;
+        document.getElementById("shapeArea-value").textContent = "20%";
+
+        regenerate();
+      }
+
+      // Generate sanitized filename from title and seed
+      function generateFilename() {
+        const title =
+          document.getElementById("title-input").value || "Untitled";
+        const safeName = title
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, "-")
+          .replace(/^-|-$/g, "");
+        return `human-library-${safeName}-${currentSeed}`;
+      }
+
+      // Download canvas as PNG
+      function downloadCanvas() {
+        const canvas = document.querySelector("#canvas-container canvas");
+        if (!canvas) {
+          console.error("Canvas not found");
+          return;
+        }
+
+        const filename = `${generateFilename()}.png`;
+
+        canvas.toBlob((blob) => {
+          if (!blob) {
+            console.error("Failed to create image blob");
+            return;
+          }
+
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = filename;
+          document.body.appendChild(link);
+          link.click();
+
+          // Cleanup
+          setTimeout(() => {
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+          }, 100);
+        }, "image/png");
+      }
+    </script>
+  </body>
+</html>
