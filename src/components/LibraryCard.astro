@@ -1,12 +1,15 @@
 ---
-import type {LibraryCard} from '../types'
-import {isWithinInterval, formatDistance, isAfter} from 'date-fns'
+import type {EventLibraryCard} from '../types'
+import {isWithinInterval, formatDistance, isAfter, format} from 'date-fns'
 
 interface Props {
-  details: LibraryCard
+  details: EventLibraryCard
 }
 
 const {details} = Astro.props
+
+// Format event date
+const eventDate = format(new Date(details.event.date.start), 'do MMM yyyy')
 ---
 
 <style>
@@ -41,6 +44,10 @@ const {details} = Astro.props
     display: flex;
     flex-direction: column;
     gap: 0.25rem;
+  }
+
+  .event-title {
+    font-weight: 600;
   }
 
   table {
@@ -109,8 +116,9 @@ const {details} = Astro.props
 <div class="card noise">
   <div class="details">
     <span>Name: {details.reader.plain_text}</span>
-    <span>Member Since: Jun 2025</span>
-    <span>Date: 28th Jun 2025</span>
+    <span>Member Since: {details.memberSince}</span>
+    <span class="event-title">Event: {details.event.title.plain_text}</span>
+    <span>Date: {eventDate}</span>
   </div>
   <table>
     <tr>

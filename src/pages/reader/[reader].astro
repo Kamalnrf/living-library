@@ -1,44 +1,125 @@
 ---
-import {API_URL} from '../../utils/constants'
-import BaseLayout from '../../layouts/BaseLayout.astro'
-import type {LibraryCard} from '../../types'
-import LibraryCardComponent from '../../components/LibraryCard.astro'
-import Envelop from '../../components/Envelop.astro'
+import { API_URL } from "../../utils/constants";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import type { LibraryCard, EventLibraryCard } from "../../types";
+import LibraryCardComponent from "../../components/LibraryCard.astro";
+import Envelop from "../../components/Envelop.astro";
+import { format } from "date-fns";
 
-export const prerender = false
+export const prerender = false;
 
-const {reader} = Astro.params
+const { reader } = Astro.params;
 const libraryCardDetails = await (async () => {
-  const res = await fetch(`${API_URL}/readers/${reader}/card`)
+  const res = await fetch(`${API_URL}/readers/${reader}/card`);
   if (!res.ok) {
-    throw Error('failed to fetch reader details')
+    throw Error("failed to fetch reader details");
   }
 
   const {
     status,
     result,
   }: {
-    status: 'success'
-    result: LibraryCard
-  } = await res.json()
+    status: "success";
+    result: LibraryCard;
+  } = await res.json();
 
-  if (status !== 'success') {
-    return null
+  if (status !== "success") {
+    return null;
   }
 
-  return result
-})()
+  return result;
+})();
+
+// Transform data to group books by events
+const eventLibraryCards: EventLibraryCard[] = (() => {
+  if (!libraryCardDetails) return [];
+
+  // Group books by event
+  const eventMap = new Map<string, EventLibraryCard>();
+
+  libraryCardDetails.booksRead.forEach((readingSession) => {
+    const eventKey = `${readingSession.event.title.plain_text}-${readingSession.event.date.start}`;
+
+    if (!eventMap.has(eventKey)) {
+      eventMap.set(eventKey, {
+        reader: libraryCardDetails.reader,
+        event: readingSession.event,
+        booksRead: [],
+        memberSince: "", // Will be calculated below
+      });
+    }
+
+    eventMap.get(eventKey)!.booksRead.push(readingSession);
+  });
+
+  // Calculate member since date (earliest event date)
+  const allEventDates = libraryCardDetails.booksRead.map(
+    (session) => new Date(session.event.date.start),
+  );
+  const earliestDate = new Date(
+    Math.min(...allEventDates.map((d) => d.getTime())),
+  );
+  const memberSince = format(earliestDate, "MMM yyyy");
+
+  // Set member since for all cards and sort by event date (latest first)
+  const cards = Array.from(eventMap.values())
+    .map((card) => ({
+      ...card,
+      memberSince,
+    }))
+    .sort((a, b) => {
+      const dateA = new Date(a.event.date.start);
+      const dateB = new Date(b.event.date.start);
+      return dateB.getTime() - dateA.getTime(); // Reverse order for latest first
+    });
+
+  return cards;
+})();
 ---
 
 <BaseLayout title={libraryCardDetails?.reader.plain_text}>
   <div class="container library-card-background">
-    <Envelop>
-      {
-        libraryCardDetails ? (
-          <LibraryCardComponent details={libraryCardDetails} />
-        ) : null
-      }
-    </Envelop>
+    {
+      eventLibraryCards.length > 0 && (
+        <>
+          <div class="carousel-container">
+            <button
+              class="carousel-nav carousel-nav-prev"
+              aria-label="Previous card"
+            >
+              ‹
+            </button>
+
+            <div class="carousel-track" id="carousel-track">
+              {eventLibraryCards.map((eventCard, index) => (
+                <div class="carousel-slide" data-index={index}>
+                  <Envelop>
+                    <LibraryCardComponent details={eventCard} />
+                  </Envelop>
+                </div>
+              ))}
+            </div>
+
+            <button
+              class="carousel-nav carousel-nav-next"
+              aria-label="Next card"
+            >
+              ›
+            </button>
+          </div>
+
+          <div class="carousel-indicators">
+            {eventLibraryCards.map((_, index) => (
+              <button
+                class={`indicator ${index === 0 ? "active" : ""}`}
+                data-index={index}
+                aria-label={`Go to card ${index + 1}`}
+              />
+            ))}
+          </div>
+        </>
+      )
+    }
   </div>
 </BaseLayout>
 
@@ -49,17 +130,165 @@ const libraryCardDetails = await (async () => {
     flex-direction: column;
     align-items: center;
     min-height: 100dvh;
+    height: 100dvh;
     justify-content: center;
     overscroll-behavior: none;
     overflow: hidden;
+    padding: 2rem 0;
+    gap: 2rem;
+    touch-action: pan-x;
   }
 
   .library-card-background {
-    background-image: url('/images/library_with_books.png');
+    background-image: url("/images/library_with_books.png");
     background-attachment: fixed;
     background-position: center center;
     background-repeat: no-repeat;
     background-size: cover;
+  }
+
+  .carousel-container {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0 4rem;
+    flex: 1;
+  }
+
+  .carousel-track {
+    display: flex;
+    align-items: center;
+    gap: 4rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    padding: 0 calc(50vw - 160px);
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100%;
+    height: 100%;
+    touch-action: pan-x;
+  }
+
+  .carousel-track::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel-slide {
+    flex-shrink: 0;
+    scroll-snap-align: center;
+    transition:
+      transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+      opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: scale(0.8);
+    opacity: 0.5;
+  }
+
+  .carousel-slide.active {
+    transform: scale(1);
+    opacity: 1;
+  }
+
+  .carousel-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid #03254b;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 2rem;
+    color: #03254b;
+    cursor: pointer;
+    z-index: 10;
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-elevation-medium);
+  }
+
+  .carousel-nav:hover {
+    background: rgba(255, 255, 255, 1);
+    transform: translateY(-50%) scale(1.1);
+  }
+
+  .carousel-nav:active {
+    transform: translateY(-50%) scale(0.95);
+  }
+
+  .carousel-nav-prev {
+    left: 0.5rem;
+  }
+
+  .carousel-nav-next {
+    right: 0.5rem;
+  }
+
+  .carousel-nav:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  .carousel-indicators {
+    display: flex;
+    gap: 0.75rem;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+  }
+
+  .indicator {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.5);
+    border: 2px solid #03254b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    padding: 0;
+  }
+
+  .indicator:hover {
+    background: rgba(255, 255, 255, 0.8);
+    transform: scale(1.2);
+  }
+
+  .indicator.active {
+    background: #03254b;
+    width: 14px;
+    height: 14px;
+  }
+
+  @media screen and (max-width: 768px) {
+    .carousel-container {
+      padding: 0 2.5rem;
+    }
+
+    .carousel-track {
+      padding: 0 calc(50vw - 130px);
+      gap: 2rem;
+    }
+
+    .carousel-nav {
+      width: 40px;
+      height: 40px;
+      font-size: 1.5rem;
+    }
+
+    .carousel-nav-prev {
+      left: 0.25rem;
+    }
+
+    .carousel-nav-next {
+      right: 0.25rem;
+    }
   }
 
   @media screen and (min-width: 500px) {
@@ -68,3 +297,154 @@ const libraryCardDetails = await (async () => {
     }
   }
 </style>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const track = document.getElementById("carousel-track");
+    const slides = document.querySelectorAll(".carousel-slide");
+    const indicators = document.querySelectorAll(".indicator");
+    const prevBtn = document.querySelector(".carousel-nav-prev");
+    const nextBtn = document.querySelector(".carousel-nav-next");
+
+    if (!track || slides.length === 0) return;
+
+    let currentIndex = 0;
+
+    // Update active slide based on scroll position
+    const updateActiveSlide = () => {
+      const trackRect = track.getBoundingClientRect();
+      const trackCenter = trackRect.left + trackRect.width / 2;
+
+      let closestIndex = 0;
+      let closestDistance = Infinity;
+
+      slides.forEach((slide, index) => {
+        const slideRect = slide.getBoundingClientRect();
+        const slideCenter = slideRect.left + slideRect.width / 2;
+        const distance = Math.abs(slideCenter - trackCenter);
+
+        if (distance < closestDistance) {
+          closestDistance = distance;
+          closestIndex = index;
+        }
+      });
+
+      if (closestIndex !== currentIndex) {
+        currentIndex = closestIndex;
+        updateUI();
+      }
+    };
+
+    // Update UI (active classes)
+    const updateUI = () => {
+      slides.forEach((slide, index) => {
+        slide.classList.toggle("active", index === currentIndex);
+      });
+
+      indicators.forEach((indicator, index) => {
+        indicator.classList.toggle("active", index === currentIndex);
+      });
+
+      // Update navigation buttons state
+      if (prevBtn) {
+        (prevBtn as HTMLButtonElement).disabled = currentIndex === 0;
+      }
+      if (nextBtn) {
+        (nextBtn as HTMLButtonElement).disabled =
+          currentIndex === slides.length - 1;
+      }
+    };
+
+    // Scroll to specific slide
+    const scrollToSlide = (index: number) => {
+      if (index < 0 || index >= slides.length) return;
+
+      const slide = slides[index] as HTMLElement;
+      slide.scrollIntoView({
+        behavior: "smooth",
+        block: "nearest",
+        inline: "center",
+      });
+
+      currentIndex = index;
+      updateUI();
+    };
+
+    // Navigation buttons
+    prevBtn?.addEventListener("click", () => {
+      scrollToSlide(currentIndex - 1);
+    });
+
+    nextBtn?.addEventListener("click", () => {
+      scrollToSlide(currentIndex + 1);
+    });
+
+    // Indicator clicks
+    indicators.forEach((indicator, index) => {
+      indicator.addEventListener("click", () => {
+        scrollToSlide(index);
+      });
+    });
+
+    // Track scroll events
+    let scrollTimeout: number;
+    track.addEventListener("scroll", () => {
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(updateActiveSlide, 100);
+    });
+
+    // Keyboard navigation
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "ArrowLeft") {
+        scrollToSlide(currentIndex - 1);
+      } else if (e.key === "ArrowRight") {
+        scrollToSlide(currentIndex + 1);
+      }
+    });
+
+    // Touch swipe support
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    track.addEventListener("touchstart", (e) => {
+      touchStartX = e.touches[0].clientX;
+    });
+
+    track.addEventListener("touchend", (e) => {
+      touchEndX = e.changedTouches[0].clientX;
+      handleSwipe();
+    });
+
+    const handleSwipe = () => {
+      const swipeThreshold = 50;
+      const diff = touchStartX - touchEndX;
+
+      if (Math.abs(diff) > swipeThreshold) {
+        if (diff > 0) {
+          // Swipe left - next
+          scrollToSlide(currentIndex + 1);
+        } else {
+          // Swipe right - prev
+          scrollToSlide(currentIndex - 1);
+        }
+      }
+    };
+
+    // Initialize
+    updateUI();
+
+    // Center the first slide on load
+    requestAnimationFrame(() => {
+      const firstSlide = slides[0] as HTMLElement;
+      firstSlide.scrollIntoView({
+        behavior: "auto",
+        block: "nearest",
+        inline: "center",
+      });
+
+      setTimeout(() => {
+        updateActiveSlide();
+      }, 200);
+    });
+  });
+</script>

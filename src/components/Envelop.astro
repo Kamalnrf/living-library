@@ -4,10 +4,10 @@
 
 <style>
   .envelope-container {
-    position: fixed;
-    margin: 0 auto;
+    position: relative;
+    margin: 3rem auto 0;
     width: 320px;
-    height: 220px;
+    min-height: 580px;
   }
 
   .envelope-container img {
@@ -74,6 +74,12 @@
     font-size: 0.6rem;
     font-family: 'Sometype Mono';
     color: #03254b;
+  }
+
+  @media screen and (max-width: 768px) {
+    .envelope-container {
+      margin: 2rem auto 0;
+    }
   }
 </style>
 
