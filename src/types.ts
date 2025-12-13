@@ -23,3 +23,10 @@ export type LibraryCard = {
   reader: RichTextItemResponse
   booksRead: ReadingSession[]
 }
+
+export type EventLibraryCard = {
+  reader: RichTextItemResponse
+  event: Event
+  booksRead: ReadingSession[]
+  memberSince: string
+}
