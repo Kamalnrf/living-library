@@ -43,29 +43,28 @@ export default function Step1Registration({ onSubmit }: Props) {
 
   return (
     <div className="step-inner">
-      <div className="card">
-        <div className="card-details">
-          <span className="label">Name: <b>{name.trim() || 'Your Name'}</b></span>
-          <span className="label">Member Since: {formatMonthYear(new Date())}</span>
-        </div>
-      </div>
-
       <div className="form-fields">
-        <input
-          type="text"
-          placeholder="Your name"
-          autoComplete="name"
-          value={name}
-          onChange={e => setName(e.target.value)}
-        />
-        <input
-          type="email"
-          placeholder="Email address"
-          autoComplete="email"
-          inputMode="email"
-          value={email}
-          onChange={e => setEmail(e.target.value)}
-        />
+        <div className="field">
+          <label>Name</label>
+          <input
+            type="text"
+            placeholder="Your name"
+            autoComplete="name"
+            value={name}
+            onChange={e => setName(e.target.value)}
+          />
+        </div>
+        <div className='field'>
+          <label>Email</label>
+          <input
+            type="email"
+            placeholder="Email address"
+            autoComplete="email"
+            inputMode="email"
+            value={email}
+            onChange={e => setEmail(e.target.value)}
+          />
+        </div>
       </div>
 
       <button

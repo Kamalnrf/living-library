@@ -89,9 +89,9 @@ export default function Step3LibraryCard({ readerName, eventName, eventDate, ses
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <p className="see-you-msg">See you at the event!</p>
+        <p className="see-you-msg">Find a Volunteer to guide you!</p>
         <button className="back-link" type="button" onClick={onBack}>
-          &larr; Back to Books
+          &larr; Select Different Books
         </button>
       </motion.div>
     </div>

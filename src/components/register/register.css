@@ -172,8 +172,14 @@ body {
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 20px;
   margin-top: 28px;
+}
+
+.form-fields .field {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 .form-fields input {
