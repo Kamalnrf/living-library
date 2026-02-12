@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import './register.css'
 import ProgressDots from './ProgressDots'
@@ -8,6 +8,7 @@ import Step2BookBrowser from './Step2BookBrowser'
 import Step3LibraryCard from './Step3LibraryCard'
 import { registerReader, fetchActiveEvent } from './api'
 import type { Session, Registration } from './api'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 
 type ToastState = {
   message: string
@@ -15,12 +16,7 @@ type ToastState = {
   visible: boolean
 }
 
-const stepTransition = {
-  duration: 0.25,
-  ease: [0.25, 0.46, 0.45, 0.94],
-}
-
-export default function RegisterWizard() {
+function RegisterWizardComponent() {
   const [step, setStep] = useState(1)
   const [readerId, setReaderId] = useState('')
   const [readerName, setReaderName] = useState('')
@@ -30,6 +26,64 @@ export default function RegisterWizard() {
   const [finalSessions, setFinalSessions] = useState<Session[]>([])
   const [finalRegistrations, setFinalRegistrations] = useState<Registration[]>([])
   const [toast, setToast] = useState<ToastState>({ message: '', isError: false, visible: false })
+
+  useEffect(() => {
+    const savedStep = localStorage.getItem('wizard_step')
+    if (savedStep) setStep(parseInt(savedStep, 10))
+
+    const savedReaderId = localStorage.getItem('reader_id')
+    if (savedReaderId) setReaderId(savedReaderId)
+
+    const savedReaderName = localStorage.getItem('reader_name')
+    if (savedReaderName) setReaderName(savedReaderName)
+
+    const savedEventId = localStorage.getItem('event_id')
+    if (savedEventId) setEventId(savedEventId)
+
+    const savedEventName = localStorage.getItem('event_name')
+    if (savedEventName) setEventName(savedEventName)
+
+    const savedEventDate = localStorage.getItem('event_date')
+    if (savedEventDate) setEventDate(savedEventDate)
+
+    const savedSessions = localStorage.getItem('final_sessions')
+    if (savedSessions) setFinalSessions(JSON.parse(savedSessions))
+
+    const savedRegistrations = localStorage.getItem('final_registrations')
+    if (savedRegistrations) setFinalRegistrations(JSON.parse(savedRegistrations))
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('wizard_step', step.toString())
+  }, [step])
+
+  useEffect(() => {
+    localStorage.setItem('reader_id', readerId)
+  }, [readerId])
+
+  useEffect(() => {
+    localStorage.setItem('reader_name', readerName)
+  }, [readerName])
+
+  useEffect(() => {
+    localStorage.setItem('event_id', eventId)
+  }, [eventId])
+
+  useEffect(() => {
+    localStorage.setItem('event_name', eventName)
+  }, [eventName])
+
+  useEffect(() => {
+    localStorage.setItem('event_date', eventDate)
+  }, [eventDate])
+
+  useEffect(() => {
+    localStorage.setItem('final_sessions', JSON.stringify(finalSessions))
+  }, [finalSessions])
+
+  useEffect(() => {
+    localStorage.setItem('final_registrations', JSON.stringify(finalRegistrations))
+  }, [finalRegistrations])
 
   const showToast = useCallback((message: string, isError = false) => {
     setToast({ message, isError, visible: true })
@@ -73,21 +127,15 @@ export default function RegisterWizard() {
     <>
       <ProgressDots currentStep={step} />
 
-      <div className="bg-blob blob-1" />
-      <div className="bg-blob blob-2" />
-      <div className="bg-blob blob-3" />
-      <div className="bg-blob blob-4" />
-      <div className="bg-blob blob-5" />
-
       <AnimatePresence mode="wait">
         {step === 1 && (
           <motion.section
             key={step}
             className="step active"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={stepTransition}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
           >
             <Step1Registration onSubmit={handleStep1Submit} />
           </motion.section>
@@ -97,10 +145,10 @@ export default function RegisterWizard() {
           <motion.section
             key={step}
             className="step active"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={stepTransition}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
           >
             <Step2BookBrowser
               eventId={eventId}
@@ -118,10 +166,10 @@ export default function RegisterWizard() {
           <motion.section
             key={step}
             className="step active"
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={stepTransition}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.15 }}
           >
             <Step3LibraryCard
               readerName={readerName}
@@ -138,4 +186,12 @@ export default function RegisterWizard() {
       <Toast message={toast.message} isError={toast.isError} visible={toast.visible} onHide={hideToast} />
     </>
   )
+}
+
+export default function RegisterWizard() {
+  const client = new QueryClient()
+
+  return <QueryClientProvider client={client}>
+    <RegisterWizardComponent />
+  </QueryClientProvider>
 }

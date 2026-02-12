@@ -21,8 +21,8 @@ export default function ProgressDots({ currentStep }: Props) {
             className={className}
             animate={{
               boxShadow: isActive
-                ? "0 0 8px hsla(24, 88%, 45%, 0.4)"
-                : "0 0 0px hsla(24, 88%, 45%, 0)",
+                ? "0 0 8px hsla(0, 0%, 60%, 0.4)"
+                : "0 0 0px hsla(0, 0%, 60%, 0)",
             }}
             transition={{ type: "spring", stiffness: 400, damping: 28 }}
           />
