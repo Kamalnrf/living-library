@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from 'motion/react'
 import BookCard from './BookCard'
 import { formatDate, formatTime } from './utils'
 import { fetchAvailability, registerForBook, unregisterFromBook } from './api'
-import type { Session, Registration } from './api'
+import type { Session, Registration, AvailabilityData } from './api'
 import { SearchIcon, ArrowLeft, CircleCheck } from 'lucide-react'
 
 type Props = {
@@ -46,10 +46,78 @@ export default function Step2BookBrowser({ eventId, eventName, eventDate, reader
         await registerForBook(readerId, bookSessionId, sessionId)
       }
     },
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['availability', eventId, readerId] })
+    onMutate: async ({ sessionId, bookSessionId, isCurrentlyRegistered }) => {
+      const queryKey = ['availability', eventId, readerId]
+
+      // Cancel any outgoing refetches
+      await queryClient.cancelQueries({ queryKey })
+
+      // Snapshot previous value for rollback
+      const previousData = queryClient.getQueryData<AvailabilityData>(queryKey)
+
+      if (previousData) {
+        // Optimistically update myRegistrations
+        const newRegistrations = isCurrentlyRegistered
+          ? // Unregistering: remove this registration
+            previousData.myRegistrations.filter(r => r.sessionId !== sessionId)
+          : // Registering: remove any existing registration for this session, add new one
+            [
+              ...previousData.myRegistrations.filter(r => r.sessionId !== sessionId),
+              { sessionId, bookSessionId }
+            ]
+
+        // Optimistically update sessions (book.isRegistered and book.slotsLeft)
+        const newSessions = previousData.sessions.map(session => {
+          if (session.id !== sessionId) return session
+
+          return {
+            ...session,
+            books: session.books.map(book => {
+              if (isCurrentlyRegistered) {
+                // Unregistering: only update the book being unregistered
+                if (book.bookSessionId === bookSessionId) {
+                  return {
+                    ...book,
+                    isRegistered: false,
+                    slotsLeft: book.slotsLeft + 1,
+                  }
+                }
+              } else {
+                // Registering: update the target book and clear any other registered book in this session
+                if (book.bookSessionId === bookSessionId) {
+                  return {
+                    ...book,
+                    isRegistered: true,
+                    slotsLeft: Math.max(0, book.slotsLeft - 1),
+                  }
+                } else if (book.isRegistered) {
+                  // Another book was registered in this session, unregister it
+                  return {
+                    ...book,
+                    isRegistered: false,
+                    slotsLeft: book.slotsLeft + 1,
+                  }
+                }
+              }
+              return book
+            }),
+          }
+        })
+
+        queryClient.setQueryData<AvailabilityData>(queryKey, {
+          sessions: newSessions,
+          myRegistrations: newRegistrations,
+        })
+      }
+
+      return { previousData }
     },
-    onError: (err) => {
+    onError: (err, _variables, context) => {
+      // Rollback on error
+      if (context?.previousData) {
+        queryClient.setQueryData(['availability', eventId, readerId], context.previousData)
+      }
+
       const message = err instanceof Error ? err.message : 'Something went wrong'
       if (message === 'CONFLICT') {
         onToast('This book just filled up', true)
@@ -57,6 +125,10 @@ export default function Step2BookBrowser({ eventId, eventName, eventDate, reader
       } else {
         onToast(message, true)
       }
+    },
+    onSettled: () => {
+      // Always refetch after error or success to ensure consistency
+      queryClient.invalidateQueries({ queryKey: ['availability', eventId, readerId] })
     },
   })
 
@@ -92,7 +164,9 @@ export default function Step2BookBrowser({ eventId, eventName, eventDate, reader
 
   return (
     <div className="step-inner">
-      <div>
+      <div style={{
+        alignSelf: 'flex-start'
+      }}>
         <h1>{eventName}</h1>
         <span className="event-date">{eventDate ? formatDate(eventDate) : ''}</span>
       </div>
@@ -139,31 +213,21 @@ export default function Step2BookBrowser({ eventId, eventName, eventDate, reader
             </div>
           </div>
 
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={`${activeTab}-${search}`}
-              className="book-list"
-              role="tabpanel"
-              initial={{ opacity: 0, y: 6 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -6 }}
-              transition={{ duration: 0.15, ease: easeOutQuad }}
-            >
-              {filteredBooks.length === 0 ? (
-                <p className="empty-msg">
-                  {search ? 'No books match your search' : 'No books in this session'}
-                </p>
-              ) : (
-                filteredBooks.map(book => (
-                  <BookCard
-                    key={book.bookSessionId}
-                    book={book}
-                    onToggle={() => handleToggle(activeSession.id, book.bookSessionId)}
-                  />
-                ))
-                  )}
-            </motion.div>
-          </AnimatePresence>
+          <div key={`${activeTab}-${search}`} className="book-list" role="tabpanel">
+            {filteredBooks.length === 0 ? (
+              <p className="empty-msg">
+                {search ? 'No books match your search' : 'No books in this session'}
+              </p>
+            ) : (
+              filteredBooks.map(book => (
+                <BookCard
+                  key={book.bookSessionId}
+                  book={book}
+                  onToggle={() => handleToggle(activeSession.id, book.bookSessionId)}
+                />
+              ))
+            )}
+          </div>
         </>
       )}
 

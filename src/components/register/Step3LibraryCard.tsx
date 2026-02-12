@@ -33,17 +33,6 @@ export default function Step3LibraryCard({ readerName, eventName, eventDate, ses
     }).filter(b => b.title)
   }, [sessions, registrations])
 
-  const celebrationBlobs = useMemo(() => {
-    const reducedMotion = typeof window !== 'undefined'
-      && window.matchMedia('(prefers-reduced-motion: reduce)').matches
-    if (reducedMotion) return []
-    return Array.from({ length: 2 }, (_, i) => ({
-      ...generateCelebrationBlob(),
-      delay: i * 1.2 + Math.random() * 0.8,
-      duration: 5 + Math.random() * 3,
-    }))
-  }, [])
-
   const cardLabels = [
     { text: <>Name: <b>{readerName}</b></>, className: 'label' },
     { text: <>Member Since: {formatMonthYear(new Date())}</>, className: 'label' },
@@ -53,30 +42,14 @@ export default function Step3LibraryCard({ readerName, eventName, eventDate, ses
 
   return (
     <div className="step-inner">
-      <div className="celebration-blobs">
-        {celebrationBlobs.map((blob, i) => (
-          <div
-            key={i}
-            className="cel-blob"
-            style={{
-              width: blob.width,
-              height: blob.height,
-              left: blob.left,
-              background: blob.background,
-              borderRadius: blob.borderRadius,
-              opacity: 0,
-              animationDelay: `${blob.delay}s`,
-              animationDuration: `${blob.duration}s`,
-            }}
-          />
-        ))}
-      </div>
-
       <motion.div
         className="card final-card"
         initial={prefersReducedMotion ? false : { opacity: 0, y: 50, rotate: -3, scale: 0.95 }}
         animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
         transition={{ type: "spring", stiffness: 280, damping: 24, delay: 0.1 }}
+        style={{
+          margin: "auto 0"
+        }}
       >
         <div className="card-details">
           {cardLabels.map((label, index) => (

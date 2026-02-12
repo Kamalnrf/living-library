@@ -55,8 +55,8 @@ body {
   background: hsla(0, 0%, 95%);
 }
 .progress .dot.completed {
-  border-color: hsla(0, 0%, 60%);
-  background: hsla(0, 0%, 60%);
+  border-color: lightgray;
+  background: lightgray;
 }
 
 /* ── Steps layout ── */
@@ -580,6 +580,7 @@ body {
 /* ── Step 3 ── */
 .final-card {
   animation: card-reveal 500ms cubic-bezier(0.68, -0.55, 0.27, 1.55) both;
+  margin: 0 auto;
   box-shadow:
     inset 0 0 30px hsla(38, 50%, 80%, 0.4),
     0.6px 0.6px 0.9px hsl(0deg 0% 0% / 0.09),
@@ -614,20 +615,6 @@ body {
 }
 .back-link:hover {
   color: hsl(0, 0%, 7%);
-}
-
-/* Celebration blobs */
-.celebration-blobs {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
-  overflow: hidden;
-}
-.cel-blob {
-  position: absolute;
-  animation: float-down 4s ease-in forwards;
-  opacity: 0;
 }
 
 /* ── Loading ── */
