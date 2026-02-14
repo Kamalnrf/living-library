@@ -29,7 +29,11 @@ export default function Step3LibraryCard({ readerName, eventName, eventDate, ses
     return registrations.map(reg => {
       const session = sessions.find(s => s.id === reg.sessionId)
       const book = session?.books?.find(b => b.bookSessionId === reg.bookSessionId)
-      return { title: book?.title || '', sessionName: session?.name || '' }
+      return { 
+        title: book?.title || '', 
+        sessionName: session?.name || '',
+        tableNo: book?.tableNo || session?.tableNo || ''
+      }
     }).filter(b => b.title)
   }, [sessions, registrations])
 
@@ -66,7 +70,10 @@ export default function Step3LibraryCard({ readerName, eventName, eventDate, ses
         </div>
         <table>
           <thead>
-            <tr><th>Book Title</th><th>Session</th></tr>
+            <tr>
+              <th style={{ width: '28%' }}>Session</th>
+              <th style={{ width: '72%' }}>Book</th>
+            </tr>
           </thead>
           <tbody>
             {books.map((b, i) => (
@@ -76,7 +83,17 @@ export default function Step3LibraryCard({ readerName, eventName, eventDate, ses
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ type: "spring", stiffness: 350, damping: 28, delay: 0.7 + i * 0.1 }}
               >
-                <td>{b.title}</td><td>{b.sessionName}</td>
+                <td>{b.sessionName}</td>
+                <td style={{ verticalAlign: 'middle' }}>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
+                    {b.tableNo && (
+                      <span className="table-stamp">
+                        T{b.tableNo}
+                      </span>
+                    )}
+                    <span style={{ lineHeight: 1.2 }}>{b.title}</span>
+                  </div>
+                </td>
               </motion.tr>
             ))}
           </tbody>

@@ -26,6 +26,7 @@ function RegisterWizardComponent() {
   const [finalSessions, setFinalSessions] = useState<Session[]>([])
   const [finalRegistrations, setFinalRegistrations] = useState<Registration[]>([])
   const [toast, setToast] = useState<ToastState>({ message: '', isError: false, visible: false })
+  const [isInitialized, setIsInitialized] = useState(false)
 
   useEffect(() => {
     const savedStep = localStorage.getItem('wizard_step')
@@ -51,39 +52,49 @@ function RegisterWizardComponent() {
 
     const savedRegistrations = localStorage.getItem('final_registrations')
     if (savedRegistrations) setFinalRegistrations(JSON.parse(savedRegistrations))
+    
+    setIsInitialized(true)
   }, [])
 
   useEffect(() => {
+    if (!isInitialized) return
     localStorage.setItem('wizard_step', step.toString())
-  }, [step])
+  }, [step, isInitialized])
 
   useEffect(() => {
+    if (!isInitialized) return
     localStorage.setItem('reader_id', readerId)
-  }, [readerId])
+  }, [readerId, isInitialized])
 
   useEffect(() => {
+    if (!isInitialized) return
     localStorage.setItem('reader_name', readerName)
-  }, [readerName])
+  }, [readerName, isInitialized])
 
   useEffect(() => {
+    if (!isInitialized) return
     localStorage.setItem('event_id', eventId)
-  }, [eventId])
+  }, [eventId, isInitialized])
 
   useEffect(() => {
+    if (!isInitialized) return
     localStorage.setItem('event_name', eventName)
-  }, [eventName])
+  }, [eventName, isInitialized])
 
   useEffect(() => {
+    if (!isInitialized) return
     localStorage.setItem('event_date', eventDate)
-  }, [eventDate])
+  }, [eventDate, isInitialized])
 
   useEffect(() => {
+    if (!isInitialized) return
     localStorage.setItem('final_sessions', JSON.stringify(finalSessions))
-  }, [finalSessions])
+  }, [finalSessions, isInitialized])
 
   useEffect(() => {
+    if (!isInitialized) return
     localStorage.setItem('final_registrations', JSON.stringify(finalRegistrations))
-  }, [finalRegistrations])
+  }, [finalRegistrations, isInitialized])
 
   const showToast = useCallback((message: string, isError = false) => {
     setToast({ message, isError, visible: true })

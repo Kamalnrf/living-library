@@ -10,6 +10,7 @@ export type Book = {
   registeredCount: number
   slotsLeft: number
   isRegistered: boolean
+  tableNo: string | null
 }
 
 export type Session = {
@@ -17,6 +18,8 @@ export type Session = {
   name: string
   startTime: string
   endTime: string
+  tableNo: string
+  registrationOpen: boolean
   books: Book[]
 }
 

@@ -27,12 +27,21 @@ export default function Step2BookBrowser({ eventId, eventName, eventDate, reader
   const { data, isLoading } = useQuery({
     queryKey: ['availability', eventId, readerId],
     queryFn: () => fetchAvailability(eventId, readerId),
-    refetchInterval: 3000,
+    refetchInterval: 2000,
     staleTime: 0,
   })
 
   const sessions = data?.sessions || []
   const myRegistrations = data?.myRegistrations || []
+
+  useEffect(() => {
+    if (sessions.length > 0 && !sessions[activeTab]?.registrationOpen) {
+      const firstOpen = sessions.findIndex(s => s.registrationOpen)
+      if (firstOpen !== -1 && firstOpen !== activeTab) {
+        setActiveTab(firstOpen)
+      }
+    }
+  }, [sessions, activeTab])
 
   const toggleMutation = useMutation({
     mutationFn: async ({ sessionId, bookSessionId, isCurrentlyRegistered }: {
@@ -137,11 +146,44 @@ export default function Step2BookBrowser({ eventId, eventName, eventDate, reader
     [myRegistrations]
   )
 
+  const registeredBookIds = useMemo(() => {
+    const ids = new Set<string>()
+    if (!sessions || !myRegistrations) return ids
+
+    for (const reg of myRegistrations) {
+      const session = sessions.find(s => s.id === reg.sessionId)
+      if (session) {
+        const book = session.books.find(b => b.bookSessionId === reg.bookSessionId)
+        if (book) {
+          ids.add(book.bookId)
+        }
+      }
+    }
+    return ids
+  }, [sessions, myRegistrations])
+
   const activeSession = sessions[activeTab]
 
   const filteredBooks = useMemo(() => {
     if (!activeSession) return []
-    const books = activeSession.books || []
+    let books = [...(activeSession.books || [])]
+
+    // Sort by tableNo
+    books.sort((a, b) => {
+      const tA = a.tableNo
+      const tB = b.tableNo
+      if (tA === tB) return 0
+      if (!tA) return 1
+      if (!tB) return -1
+
+      const nA = parseInt(tA, 10)
+      const nB = parseInt(tB, 10)
+      if (!isNaN(nA) && !isNaN(nB)) {
+        return nA - nB
+      }
+      return tA.localeCompare(tB)
+    })
+
     if (!search.trim()) return books
     const q = search.toLowerCase()
     return books.filter(b =>
@@ -154,16 +196,32 @@ export default function Step2BookBrowser({ eventId, eventName, eventDate, reader
   const handleToggle = useCallback((sessionId: string, bookSessionId: string) => {
     if (toggleMutation.isPending) return
 
+    const session = sessions.find(s => s.id === sessionId)
+    if (session && !session.registrationOpen) {
+      onToast('Registration is closed for this session', true)
+      return
+    }
+
     const existing = myRegistrations.find(r => r.sessionId === sessionId)
     const isCurrentlyRegistered = !!(existing && existing.bookSessionId === bookSessionId)
 
+    if (!isCurrentlyRegistered) {
+      const session = sessions.find(s => s.id === sessionId)
+      const book = session?.books.find(b => b.bookSessionId === bookSessionId)
+
+      if (book && registeredBookIds.has(book.bookId)) {
+        onToast("You can't register for the same book twice", true)
+        return
+      }
+    }
+
     toggleMutation.mutate({ sessionId, bookSessionId, isCurrentlyRegistered })
-  }, [toggleMutation.isPending, myRegistrations])
+  }, [toggleMutation, myRegistrations, sessions, registeredBookIds, onToast])
 
   const selectedCount = registeredSessionIds.size
 
   return (
-    <div className="step-inner">
+    <div className="step-inner step-2-inner">
       <div style={{
         alignSelf: 'flex-start'
       }}>
@@ -182,15 +240,21 @@ export default function Step2BookBrowser({ eventId, eventName, eventDate, reader
               {sessions.map((session, i) => {
                 const isRegistered = registeredSessionIds.has(session.id)
                 const time = session.startTime ? formatTime(session.startTime) : ''
+                const isOpen = session.registrationOpen
                 return (
                   <motion.button
                     key={session.id}
                     role="tab"
                     aria-selected={i === activeTab}
-                    className={`session-tab ${i === activeTab ? 'active' : ''}`}
-                    onClick={() => { setActiveTab(i); setSearch('') }}
+                    className={`session-tab ${i === activeTab ? 'active' : ''} ${!isOpen ? 'disabled' : ''}`}
+                    onClick={() => {
+                      if (isOpen) {
+                        setActiveTab(i)
+                        setSearch('')
+                      }
+                    }}
                     type="button"
-                    whileTap={{ scale: 0.97 }}
+                    whileTap={isOpen ? { scale: 0.97 } : undefined}
                     style={{ position: 'relative', overflow: 'hidden', zIndex: 1 }}
                   >
                     <div>
@@ -214,7 +278,9 @@ export default function Step2BookBrowser({ eventId, eventName, eventDate, reader
           </div>
 
           <div key={`${activeTab}-${search}`} className="book-list" role="tabpanel">
-            {filteredBooks.length === 0 ? (
+            {!activeSession?.registrationOpen ? (
+              <p className="empty-msg">Registration is closed for this session.</p>
+            ) : filteredBooks.length === 0 ? (
               <p className="empty-msg">
                 {search ? 'No books match your search' : 'No books in this session'}
               </p>
@@ -223,6 +289,7 @@ export default function Step2BookBrowser({ eventId, eventName, eventDate, reader
                 <BookCard
                   key={book.bookSessionId}
                   book={book}
+                  isDisabled={registeredBookIds.has(book.bookId) && !book.isRegistered}
                   onToggle={() => handleToggle(activeSession.id, book.bookSessionId)}
                 />
               ))
