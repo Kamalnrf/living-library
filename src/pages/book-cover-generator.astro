@@ -209,6 +209,7 @@
       .button-row {
         display: flex;
         gap: 8px;
+        flex-wrap: wrap;
       }
 
       .button {
@@ -337,6 +338,22 @@
           </div>
 
           <div class="control-group">
+            <label>Extra Bottom Space</label>
+            <div class="slider-container">
+              <input
+                type="range"
+                id="extraSpace"
+                min="0"
+                max="0.6"
+                step="0.05"
+                value="0"
+                oninput="updateParam('extraSpace', this.value)"
+              />
+              <span class="value-display" id="extraSpace-value">0%</span>
+            </div>
+          </div>
+
+          <div class="control-group">
             <label>Shape Count</label>
             <div class="slider-container">
               <input
@@ -408,6 +425,7 @@
             <button class="button primary" onclick="downloadCanvas()">
               Download
             </button>
+            <button class="button" onclick="downloadSvg()">Download SVG</button>
           </div>
           <div class="seed-display">Seed: <span id="seed-display">0</span></div>
         </div>
@@ -433,12 +451,17 @@
 
       const BACKGROUND = "#FAF8F5";
       const TEXT_COLOR = "#2A2A28";
+      const EXPORT_SCALE = 4;
+      const measureContext = document
+        .createElement("canvas")
+        .getContext("2d");
 
       let params = {
         shapeCount: 6,
         shapeSize: 1.0,
         wobble: 0.4,
         shapeArea: 0.2,
+        extraSpace: 0,
       };
 
       let currentSeed = 0;
@@ -533,7 +556,11 @@
           canvasHeight = ratioHeight;
         }
 
-        resizeCanvas(canvasWidth, canvasHeight);
+        canvasHeight *= 1 + params.extraSpace;
+
+        const roundedWidth = Math.max(1, Math.round(canvasWidth));
+        const roundedHeight = Math.max(1, Math.round(canvasHeight));
+        resizeCanvas(roundedWidth, roundedHeight);
       }
 
       function updateAspectRatio() {
@@ -548,32 +575,34 @@
           document.getElementById("title-input").value || "Untitled";
         const blurb = document.getElementById("blurb-input").value || "";
 
-        // Background
-        background(BACKGROUND);
-
-        // Draw shapes in controllable area (default: top 40% of canvas)
-        drawShapes();
-
-        // Text zone
-        drawTextZone(title, blurb);
+        renderCover(window, title, blurb, 1);
       }
 
-      function drawShapes() {
+      function renderCover(g, title, blurb, scale) {
+        const layoutWidth = g.width;
+        const layoutHeight = g.height;
+
+        g.background(BACKGROUND);
+        drawShapes(g, layoutWidth, layoutHeight, scale);
+        drawTextZone(g, title, blurb, layoutWidth, layoutHeight, scale);
+      }
+
+      function drawShapes(g, layoutWidth, layoutHeight, scale) {
         // Use the shapeArea parameter to control how much of the canvas shapes occupy
-        const safeZoneHeight = height * params.shapeArea;
+        const safeZoneHeight = layoutHeight * params.shapeArea;
 
         const count = params.shapeCount;
-        const baseSize = 22 * params.shapeSize;
+        const baseSize = 22 * params.shapeSize * scale;
         const wobbleAmount = params.wobble;
 
-        const topMargin = 15;
-        const sideMargin = 20;
+        const topMargin = 15 * scale;
+        const sideMargin = 20 * scale;
 
         // Divide canvas into zones for better distribution
         const zones = [];
         const zoneCols = 3;
         const zoneRows = 2;
-        const zoneWidth = (width - sideMargin * 2) / zoneCols;
+        const zoneWidth = (layoutWidth - sideMargin * 2) / zoneCols;
         const zoneHeight = (safeZoneHeight - topMargin) / zoneRows;
 
         for (let row = 0; row < zoneRows; row++) {
@@ -602,22 +631,22 @@
           const size = baseSize + seededRandom() * baseSize * 1.0;
 
           const colorIndex = Math.floor(seededRandom() * PALETTE.length);
-          const col = color(PALETTE[colorIndex]);
+          const col = g.color(PALETTE[colorIndex]);
           col.setAlpha(90 + seededRandom() * 60);
 
-          drawBlob(x, y, size, wobbleAmount, col);
+          drawBlob(g, x, y, size, wobbleAmount, col);
         }
       }
 
-      function drawBlob(x, y, size, wobbleAmount, col) {
-        noStroke();
-        fill(col);
+      function drawBlob(g, x, y, size, wobbleAmount, col) {
+        g.noStroke();
+        g.fill(col);
 
         // Create organic blob using bezier curves
         const points = 8;
         const angleStep = TWO_PI / points;
 
-        beginShape();
+        g.beginShape();
         for (let i = 0; i <= points; i++) {
           const angle = i * angleStep;
           const wobble = 1 + (seededRandom() - 0.5) * wobbleAmount * 0.6;
@@ -627,109 +656,126 @@
           const py = y + sin(angle) * r;
 
           if (i === 0) {
-            curveVertex(px, py);
-            curveVertex(px, py);
+            g.curveVertex(px, py);
+            g.curveVertex(px, py);
           } else if (i === points) {
-            curveVertex(px, py);
-            curveVertex(px, py);
+            g.curveVertex(px, py);
+            g.curveVertex(px, py);
           } else {
-            curveVertex(px, py);
+            g.curveVertex(px, py);
           }
         }
-        endShape(CLOSE);
+        g.endShape(CLOSE);
       }
 
-      function drawTextZone(title, blurb) {
-        const padding = 24;
-        const maxTextWidth = width - padding * 2;
+      function drawTextZone(g, title, blurb, layoutWidth, layoutHeight, scale) {
+        const padding = 24 * scale;
+        const maxTextWidth = layoutWidth - padding * 2;
 
         // Measure title
-        textFont("Lora");
-        textSize(24);
-        const titleLines = wrapText(title, maxTextWidth);
-        const titleLineHeight = 30;
+        g.textFont("Lora");
+        g.textSize(24 * scale);
+        const titleLines = wrapText(title, maxTextWidth, g);
+        const titleLineHeight = 30 * scale;
         const titleHeight = titleLines.length * titleLineHeight;
 
         // Measure blurb
-        textFont("Poppins");
-        textSize(13);
-        const blurbLines = wrapText(blurb, maxTextWidth);
-        const blurbLineHeight = 19;
+        g.textFont("Poppins");
+        g.textSize(13 * scale);
+        const blurbLines = wrapText(blurb, maxTextWidth, g);
+        const blurbLineHeight = 19 * scale;
         const blurbHeight = blurbLines.length * blurbLineHeight;
 
         // Text zone starts right after the shape area
-        const textZoneStart = height * params.shapeArea;
+        const textZoneStart = layoutHeight * params.shapeArea;
 
         // Calculate positions from the text zone start
         const fadeStart = textZoneStart;
-        const fadeEnd = fadeStart + 40;
+        const fadeHeight = 40 * scale;
+        const fadeEnd = fadeStart + fadeHeight;
         // Title starts within the fade (20px into fade region)
-        const titleStartY = fadeStart + 20;
+        const titleStartY = fadeStart + 20 * scale;
         const titleEndY = titleStartY + titleHeight;
-        const dividerY = titleEndY + 8;
-        const blurbStartY = dividerY + 10;
+        const dividerY = titleEndY + 8 * scale;
+        const blurbStartY = dividerY + 10 * scale;
         const blurbEndY = blurbStartY + blurbHeight;
 
         // Branding at the bottom
-        const bottomPadding = 15;
-        const brandingY = height - bottomPadding;
+        const bottomPadding = 15 * scale;
+        const brandingY = 10 * scale + layoutHeight - bottomPadding;
 
         // Gradient fade
-        noStroke();
-        for (let i = 0; i < 40; i++) {
+        g.noStroke();
+        for (let i = 0; i < fadeHeight; i++) {
           const y = fadeStart + i;
-          const alpha = map(i, 0, 40, 0, 255);
-          fill(250, 248, 245, alpha);
-          rect(0, y, width, 1);
+          const alpha = map(i, 0, fadeHeight, 0, 255);
+          g.fill(250, 248, 245, alpha);
+          g.rect(0, y, layoutWidth, 1);
         }
 
         // Solid background below fade
-        fill(BACKGROUND);
-        rect(0, fadeEnd, width, height - fadeEnd);
+        g.fill(BACKGROUND);
+        g.rect(0, fadeEnd, layoutWidth, layoutHeight - fadeEnd);
 
         // Title
-        fill(TEXT_COLOR);
-        textFont("Lora");
-        textStyle(NORMAL);
-        textSize(24);
-        textAlign(LEFT, TOP);
+        g.fill(TEXT_COLOR);
+        g.textFont("Lora");
+        g.textStyle(NORMAL);
+        g.textSize(24 * scale);
+        g.textAlign(LEFT, TOP);
 
         let titleY = titleStartY;
         for (const line of titleLines) {
-          text(line, padding, titleY);
+          g.text(line, padding, titleY);
           titleY += titleLineHeight;
         }
 
         // Divider
-        stroke(TEXT_COLOR);
-        strokeWeight(1);
-        line(padding, dividerY, padding + 40, dividerY);
+        g.stroke(TEXT_COLOR);
+        g.strokeWeight(1);
+        g.line(padding, dividerY, padding + 40 * scale, dividerY);
 
         // Blurb
-        noStroke();
-        fill(TEXT_COLOR);
-        textFont("Poppins");
-        textSize(13);
-        textLeading(blurbLineHeight);
-        textAlign(LEFT, TOP);
-        text(blurb, padding, blurbStartY, maxTextWidth, blurbHeight + 50);
+        g.noStroke();
+        g.fill(TEXT_COLOR);
+        g.textFont("Poppins");
+        g.textSize(13 * scale);
+        g.textLeading(blurbLineHeight);
+        g.textAlign(LEFT, TOP);
+        g.text(blurb, padding, blurbStartY, maxTextWidth, blurbHeight + 50);
 
         // Branding - pinned to bottom
+<<<<<<< Updated upstream
         fill(150);
         textSize(9);
         textAlign(LEFT, BOTTOM);
         text("LIVING STORIES COLLECTIVE", padding, brandingY);
+=======
+        g.fill(150);
+        g.textSize(9 * scale);
+        g.textAlign(LEFT, BOTTOM);
+        g.text("LIVING STORIES COLLECTIVE", padding, brandingY);
+      }
+
+      function flattenBackground(g, colorValue) {
+        const ctx = g.drawingContext;
+        ctx.save();
+        ctx.globalCompositeOperation = "destination-over";
+        ctx.fillStyle = colorValue;
+        ctx.fillRect(0, 0, g.width, g.height);
+        ctx.restore();
+>>>>>>> Stashed changes
       }
 
       // Helper function to wrap text
-      function wrapText(txt, maxWidth) {
+      function wrapText(txt, maxWidth, g = window) {
         const words = txt.split(" ");
         const lines = [];
         let currentLine = "";
 
         for (const word of words) {
           const testLine = currentLine ? currentLine + " " + word : word;
-          const testWidth = textWidth(testLine);
+          const testWidth = g.textWidth(testLine);
 
           if (testWidth > maxWidth && currentLine) {
             lines.push(currentLine);
@@ -746,11 +792,255 @@
         return lines.length > 0 ? lines : [""];
       }
 
+      function escapeXml(text) {
+        return text
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+
+      function hexToRgb(hex) {
+        const normalized = hex.replace("#", "");
+        const value =
+          normalized.length === 3
+            ? normalized
+                .split("")
+                .map((char) => char + char)
+                .join("")
+            : normalized;
+        const r = parseInt(value.slice(0, 2), 16);
+        const g = parseInt(value.slice(2, 4), 16);
+        const b = parseInt(value.slice(4, 6), 16);
+        return { r, g, b };
+      }
+
+      function textWidthForFont(text, font) {
+        measureContext.font = font;
+        return measureContext.measureText(text).width;
+      }
+
+      function fontMetrics(font, fontSize) {
+        measureContext.font = font;
+        const metrics = measureContext.measureText("Mg");
+        const ascent =
+          metrics.actualBoundingBoxAscent || Math.round(fontSize * 0.8);
+        const descent =
+          metrics.actualBoundingBoxDescent || Math.round(fontSize * 0.2);
+        return { ascent, descent };
+      }
+
+      function generateSvgMarkup({
+        width,
+        height,
+        title,
+        blurb,
+        scale,
+        seed,
+      }) {
+        seededRandom = createSeededRandom(seed);
+
+        const clipId = `clip-${seed}`;
+
+        const padding = 24 * scale;
+        const maxTextWidth = width - padding * 2;
+        const titleFontSize = 24 * scale;
+        const titleLineHeight = 30 * scale;
+        const blurbFontSize = 13 * scale;
+        const blurbLineHeight = 19 * scale;
+        const brandingFontSize = 9 * scale;
+
+        const titleFont = `400 ${titleFontSize}px Lora`;
+        const blurbFont = `400 ${blurbFontSize}px Poppins`;
+        const brandingFont = `400 ${brandingFontSize}px Poppins`;
+
+        const titleMetrics = fontMetrics(titleFont, titleFontSize);
+        const blurbMetrics = fontMetrics(blurbFont, blurbFontSize);
+        const brandingMetrics = fontMetrics(brandingFont, brandingFontSize);
+
+        const titleLines = wrapText(title, maxTextWidth, {
+          textWidth: (text) => textWidthForFont(text, titleFont),
+        });
+        const titleHeight = titleLines.length * titleLineHeight;
+
+        const blurbLines = wrapText(blurb, maxTextWidth, {
+          textWidth: (text) => textWidthForFont(text, blurbFont),
+        });
+        const blurbHeight = blurbLines.length * blurbLineHeight;
+
+        const textZoneStart = height * params.shapeArea;
+        const fadeStart = textZoneStart;
+        const fadeHeight = 40 * scale;
+        const fadeEnd = fadeStart + fadeHeight;
+        const titleStartY = fadeStart + 20 * scale;
+        const titleEndY = titleStartY + titleHeight;
+        const dividerY = titleEndY + 8 * scale;
+        const blurbStartY = dividerY + 10 * scale;
+        const bottomPadding = 15 * scale;
+        const brandingY = 15 * scale + height - bottomPadding;
+
+        const titleBaseline = titleStartY + titleMetrics.ascent;
+        const blurbBaseline = blurbStartY + blurbMetrics.ascent;
+        const brandingBaseline = brandingY - brandingMetrics.descent;
+
+        const safeZoneHeight = height * params.shapeArea;
+        const count = params.shapeCount;
+        const baseSize = 22 * params.shapeSize * scale;
+        const wobbleAmount = params.wobble;
+        const topMargin = 15 * scale;
+        const sideMargin = 20 * scale;
+        const zoneCols = 3;
+        const zoneRows = 2;
+        const zoneWidth = (width - sideMargin * 2) / zoneCols;
+        const zoneHeight = (safeZoneHeight - topMargin) / zoneRows;
+
+        const zones = [];
+        for (let row = 0; row < zoneRows; row++) {
+          for (let col = 0; col < zoneCols; col++) {
+            zones.push({
+              x: sideMargin + col * zoneWidth,
+              y: topMargin + row * zoneHeight,
+              w: zoneWidth,
+              h: zoneHeight,
+            });
+          }
+        }
+
+        for (let i = zones.length - 1; i > 0; i--) {
+          const j = Math.floor(seededRandom() * (i + 1));
+          [zones[i], zones[j]] = [zones[j], zones[i]];
+        }
+
+        const parts = [];
+        const fadeId = `fade-${seed}`;
+        const maskId = `mask-${seed}`;
+        parts.push(
+          `<svg xmlns="http://www.w3.org/2000/svg" width="${width}" height="${height}" viewBox="0 0 ${width} ${height}">`
+        );
+        parts.push("<defs>");
+        parts.push(
+          `<linearGradient id="${fadeId}" gradientUnits="userSpaceOnUse" x1="0" y1="${fadeStart}" x2="0" y2="${fadeEnd}">`
+        );
+        parts.push(`<stop offset="0%" stop-color="white" />`);
+        parts.push(`<stop offset="100%" stop-color="black" />`);
+        parts.push("</linearGradient>");
+        parts.push(
+          `<clipPath id="${clipId}"><rect x="0" y="0" width="${width}" height="${height}" /></clipPath>`
+        );
+        parts.push(
+          `<mask id="${maskId}"><rect x="0" y="0" width="${width}" height="${height}" fill="white" /><rect x="0" y="${fadeStart}" width="${width}" height="${fadeHeight}" fill="url(#${fadeId})" /><rect x="0" y="${fadeEnd}" width="${width}" height="${
+            height - fadeEnd
+          }" fill="black" /></mask>`
+        );
+        parts.push("</defs>");
+
+        parts.push(
+          `<rect x="0" y="0" width="${width}" height="${height}" fill="${BACKGROUND}" />`
+        );
+        parts.push(`<g clip-path="url(#${clipId})">`);
+
+        for (let i = 0; i < count; i++) {
+          const zone = zones[i % zones.length];
+          const x = zone.x + seededRandom() * zone.w;
+          const y = zone.y + seededRandom() * zone.h;
+          const size = baseSize + seededRandom() * baseSize * 1.0;
+          const colorIndex = Math.floor(seededRandom() * PALETTE.length);
+          const { r, g, b } = hexToRgb(PALETTE[colorIndex]);
+          const alpha = (90 + seededRandom() * 60) / 255;
+          const points = 28;
+          const angleStep = (Math.PI * 2) / points;
+          const blobPoints = [];
+
+          for (let j = 0; j < points; j++) {
+            const angle = j * angleStep;
+            const wobble = 1 + (seededRandom() - 0.5) * wobbleAmount * 0.6;
+            const rVal = size * wobble;
+            blobPoints.push({
+              x: x + Math.cos(angle) * rVal,
+              y: y + Math.sin(angle) * rVal,
+            });
+          }
+
+          let path = `M ${blobPoints[0].x.toFixed(2)} ${blobPoints[0].y.toFixed(
+            2
+          )}`;
+          for (let j = 0; j < blobPoints.length; j++) {
+            const p0 = blobPoints[(j - 1 + points) % points];
+            const p1 = blobPoints[j % points];
+            const p2 = blobPoints[(j + 1) % points];
+            const p3 = blobPoints[(j + 2) % points];
+
+            const c1x = p1.x + (p2.x - p0.x) / 6;
+            const c1y = p1.y + (p2.y - p0.y) / 6;
+            const c2x = p2.x - (p3.x - p1.x) / 6;
+            const c2y = p2.y - (p3.y - p1.y) / 6;
+
+            path += ` C ${c1x.toFixed(2)} ${c1y.toFixed(2)} ${c2x.toFixed(
+              2
+            )} ${c2y.toFixed(2)} ${p2.x.toFixed(2)} ${p2.y.toFixed(2)}`;
+          }
+          path += " Z";
+          parts.push(
+            `<path d="${path}" fill="rgb(${r}, ${g}, ${b})" fill-opacity="${alpha.toFixed(
+              3
+            )}" />`
+          );
+        }
+
+        parts.push("</g>");
+        parts.push(`<g clip-path="url(#${clipId})" mask="url(#${maskId})">`);
+        parts.push(
+          `<rect x="0" y="0" width="${width}" height="${height}" fill="${BACKGROUND}" />`
+        );
+        parts.push("</g>");
+
+        parts.push(
+          `<text x="${padding}" y="${titleBaseline}" font-family="Lora" font-size="${titleFontSize}" font-weight="400" fill="${TEXT_COLOR}">`
+        );
+        titleLines.forEach((line, index) => {
+          const dy = index === 0 ? 0 : titleLineHeight;
+          parts.push(
+            `<tspan x="${padding}" dy="${dy}">${escapeXml(line)}</tspan>`
+          );
+        });
+        parts.push("</text>");
+
+        parts.push(
+          `<line x1="${padding}" y1="${dividerY}" x2="${
+            padding + 40 * scale
+          }" y2="${dividerY}" stroke="${TEXT_COLOR}" stroke-width="${
+            1 * scale
+          }" />`
+        );
+
+        parts.push(
+          `<text x="${padding}" y="${blurbBaseline}" font-family="Poppins" font-size="${blurbFontSize}" font-weight="400" fill="${TEXT_COLOR}">`
+        );
+        blurbLines.forEach((line, index) => {
+          const dy = index === 0 ? 0 : blurbLineHeight;
+          parts.push(
+            `<tspan x="${padding}" dy="${dy}">${escapeXml(line)}</tspan>`
+          );
+        });
+        parts.push("</text>");
+
+        parts.push(
+          `<text x="${padding}" y="${brandingBaseline}" font-family="Poppins" font-size="${brandingFontSize}" font-weight="400" fill="#969696">LIVING STORIES COLLECTIVE</text>`
+        );
+
+        parts.push("</svg>");
+        return parts.join("");
+      }
+
       function updateParam(paramName, value) {
         params[paramName] = parseFloat(value);
         if (paramName === "shapeCount") {
           document.getElementById(paramName + "-value").textContent = value;
         } else if (paramName === "shapeArea") {
+          document.getElementById(paramName + "-value").textContent =
+            (parseFloat(value) * 100).toFixed(0) + "%";
+        } else if (paramName === "extraSpace") {
           document.getElementById(paramName + "-value").textContent =
             (parseFloat(value) * 100).toFixed(0) + "%";
         } else {
@@ -766,7 +1056,13 @@
       }
 
       function resetDefaults() {
-        params = { shapeCount: 6, shapeSize: 1.0, wobble: 0.4, shapeArea: 0.2 };
+        params = {
+          shapeCount: 6,
+          shapeSize: 1.0,
+          wobble: 0.4,
+          shapeArea: 0.2,
+          extraSpace: 0,
+        };
 
         document.getElementById("shapeCount").value = 6;
         document.getElementById("shapeCount-value").textContent = "6";
@@ -776,6 +1072,8 @@
         document.getElementById("wobble-value").textContent = "0.4";
         document.getElementById("shapeArea").value = 0.2;
         document.getElementById("shapeArea-value").textContent = "20%";
+        document.getElementById("extraSpace").value = 0;
+        document.getElementById("extraSpace-value").textContent = "0%";
 
         regenerate();
       }
@@ -800,8 +1098,30 @@
         }
 
         const filename = `${generateFilename()}.png`;
+        const exportWidth = Math.round(width * EXPORT_SCALE);
+        const exportHeight = Math.round(height * EXPORT_SCALE);
+        const exportGraphics = createGraphics(exportWidth, exportHeight);
+        exportGraphics.pixelDensity(1);
 
-        canvas.toBlob((blob) => {
+        seededRandom = createSeededRandom(currentSeed);
+        const title =
+          document.getElementById("title-input").value || "Untitled";
+        const blurb = document.getElementById("blurb-input").value || "";
+        renderCover(exportGraphics, title, blurb, EXPORT_SCALE);
+        flattenBackground(exportGraphics, BACKGROUND);
+
+        const exportCanvas = document.createElement("canvas");
+        exportCanvas.width = exportWidth;
+        exportCanvas.height = exportHeight;
+        const exportContext = exportCanvas.getContext("2d", { alpha: false });
+        exportContext.imageSmoothingEnabled = true;
+        exportContext.fillStyle = BACKGROUND;
+        exportContext.fillRect(0, 0, exportWidth, exportHeight);
+        exportContext.drawImage(exportGraphics.canvas, 0, 0);
+
+        exportCanvas.toBlob((blob) => {
+          exportGraphics.remove();
+
           if (!blob) {
             console.error("Failed to create image blob");
             return;
@@ -820,6 +1140,39 @@
             URL.revokeObjectURL(url);
           }, 100);
         }, "image/png");
+      }
+
+      // Download vector SVG (best for print workflows)
+      function downloadSvg() {
+        const filename = `${generateFilename()}.svg`;
+        const exportWidth = Math.round(width * EXPORT_SCALE);
+        const exportHeight = Math.round(height * EXPORT_SCALE);
+        const title =
+          document.getElementById("title-input").value || "Untitled";
+        const blurb = document.getElementById("blurb-input").value || "";
+        const svgString = generateSvgMarkup({
+          width: exportWidth,
+          height: exportHeight,
+          title,
+          blurb,
+          scale: EXPORT_SCALE,
+          seed: currentSeed,
+        });
+
+        const blob = new Blob([svgString], {
+          type: "image/svg+xml;charset=utf-8",
+        });
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = filename;
+        document.body.appendChild(link);
+        link.click();
+
+        setTimeout(() => {
+          document.body.removeChild(link);
+          URL.revokeObjectURL(url);
+        }, 100);
       }
     </script>
   </body>
