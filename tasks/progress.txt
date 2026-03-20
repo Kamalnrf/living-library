@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-008 (Upcoming sessions section with Luma)
-Completed: 7/13
+Current story: US-009 (How It Works section from structured step data)
+Completed: 8/13
 
 ## Ralph Instructions
 
@@ -36,7 +36,7 @@ Completed: 7/13
 - [x] US-005: Build hero media and copy section
 - [x] US-006: Align completed shell, header, shader, and hero with Paper using Paper MCP
 - [x] US-007: Add Instagram profile embed to the hero
-- [ ] US-008: Build the upcoming sessions section with Luma
+- [x] US-008: Build the upcoming sessions section with Luma
 - [ ] US-009: Render the How It Works section from structured step data
 - [ ] US-010: Add the feedback quotes section
 - [ ] US-011: Add the feedback stats snapshot
@@ -81,3 +81,8 @@ Completed: 7/13
 - Paper fidelity stayed intact after the live embed swap: local browser measurements still show the hero Instagram card at `360x471` on desktop and `322x471` on mobile, matching the Paper artboards.
 - `npm run astro -- check` passes with existing repo hints only, and `npm run build` passes after the embed changes.
 - Browser verification at `http://127.0.0.1:4321/` confirmed the live Instagram profile renders in the hero on desktop and mobile, and the `open profile ↗` fallback link remains available.
+- Implemented `US-008` with the new `src/components/landing/LandingUpcomingSessions.astro` section component and mounted it in `src/components/landing/LandingPage.astro` directly after the hero so the CTA now lands on the real `#upcoming-sessions` section instead of an empty anchor rail target.
+- Centralized the live Luma URLs in `src/utils/site.ts` and updated `src/styles/landing-page.css` with the Paper-matched split section shell, desktop/mobile typography, quote card treatment, and framed Luma embed area.
+- Paper fidelity was verified against the Paper MCP artboards and then confirmed in the local browser with exact DOM measurements: desktop matched the Paper `1188x840` section, `524x169` intro block, `340x74` quote card, and `525x770` Luma frame; mobile matched the Paper `358x846` section footprint, `288x141` intro block, `288x72` quote card, and `288x420` Luma frame.
+- Browser verification with `agent-browser` and Playwright at `http://127.0.0.1:4321/` confirmed the hero CTA updates the URL to `#upcoming-sessions` and the live Luma embed renders inside the upcoming-sessions frame on desktop and mobile.
+- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the upcoming-sessions implementation.

@@ -1,0 +1,48 @@
+---
+import {LUMA_CALENDAR_EMBED_URL} from '../../utils/site'
+
+const sectionEyebrow = '01 / JOIN OUR EVENT'
+const sectionDescription = 'Browse upcoming events and RSVP'
+const participantQuote =
+  '"The whole session is really worthy and every story we heard today will change our perception."'
+---
+
+<section
+  id="upcoming-sessions"
+  class="landing-section landing-section--upcoming"
+  aria-labelledby="upcoming-sessions-title"
+>
+  <div class="landing-upcoming">
+    <div class="landing-upcoming__content">
+      <div class="landing-upcoming__copy-stack">
+        <p class="landing-upcoming__eyebrow">{sectionEyebrow}</p>
+
+        <div class="landing-upcoming__intro">
+          <h2 id="upcoming-sessions-title">Upcoming sessions</h2>
+          <p class="landing-upcoming__body">{sectionDescription}</p>
+        </div>
+      </div>
+
+      <figure class="landing-upcoming__quote">
+        <figcaption class="landing-upcoming__quote-speaker">Participant</figcaption>
+
+        <blockquote class="landing-upcoming__quote-text">
+          <p>{participantQuote}</p>
+        </blockquote>
+      </figure>
+    </div>
+
+    <div class="landing-upcoming__calendar-column">
+      <div class="landing-upcoming__calendar-shell">
+        <iframe
+          class="landing-upcoming__calendar-frame"
+          src={LUMA_CALENDAR_EMBED_URL}
+          title="Living Stories Collective upcoming sessions"
+          loading="lazy"
+          referrerpolicy="strict-origin-when-cross-origin"
+          allowfullscreen
+        ></iframe>
+      </div>
+    </div>
+  </div>
+</section>
