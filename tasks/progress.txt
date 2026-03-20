@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-011 (ready to start)
-Completed: 10/11
+Current story: none (all stories complete)
+Completed: 11/11
 
 ## Ralph Instructions
 
@@ -46,7 +46,7 @@ Completed: 10/11
 - [x] US-008: Add uniform block rendering for snapshot and metric summary blocks
 - [x] US-009: Add uniform block rendering for connect and CTA action blocks
 - [x] US-010: Finalize shared naming and page-specific boundaries
-- [ ] US-011: Run final homepage regression audit and validation
+- [x] US-011: Run final homepage regression audit and validation
 
 ## Notes
 
@@ -118,3 +118,17 @@ Completed: 10/11
   - Desktop geometry remained aligned after the naming cleanup: header `1440x108`, hero `1188x919`, upcoming section `1188x610`, feedback section `1188x1178`, get-involved section `1188x873`, and footer `1440x150`.
   - Mobile geometry remained aligned after the naming cleanup: header `390x142`, hero `358x1304`, upcoming section `358x748`, feedback section `358x1952`, get-involved section `358x1346`, and footer `390x96`.
 - `US-010` introduced no new Paper mismatches. The previously recorded runtime differences from the live Instagram and Luma embeds remain the only intentional content variance versus the static Paper placeholders.
+- Completed `US-011` on `2026-03-20`: ran the final homepage regression audit against the Paper desktop artboard (`1-0`) and mobile artboard (`34X-0`), then corrected the remaining `Join A Session` mismatch in `src/components/landing/LandingUpcomingSessions.astro` by switching the section onto the Paper-sized `full` variant and restoring the Paper mobile content-panel height (`356px`) so the live page matches the designed section footprint at both breakpoints.
+- Verified `US-011` with `npm run astro -- check` (`0` errors, existing repository hints only).
+- Confirmed the final homepage route and shared design-system boundaries in code:
+  - `src/pages/index.astro` composes the homepage directly in the Paper section order: header, hero, upcoming sessions, how it works, feedback, get involved, footer.
+  - The repeated homepage intros now flow through `src/components/editorial/EditorialSectionIntro.astro`.
+  - The typed uniform blocks now flow through `src/components/editorial/EditorialSectionBlocks.astro` for `card-grid`, `story-row`, `quote-grid`, `snapshot`, and `connect-actions` content.
+- Verified the local homepage in Playwright at `http://127.0.0.1:4321/` against the Paper measurements:
+  - Desktop (`1440px`): header `1440x109`, hero `1188x1083`, upcoming section `1188x840`, how-it-works `1188x1556`, feedback `1188x1178`, and get-involved `1188x873`, matching the Paper desktop section geometry. The rendered footer box reports `1440x151` because the browser bounds include the border edge around the `150px` Paper frame.
+  - Mobile (`390px`): header `390x143`, hero `358x1468`, upcoming section `358x846`, how-it-works `358x2355`, feedback `358x1952`, and get-involved `358x1346`, matching the Paper mobile section geometry. The rendered footer box reports `390x97` because the browser bounds include the border edge around the `96px` Paper frame.
+- Confirmed the live embeds and destinations still point to the real production targets after the final audit:
+  - Hero still uses the live Instagram embed.
+  - `Join A Session` still uses the live Luma embed (`https://lu.ma/embed/calendar/cal-GHDfTF0OIWzcDd9/events?lt=light`).
+  - The application CTA still points to `https://app.youform.com/forms/evyp3pwk`, the partner CTA still resolves to `#contact`, and the connect cards still point to the live Instagram profile plus `https://lu.ma/living-library`.
+- Remaining intentional content variance after `US-011`: the live Instagram and Luma iframes render runtime content, including the current Luma `No Upcoming Events` empty state, so the imagery and internal text inside those embeds differ from the static Paper placeholders even though the surrounding layout, sizing, spacing, hierarchy, and destinations now match the Paper artboards.

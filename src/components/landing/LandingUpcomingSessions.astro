@@ -14,11 +14,13 @@ const UPCOMING_SESSIONS_VARIANTS = {
     desktopSectionMinHeight: '0px',
     desktopCalendarMinHeight: '540px',
     mobileCalendarMinHeight: '348px',
+    mobileContentMinHeight: '0px',
   },
   full: {
     desktopSectionMinHeight: '840px',
     desktopCalendarMinHeight: '770px',
     mobileCalendarMinHeight: '420px',
+    mobileContentMinHeight: '356px',
   },
 } satisfies Record<
   UpcomingSessionsVariant,
@@ -26,10 +28,11 @@ const UPCOMING_SESSIONS_VARIANTS = {
     desktopSectionMinHeight: string
     desktopCalendarMinHeight: string
     mobileCalendarMinHeight: string
+    mobileContentMinHeight: string
   }
 >
 
-const upcomingSessionsVariant: UpcomingSessionsVariant = 'compact'
+const upcomingSessionsVariant: UpcomingSessionsVariant = 'full'
 const upcomingSessionsStyles = Object.entries({
   '--landing-upcoming-section-min-height-desktop':
     UPCOMING_SESSIONS_VARIANTS[upcomingSessionsVariant].desktopSectionMinHeight,
@@ -37,6 +40,8 @@ const upcomingSessionsStyles = Object.entries({
     UPCOMING_SESSIONS_VARIANTS[upcomingSessionsVariant].desktopCalendarMinHeight,
   '--landing-upcoming-calendar-min-height-mobile':
     UPCOMING_SESSIONS_VARIANTS[upcomingSessionsVariant].mobileCalendarMinHeight,
+  '--landing-upcoming-content-min-height-mobile':
+    UPCOMING_SESSIONS_VARIANTS[upcomingSessionsVariant].mobileContentMinHeight,
 })
   .map(([property, value]) => `${property}: ${value}`)
   .join('; ')
@@ -103,6 +108,7 @@ const upcomingSessionsStyles = Object.entries({
 
   .landing-upcoming__content {
     min-width: 0;
+    min-height: var(--landing-upcoming-content-min-height-mobile, 0px);
     padding: 34px;
     display: flex;
     flex-direction: column;
