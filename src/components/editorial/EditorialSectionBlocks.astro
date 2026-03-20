@@ -1,11 +1,13 @@
 ---
 import EditorialCardGridBlock from './EditorialCardGridBlock.astro'
+import EditorialConnectActionsBlock from './EditorialConnectActionsBlock.astro'
 import EditorialQuoteGridBlock from './EditorialQuoteGridBlock.astro'
 import EditorialSnapshotBlock from './EditorialSnapshotBlock.astro'
 import EditorialStoryRowBlock from './EditorialStoryRowBlock.astro'
 import EditorialSplitBandBlock from './EditorialSplitBandBlock.astro'
 import type {
   EditorialCardGridBlock as EditorialCardGridBlockData,
+  EditorialConnectActionsBlock as EditorialConnectActionsBlockData,
   EditorialQuoteGridBlock as EditorialQuoteGridBlockData,
   EditorialSnapshotBlock as EditorialSnapshotBlockData,
   EditorialSplitBandBlock as EditorialSplitBandBlockData,
@@ -14,6 +16,7 @@ import type {
 
 type SupportedEditorialBlock =
   | EditorialCardGridBlockData
+  | EditorialConnectActionsBlockData
   | EditorialQuoteGridBlockData
   | EditorialSnapshotBlockData
   | EditorialSplitBandBlockData
@@ -38,6 +41,10 @@ const {
 
     if (block.kind === 'split-band') {
       return <EditorialSplitBandBlock block={block} headingTag={headingTag} />
+    }
+
+    if (block.kind === 'connect-actions') {
+      return <EditorialConnectActionsBlock block={block} headingTag={headingTag} />
     }
 
     if (block.kind === 'quote-grid') {

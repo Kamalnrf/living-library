@@ -2,33 +2,10 @@ import {INSTAGRAM_URL, LIVING_BOOK_APPLICATION_URL, LUMA_CALENDAR_URL} from '../
 import type {
   EditorialActionCard,
   EditorialCardGridBlock,
+  EditorialConnectActionsBlock,
   EditorialSection,
   EditorialSectionIntroData,
 } from '../editorial/editorialSection'
-
-export type GetInvolvedConnectCard =
-  | {
-      id: string
-      eyebrow: string
-      title: string
-      description: string
-      href: string
-      external: boolean
-      linkLabel: string
-      actionValue?: never
-      actionButtonLabel?: never
-    }
-  | {
-      id: string
-      eyebrow: string
-      title: string
-      description: string
-      href: string
-      external: boolean
-      linkLabel?: never
-      actionValue: string
-      actionButtonLabel: string
-    }
 
 const GET_INVOLVED_INTRO = {
   eyebrow: '04 / GET INVOLVED',
@@ -77,13 +54,9 @@ const GET_INVOLVED_ACTIONS_BLOCK = {
   cards: GET_INVOLVED_ACTION_CARDS,
 } as const satisfies EditorialCardGridBlock
 
-export const GET_INVOLVED_SECTION = {
-  id: 'get-involved',
-  intro: GET_INVOLVED_INTRO,
-  blocks: [GET_INVOLVED_ACTIONS_BLOCK],
-} as const satisfies EditorialSection<EditorialCardGridBlock>
-
-export const GET_INVOLVED_CONNECT = {
+const GET_INVOLVED_CONNECT_BLOCK = {
+  kind: 'connect-actions',
+  anchorId: 'contact',
   id: '03',
   title: 'Connect',
   cards: [
@@ -107,5 +80,11 @@ export const GET_INVOLVED_CONNECT = {
       actionButtonLabel: 'Open ↗',
       external: true,
     },
-  ] as const satisfies readonly GetInvolvedConnectCard[],
-} as const
+  ],
+} as const satisfies EditorialConnectActionsBlock
+
+export const GET_INVOLVED_SECTION = {
+  id: 'get-involved',
+  intro: GET_INVOLVED_INTRO,
+  blocks: [GET_INVOLVED_ACTIONS_BLOCK, GET_INVOLVED_CONNECT_BLOCK],
+} as const satisfies EditorialSection<EditorialCardGridBlock | EditorialConnectActionsBlock>

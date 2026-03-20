@@ -169,6 +169,7 @@ export type EditorialConnectActionCard =
 
 export type EditorialConnectActionsBlock = {
   kind: 'connect-actions'
+  anchorId?: string
   id: string
   title: string
   cards: readonly EditorialConnectActionCard[]

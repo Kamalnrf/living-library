@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-009 (ready to start)
-Completed: 8/11
+Current story: US-010 (ready to start)
+Completed: 9/11
 
 ## Ralph Instructions
 
@@ -44,7 +44,7 @@ Completed: 8/11
 - [x] US-006: Add uniform block rendering for story rows, media variants, and quote callouts
 - [x] US-007: Add uniform block rendering for feedback quote grids
 - [x] US-008: Add uniform block rendering for snapshot and metric summary blocks
-- [ ] US-009: Add uniform block rendering for connect and CTA action blocks
+- [x] US-009: Add uniform block rendering for connect and CTA action blocks
 - [ ] US-010: Finalize shared naming and page-specific boundaries
 - [ ] US-011: Run final homepage regression audit and validation
 
@@ -102,3 +102,12 @@ Completed: 8/11
 - Verified the local homepage against the Paper `Feedback Section` aggregate frames on desktop (`75-0`, aggregate row `7J-0`, panels `2EC-0` and `2EQ-0`) and mobile (`361-0`, aggregate row `362-0`, panels `375-0` and `363-0`):
   - Desktop browser-computed metrics now match the Paper aggregate row exactly: aggregate row `1186x560`, participant-voice panel `451x560`, snapshot panel `735x560`, snapshot card `667x438`, main chart row `621x254`, topics panel `621x120`, `34px` outer padding, `22px` card padding, `18px` card gap, `26px` chart-to-metrics gap, the `317x84` floating quote offset, and the `186px` ring with `96px` inner circle.
   - Mobile browser-computed metrics now match the Paper stacked aggregate row exactly: aggregate row `356x1083`, participant-voice panel `356x363`, snapshot panel `356x720`, snapshot card `288x624`, main chart stack `242x372`, topics panel `242x192`, `34px` outer padding, `22px` card padding, `14px` internal gaps, the full-width `288x84` quote card, and the `160px` ring with `84px` inner circle.
+- Completed `US-009` on `2026-03-20`: added `src/components/editorial/EditorialConnectActionsBlock.astro`, extended `src/components/editorial/EditorialSectionBlocks.astro` and `src/components/editorial/editorialSection.ts`, and moved the remaining `Get Involved` connect slice onto the shared typed `connect-actions` block system.
+- Updated `src/components/landing/getInvolvedData.ts` so the `Connect` content now lives in shared editorial block data with the `#contact` anchor, and removed the last bespoke connect markup and styles from `src/components/landing/LandingGetInvolved.astro`.
+- Verified `US-009` with `npm run astro -- check` (`0` errors, existing repository hints only).
+- Verified the shared connect block against the Paper `Get Involved` nodes on desktop (`83-0`, connect `1YH-0`, split `2BT-0`, cards `2BU-0` and `2BZ-0`, CTA shell `2C3-0`) and mobile (`3CX-0`, connect `3D3-0`, shell `3DE-0`, split `3DH-0`, cards `3DI-0` and `3DN-0`, CTA shell `3DR-0`).
+- Verified the local homepage in Playwright at `http://127.0.0.1:4321/` on desktop (`1440px`) and mobile (`390px`):
+  - Desktop browser-computed geometry stays aligned with the Paper target: section `1188x873`, intro `1186x196`, cards row `1186x300`, connect block `1186x375`, connect grid `1118x213`, and CTA shell `504x56`. The browser rounds the two desktop connect cards to `550px` each because the `1118px` split width plus the `18px` gap cannot divide evenly, which corresponds to the Paper pair of `551px` cards without creating a visible variance.
+  - Mobile browser-computed geometry matches the Paper connect stack exactly: section `358x1346`, intro `356x245`, cards row `356x528`, connect block `356x571`, connect stack `288x422`, connect cards `288x202` and `288x208`, and CTA shell `254x52`.
+- Verified live destinations after the migration: the header `contact` link and `Host an event with us` CTA both still resolve to `#contact`, and the connect cards still point to the live Instagram profile plus `https://lu.ma/living-library`.
+- Remaining intentional `US-009` content deviation: the second connect card still uses the live Luma calendar destination and copy instead of the Paper `Email updates` placeholder. The shared block shell, spacing, responsive layout, and CTA treatment remain aligned to the Paper artboards.
