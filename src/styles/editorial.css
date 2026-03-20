@@ -24,6 +24,10 @@
   --editorial-section-gap: 32px;
   --editorial-panel-padding: 34px;
   --editorial-panel-padding-mobile: 18px;
+  --editorial-panel-padding-compact: 22px;
+  --editorial-panel-padding-compact-mobile: 16px;
+  --editorial-block-gap: 18px;
+  --editorial-block-gap-mobile: 12px;
   --editorial-type-title-xl-size: 56px;
   --editorial-type-title-xl-line-height: 1;
   --editorial-type-body-lg-size: 18px;

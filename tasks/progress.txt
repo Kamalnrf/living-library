@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-005 (ready to start)
-Completed: 4/11
+Current story: US-006 (ready to start)
+Completed: 5/11
 
 ## Ralph Instructions
 
@@ -40,7 +40,7 @@ Completed: 4/11
 - [x] US-002: Move homepage composition into src/pages/index.astro
 - [x] US-003: Define shared editorial section schema and section intro primitive
 - [x] US-004: Migrate repeated homepage intros to the shared section intro primitive
-- [ ] US-005: Add uniform block rendering for action cards and split bands
+- [x] US-005: Add uniform block rendering for action cards and split bands
 - [ ] US-006: Add uniform block rendering for story rows, media variants, and quote callouts
 - [ ] US-007: Add uniform block rendering for feedback quote grids
 - [ ] US-008: Add uniform block rendering for snapshot and metric summary blocks
@@ -76,3 +76,10 @@ Completed: 4/11
 - Verified the local homepage against the Paper intro frames on desktop and mobile:
   - Browser-computed intro metrics now match the Paper values for all three migrated sections at both breakpoints: `34px` padding, `14px` desktop gap, `12px` mobile gap, `13px/16px` desktop eyebrow, `11px/14px` mobile eyebrow, `56px` desktop titles, and `44px` mobile titles.
   - `How It Works` retains the Paper desktop-only `8px` title offset and resets to `0px` on mobile; `Feedback` and `Get Involved` remain at `0px` on both breakpoints, matching their Paper frames.
+- Completed `US-005` on `2026-03-20`: added shared editorial block primitives in `src/components/editorial/` (`EditorialCardGridBlock.astro`, `EditorialSplitBandBlock.astro`, `EditorialSectionBlocks.astro`) so the uniform block system now renders the homepage `card-grid` and `split-band` patterns from typed shared block data.
+- Extended `EditorialActionCard` in `src/components/editorial/editorialSection.ts` with responsive min-height data for Paper-aligned action cards, added compact panel and block-gap tokens in `src/styles/editorial.css`, and moved the `Get Involved` action row data in `src/components/landing/getInvolvedData.ts` onto the shared `EditorialSection<EditorialCardGridBlock>` model.
+- Migrated the `Get Involved` action-card row in `src/components/landing/LandingGetInvolved.astro` onto `EditorialSectionBlocks.astro` and removed the row’s bespoke landing-only markup and CSS while leaving the later `Connect` CTA block unchanged for its own story.
+- Verified `US-005` with `npx astro check` (`0` errors, existing repository hints only).
+- Verified the local homepage against the Paper `Get Involved` card-row frames on desktop (`1Y6-0`) and mobile (`3D2-0`):
+  - Desktop browser-computed metrics now match the Paper card row for both cards: row `300px` min-height, `34px` card padding, `12px` vertical gaps, `36px` card titles, `16px/24px` body copy, `20px/26px` underlined links, and the center divider on card `01`.
+  - Mobile browser-computed metrics now match the Paper stacked cards: `34px` card padding, `10px` gaps, `276px` and `252px` card min-heights, `32px/34px` titles, `15px/23px` body copy, `16px/24px` links, the mobile description swap for card `01`, and the single divider below the first card.

@@ -1,0 +1,195 @@
+---
+import type {EditorialActionCard, EditorialCardGridBlock, EditorialResponsiveText} from './editorialSection'
+
+interface Props {
+  block: EditorialCardGridBlock
+  headingTag?: 'h2' | 'h3' | 'h4'
+  class?: string
+}
+
+const {
+  block,
+  headingTag = 'h3',
+  class: className,
+} = Astro.props as Props
+
+const HeadingTag = headingTag
+
+const isResponsiveText = (
+  value: EditorialResponsiveText,
+): value is Exclude<EditorialResponsiveText, string> => typeof value === 'object' && value !== null
+
+const getCardStyle = (card: EditorialActionCard) =>
+  card.minHeight
+    ? `--editorial-action-card-min-height: ${card.minHeight.desktop}; --editorial-action-card-min-height-mobile: ${card.minHeight.mobile};`
+    : undefined
+---
+
+<div
+  class:list={['editorial-card-grid-block', className]}
+  data-editorial-block-kind="card-grid"
+  data-editorial-card-count={block.cards.length}
+>
+  {
+    block.cards.map((card, index) => {
+      const description = card.description
+      const linkAttributes = card.action.external
+        ? {
+            target: '_blank',
+            rel: 'noreferrer',
+          }
+        : {}
+
+      return (
+        <article
+          class="editorial-action-card"
+          style={getCardStyle(card)}
+          data-editorial-card-index={index + 1}
+        >
+          <p class="editorial-action-card__index">{card.id}</p>
+          <HeadingTag class="editorial-action-card__title">{card.title}</HeadingTag>
+
+          {isResponsiveText(description) ? (
+            <>
+              <p class="editorial-action-card__description editorial-action-card__description--desktop">
+                {description.desktop}
+              </p>
+              <p class="editorial-action-card__description editorial-action-card__description--mobile">
+                {description.mobile}
+              </p>
+            </>
+          ) : (
+            <p class="editorial-action-card__description">{description}</p>
+          )}
+
+          <a class="editorial-action-card__link" href={card.action.href} {...linkAttributes}>
+            {card.action.label}
+          </a>
+        </article>
+      )
+    })
+  }
+</div>
+
+<style>
+  .editorial-card-grid-block {
+    display: flex;
+    min-height: 300px;
+    justify-content: space-between;
+    overflow: clip;
+  }
+
+  .editorial-card-grid-block > * {
+    width: 50%;
+  }
+
+  .editorial-card-grid-block > :first-child {
+    border-right: 1px solid var(--editorial-color-divider);
+  }
+
+  .editorial-action-card {
+    min-width: 0;
+    min-height: var(--editorial-action-card-min-height, 300px);
+    padding: var(--editorial-panel-padding);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .editorial-action-card__index,
+  .editorial-action-card__title,
+  .editorial-action-card__description {
+    margin: 0;
+  }
+
+  .editorial-action-card__index {
+    color: #8e8776;
+    font-family: var(--editorial-font-sans);
+    font-size: var(--editorial-type-label-size);
+    font-weight: 400;
+    line-height: var(--editorial-type-label-line-height);
+    letter-spacing: 0.08em;
+  }
+
+  .editorial-action-card__title {
+    color: #2b2a25;
+    font-family: var(--editorial-font-serif);
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.02;
+  }
+
+  .editorial-action-card__description {
+    color: #3f3d37;
+    font-family: var(--editorial-font-sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.5;
+  }
+
+  .editorial-action-card__description--mobile {
+    display: none;
+  }
+
+  .editorial-action-card__link {
+    align-self: flex-start;
+    color: var(--editorial-color-accent);
+    font-family: var(--editorial-font-sans);
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1.3;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  @media (max-width: 900px) {
+    .editorial-card-grid-block {
+      min-height: 0;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .editorial-card-grid-block > * {
+      width: 100%;
+    }
+
+    .editorial-card-grid-block > :first-child {
+      border-right: 0;
+      border-bottom: 1px solid var(--editorial-color-divider);
+    }
+
+    .editorial-action-card {
+      min-height: var(--editorial-action-card-min-height-mobile, 252px);
+      gap: 10px;
+    }
+
+    .editorial-action-card__index {
+      font-size: 12px;
+      line-height: 16px;
+    }
+
+    .editorial-action-card__title {
+      font-size: 32px;
+      line-height: 34px;
+    }
+
+    .editorial-action-card__description {
+      font-size: 15px;
+      line-height: 23px;
+    }
+
+    .editorial-action-card__description--desktop {
+      display: none;
+    }
+
+    .editorial-action-card__description--mobile {
+      display: block;
+    }
+
+    .editorial-action-card__link {
+      font-size: 16px;
+      line-height: 24px;
+    }
+  }
+</style>

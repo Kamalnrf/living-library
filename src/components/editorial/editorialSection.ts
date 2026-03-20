@@ -19,10 +19,13 @@ export type EditorialActionLink = {
 
 export type EditorialActionCard = {
   id: string
-  eyebrow?: string
   title: string
   description: EditorialResponsiveText
   action: EditorialActionLink
+  minHeight?: {
+    desktop: string
+    mobile: string
+  }
 }
 
 export type EditorialCardGridBlock = {

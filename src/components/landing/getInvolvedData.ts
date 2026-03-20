@@ -1,17 +1,10 @@
 import {INSTAGRAM_URL, LIVING_BOOK_APPLICATION_URL, LUMA_CALENDAR_URL} from '../../utils/site'
-import type {EditorialSectionIntroData} from '../editorial/editorialSection'
-
-export type GetInvolvedCard = {
-  id: string
-  title: string
-  descriptionDesktop: string
-  descriptionMobile: string
-  href: string
-  linkLabel: string
-  external: boolean
-  desktopMinHeight: string
-  mobileMinHeight: string
-}
+import type {
+  EditorialActionCard,
+  EditorialCardGridBlock,
+  EditorialSection,
+  EditorialSectionIntroData,
+} from '../editorial/editorialSection'
 
 export type GetInvolvedConnectCard =
   | {
@@ -37,38 +30,58 @@ export type GetInvolvedConnectCard =
       actionButtonLabel: string
     }
 
-export const GET_INVOLVED_SECTION = {
+const GET_INVOLVED_INTRO = {
   eyebrow: '04 / GET INVOLVED',
   title: 'Three ways to reach us',
   description: 'Whether you want to share, host, or connect.',
 } as const satisfies EditorialSectionIntroData
 
-export const GET_INVOLVED_CARDS: readonly GetInvolvedCard[] = [
+const GET_INVOLVED_ACTION_CARDS = [
   {
     id: '01',
     title: 'Apply to be a Living Book',
-    descriptionDesktop:
-      'Share your lived experience in a facilitated setting. Keep this as a direct link, like your current flow.',
-    descriptionMobile:
-      'Share your lived experience in a facilitated setting. Keep the format honest and personal.',
-    href: LIVING_BOOK_APPLICATION_URL,
-    linkLabel: 'Open application form ↗',
-    external: true,
-    desktopMinHeight: '300px',
-    mobileMinHeight: '276px',
+    description: {
+      desktop:
+        'Share your lived experience in a facilitated setting. Keep this as a direct link, like your current flow.',
+      mobile:
+        'Share your lived experience in a facilitated setting. Keep the format honest and personal.',
+    },
+    action: {
+      href: LIVING_BOOK_APPLICATION_URL,
+      label: 'Open application form ↗',
+      external: true,
+    },
+    minHeight: {
+      desktop: '300px',
+      mobile: '276px',
+    },
   },
   {
     id: '02',
     title: 'Host an event with us',
-    descriptionDesktop: 'Plan a session for your organization, school, or community.',
-    descriptionMobile: 'Plan a session for your organization, school, or community.',
-    href: '#contact',
-    linkLabel: 'Start partner conversation ↗',
-    external: false,
-    desktopMinHeight: '300px',
-    mobileMinHeight: '252px',
+    description: 'Plan a session for your organization, school, or community.',
+    action: {
+      href: '#contact',
+      label: 'Start partner conversation ↗',
+      external: false,
+    },
+    minHeight: {
+      desktop: '300px',
+      mobile: '252px',
+    },
   },
-] as const
+] as const satisfies readonly EditorialActionCard[]
+
+const GET_INVOLVED_ACTIONS_BLOCK = {
+  kind: 'card-grid',
+  cards: GET_INVOLVED_ACTION_CARDS,
+} as const satisfies EditorialCardGridBlock
+
+export const GET_INVOLVED_SECTION = {
+  id: 'get-involved',
+  intro: GET_INVOLVED_INTRO,
+  blocks: [GET_INVOLVED_ACTIONS_BLOCK],
+} as const satisfies EditorialSection<EditorialCardGridBlock>
 
 export const GET_INVOLVED_CONNECT = {
   id: '03',

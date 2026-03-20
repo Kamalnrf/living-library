@@ -1,0 +1,31 @@
+---
+import EditorialCardGridBlock from './EditorialCardGridBlock.astro'
+import EditorialSplitBandBlock from './EditorialSplitBandBlock.astro'
+import type {EditorialCardGridBlock as EditorialCardGridBlockData, EditorialSplitBandBlock as EditorialSplitBandBlockData} from './editorialSection'
+
+type SupportedEditorialBlock = EditorialCardGridBlockData | EditorialSplitBandBlockData
+
+interface Props {
+  blocks: readonly SupportedEditorialBlock[]
+  headingTag?: 'h2' | 'h3' | 'h4'
+}
+
+const {
+  blocks,
+  headingTag = 'h3',
+} = Astro.props as Props
+---
+
+{
+  blocks.map((block) => {
+    if (block.kind === 'card-grid') {
+      return <EditorialCardGridBlock block={block} headingTag={headingTag} />
+    }
+
+    if (block.kind === 'split-band') {
+      return <EditorialSplitBandBlock block={block} headingTag={headingTag} />
+    }
+
+    return null
+  })
+}

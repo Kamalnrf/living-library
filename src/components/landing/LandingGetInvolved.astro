@@ -1,7 +1,8 @@
 ---
 import EditorialFrame from '../editorial/EditorialFrame.astro'
+import EditorialSectionBlocks from '../editorial/EditorialSectionBlocks.astro'
 import EditorialSectionIntro from '../editorial/EditorialSectionIntro.astro'
-import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './getInvolvedData'
+import {GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './getInvolvedData'
 ---
 
 <EditorialFrame
@@ -11,39 +12,8 @@ import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './
   class="landing-section--get-involved landing-get-involved"
   aria-labelledby="get-involved-title"
 >
-  <EditorialSectionIntro intro={GET_INVOLVED_SECTION} headingId="get-involved-title" />
-
-  <div class="landing-get-involved__cards">
-    {
-      GET_INVOLVED_CARDS.map((card) => {
-        const linkAttributes = card.external
-          ? {
-              target: '_blank',
-              rel: 'noreferrer',
-            }
-          : {}
-
-        return (
-          <article
-            class="landing-get-involved__card"
-            style={`--landing-get-involved-card-min-height: ${card.desktopMinHeight}; --landing-get-involved-card-min-height-mobile: ${card.mobileMinHeight};`}
-          >
-            <p class="landing-get-involved__card-label">{card.id}</p>
-            <h3>{card.title}</h3>
-            <p class="landing-get-involved__card-body landing-get-involved__card-body--desktop">
-              {card.descriptionDesktop}
-            </p>
-            <p class="landing-get-involved__card-body landing-get-involved__card-body--mobile">
-              {card.descriptionMobile}
-            </p>
-            <a class="landing-get-involved__card-link" href={card.href} {...linkAttributes}>
-              {card.linkLabel}
-            </a>
-          </article>
-        )
-      })
-    }
-  </div>
+  <EditorialSectionIntro intro={GET_INVOLVED_SECTION.intro} headingId="get-involved-title" />
+  <EditorialSectionBlocks blocks={GET_INVOLVED_SECTION.blocks} headingTag="h3" />
 
   <div id="contact" class="landing-get-involved__connect" aria-labelledby="contact-title">
     <div class="landing-get-involved__connect-shell">
@@ -103,7 +73,6 @@ import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './
     border: 1px solid var(--landing-border);
   }
 
-  .landing-get-involved__card-label,
   .landing-get-involved__connect-index,
   .landing-get-involved__connect-card-label {
     margin: 0;
@@ -112,71 +81,10 @@ import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './
     letter-spacing: 0.08em;
   }
 
-  .landing-get-involved__card-label {
-    font-size: 13px;
-    line-height: 16px;
-  }
-
   .landing-get-involved__connect-index,
   .landing-get-involved__connect-card-label {
     font-size: 12px;
     line-height: 16px;
-  }
-
-  .landing-get-involved__cards {
-    display: flex;
-    min-height: 300px;
-    justify-content: space-between;
-    overflow: clip;
-  }
-
-  .landing-get-involved__cards > * {
-    width: 50%;
-  }
-
-  .landing-get-involved__cards > :first-child {
-    border-right: 1px solid var(--landing-section-divider);
-  }
-
-  .landing-get-involved__card {
-    min-width: 0;
-    min-height: var(--landing-get-involved-card-min-height, 300px);
-    padding: 34px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .landing-get-involved__card h3 {
-    margin: 0;
-    color: #2b2a25;
-    font-family: var(--landing-font-serif);
-    font-size: 36px;
-    font-weight: 400;
-    line-height: 1.02;
-  }
-
-  .landing-get-involved__card-body {
-    margin: 0;
-    color: #3f3d37;
-    font-family: var(--landing-font-sans);
-    font-size: 16px;
-    line-height: 1.5;
-  }
-
-  .landing-get-involved__card-body--mobile {
-    display: none;
-  }
-
-  .landing-get-involved__card-link {
-    align-self: flex-start;
-    color: var(--landing-accent);
-    font-family: var(--landing-font-sans);
-    font-size: 20px;
-    line-height: 1.3;
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
   }
 
   .landing-get-involved__connect {
@@ -285,53 +193,12 @@ import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './
     :global(.landing-section--get-involved) {
       margin-top: 24px;
     }
-
-    .landing-get-involved__cards {
-      min-height: 0;
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-
-    .landing-get-involved__cards > * {
-      width: 100%;
-    }
-
-    .landing-get-involved__cards > :first-child {
-      border-right: 0;
-      border-bottom: 1px solid var(--landing-section-divider);
-    }
-
-    .landing-get-involved__card {
-      min-height: var(--landing-get-involved-card-min-height-mobile, 252px);
-      gap: 10px;
-    }
-
-    .landing-get-involved__card-label,
     .landing-get-involved__connect-index,
     .landing-get-involved__connect-card-label {
       font-size: 12px;
       line-height: 16px;
     }
 
-    .landing-get-involved__card h3 {
-      font-size: 32px;
-      line-height: 34px;
-    }
-
-    .landing-get-involved__card-body {
-      font-size: 15px;
-      line-height: 23px;
-    }
-
-    .landing-get-involved__card-body--desktop {
-      display: none;
-    }
-
-    .landing-get-involved__card-body--mobile {
-      display: block;
-    }
-
-    .landing-get-involved__card-link,
     .landing-get-involved__connect-link {
       font-size: 16px;
       line-height: 24px;
