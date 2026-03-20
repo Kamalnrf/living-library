@@ -11,14 +11,14 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-002 (implemented; homepage browser verification passed, repo-wide validation still blocked by unrelated files)
-Completed: 2/12
+Current story: US-004 (ready to start)
+Completed: 3/12
 
 ## Story Queue
 
 - [x] US-001: Create landing page shell and thin index route
 - [x] US-002: Add reusable Paper shader background layer
-- [ ] US-003: Update public branding and homepage metadata
+- [x] US-003: Update public branding and homepage metadata
 - [ ] US-004: Build header navigation component
 - [ ] US-005: Build hero media and copy section
 - [ ] US-006: Add Instagram profile embed to the hero
@@ -35,9 +35,12 @@ Completed: 2/12
 - The old swipe container, progress bar markup, and homepage scroll script were removed from `src/pages/index.astro`.
 - Implemented `US-002` by adding the pinned `@paper-design/shaders-react` dependency, the reusable `src/components/landing/LandingShaderBackground.tsx` island, and the centralized `src/components/landing/shaderBackgroundConfig.ts` tuning module.
 - Mounted the shader background from `src/layouts/LandingPageShell.astro` and updated `src/styles/landing-page.css` so the `PaperTexture` layer renders at `opacity: 0.26` with `mix-blend-mode: multiply` and the `SimplexNoise` layer uses `mix-blend-mode: screen`.
+- Implemented `US-003` by centralizing the homepage brand text, description, register page title, and Instagram URL in `src/utils/site.ts`.
+- Updated the landing-page metadata and eyebrow branding to use `Living Stories Collective`, and added `og:site_name` in `src/layouts/LandingPageShell.astro`.
+- Updated the `/register` document title to `Register — Living Stories Collective`.
 - `npm ci` completed successfully in this worktree to install the pinned dependencies.
-- `npm run astro check` is still failing because of pre-existing repo issues outside this task:
-  - `src/pages/book-cover-generator.astro` contains unresolved merge conflict markers.
-  - `src/pages/reader/[reader].astro` has an existing `Timeout` vs `number` type error.
+- Cleared the pre-existing repo-wide validation blockers by removing merge conflict markers from `src/pages/book-cover-generator.astro` and fixing the `setTimeout` typing in `src/pages/reader/[reader].astro`.
+- `npm run astro check` now passes for the repo.
 - Browser verification succeeded for `http://127.0.0.1:4321/` using `agent-browser` and Playwright; the landing page rendered and the shader layers were present with the expected blend modes.
-- `npm run dev -- --host 127.0.0.1 --port 4321` still reports a dependency-scan error because of the merge-conflict blocker in `src/pages/book-cover-generator.astro`, even though the homepage route continued to load locally.
+- Browser verification succeeded for `http://127.0.0.1:4321/` and `http://127.0.0.1:4321/register`; the homepage title, Open Graph tags, Twitter tags, and register page title all resolved to `Living Stories Collective`.
+- `npm run build` also passes for the repo.

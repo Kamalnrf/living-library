@@ -1,14 +1,15 @@
 ---
 import LandingPageShell from '../../layouts/LandingPageShell.astro'
+import {HOME_DESCRIPTION, HOME_TITLE, SITE_NAME} from '../../utils/site'
 ---
 
 <LandingPageShell
-  title="Living Library"
-  description="Real people. Real stories. Real conversations. Connect with someone whose life experience is different from yours and have meaningful conversation."
+  title={HOME_TITLE}
+  description={HOME_DESCRIPTION}
 >
   <section class="landing-section landing-section--hero" aria-labelledby="landing-page-title">
     <div class="landing-panel">
-      <p class="landing-eyebrow">Living Library</p>
+      <p class="landing-eyebrow">{SITE_NAME}</p>
       <h1 id="landing-page-title">A vertically scrolling landing shell is now in place.</h1>
       <p class="landing-lede">
         The homepage route now renders through reusable landing-page components

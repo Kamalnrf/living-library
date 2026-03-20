@@ -2,6 +2,7 @@
 import Analytics from '@vercel/analytics/astro'
 import LandingShaderBackground from '../components/landing/LandingShaderBackground'
 import '../styles/landing-page.css'
+import {INSTAGRAM_URL, SITE_NAME} from '../utils/site'
 
 interface Props {
   title: string
@@ -22,6 +23,7 @@ const {title, description} = Astro.props
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={SITE_NAME} />
     <meta property="og:url" content={Astro.url} />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="en_US" />
@@ -29,6 +31,7 @@ const {title, description} = Astro.props
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
+    <link rel="me" href={INSTAGRAM_URL} />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
