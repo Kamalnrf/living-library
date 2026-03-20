@@ -1,0 +1,31 @@
+src/components/landing/getInvolvedData.ts
+  2323f51a52a59477 5,57-59,83-85,89-90
+src/components/editorial/editorialSection.ts
+  2323f51a52a59477 172
+src/components/editorial/EditorialConnectActionsBlock.astro
+  2323f51a52a59477 1-257
+src/components/editorial/EditorialSectionBlocks.astro
+  2323f51a52a59477 3,10,19,46-47
+src/components/landing/LandingGetInvolved.astro
+  2323f51a52a59477 5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "b7e429c0702dffbf3434a7ba7451bc9b260a7792",
+  "prompts": {
+    "2323f51a52a59477": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d0b11-db0a-7942-a031-53806918a7d1",
+        "model": "unknown"
+      },
+      "human_author": "Kamal Mukkamala <kamalnrf@gmail.com>",
+      "messages": [],
+      "total_additions": 278,
+      "total_deletions": 257,
+      "accepted_lines": 275,
+      "overriden_lines": 0
+    }
+  }
+}
