@@ -136,6 +136,7 @@ export type EditorialSnapshotTopics = {
 
 export type EditorialSnapshotBlock = {
   kind: 'snapshot'
+  eyebrow: string
   voice: EditorialSnapshotVoice
   perspectiveShift: EditorialSnapshotPerspectiveShift
   metrics: readonly EditorialSnapshotMetric[]

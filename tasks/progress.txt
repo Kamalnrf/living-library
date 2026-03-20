@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-008 (ready to start)
-Completed: 7/11
+Current story: US-009 (ready to start)
+Completed: 8/11
 
 ## Ralph Instructions
 
@@ -43,7 +43,7 @@ Completed: 7/11
 - [x] US-005: Add uniform block rendering for action cards and split bands
 - [x] US-006: Add uniform block rendering for story rows, media variants, and quote callouts
 - [x] US-007: Add uniform block rendering for feedback quote grids
-- [ ] US-008: Add uniform block rendering for snapshot and metric summary blocks
+- [x] US-008: Add uniform block rendering for snapshot and metric summary blocks
 - [ ] US-009: Add uniform block rendering for connect and CTA action blocks
 - [ ] US-010: Finalize shared naming and page-specific boundaries
 - [ ] US-011: Run final homepage regression audit and validation
@@ -96,3 +96,9 @@ Completed: 7/11
 - Verified the local homepage against the Paper `Feedback Section` quote-row frames on desktop (`75-0`, row `7A-0`, cards `7B-0` and `7F-0`) and mobile (`361-0`, row `37J-0`, cards `37O-0` and `37K-0`):
   - Desktop browser-computed metrics now match the Paper quote row exactly: section `1188x1178`, intro `1186x196`, quote row `1186x420`, both quote cards `593x419`, `34px` card padding, `16px` internal gaps, `40px/43.2px` quote text, `18px/26.1px` supporting copy, and the center divider on the first card.
   - Mobile browser-computed metrics now match the Paper stacked quote cards exactly: section `358x1952`, intro `356x245`, quote row `356x622`, the first and second cards `356x311` and `356x310`, `34px` card padding, `16px` internal gaps, `34px/36px` quote text, `16px/25px` supporting copy, and the divider moving below the first card.
+- Completed `US-008` on `2026-03-20`: added `src/components/editorial/EditorialSnapshotBlock.astro`, extended `src/components/editorial/EditorialSectionBlocks.astro` to render typed `snapshot` blocks, and updated `src/components/editorial/editorialSection.ts` so snapshot data includes the section-level `SNAPSHOT` eyebrow alongside participant voice, perspective-shift, metric, and topic content.
+- Moved the feedback aggregate stats content in `src/components/landing/feedbackData.ts` onto `EditorialSection<EditorialQuoteGridBlock | EditorialSnapshotBlock>` data and removed the bespoke aggregate markup and CSS from `src/components/landing/LandingFeedback.astro` so the entire feedback section now flows through the shared editorial block system.
+- Verified `US-008` with `npx astro check` (`0` errors, existing repository hints only).
+- Verified the local homepage against the Paper `Feedback Section` aggregate frames on desktop (`75-0`, aggregate row `7J-0`, panels `2EC-0` and `2EQ-0`) and mobile (`361-0`, aggregate row `362-0`, panels `375-0` and `363-0`):
+  - Desktop browser-computed metrics now match the Paper aggregate row exactly: aggregate row `1186x560`, participant-voice panel `451x560`, snapshot panel `735x560`, snapshot card `667x438`, main chart row `621x254`, topics panel `621x120`, `34px` outer padding, `22px` card padding, `18px` card gap, `26px` chart-to-metrics gap, the `317x84` floating quote offset, and the `186px` ring with `96px` inner circle.
+  - Mobile browser-computed metrics now match the Paper stacked aggregate row exactly: aggregate row `356x1083`, participant-voice panel `356x363`, snapshot panel `356x720`, snapshot card `288x624`, main chart stack `242x372`, topics panel `242x192`, `34px` outer padding, `22px` card padding, `14px` internal gaps, the full-width `288x84` quote card, and the `160px` ring with `84px` inner circle.

@@ -3,6 +3,7 @@ import type {
   EditorialQuoteGridItem,
   EditorialSection,
   EditorialSectionIntroData,
+  EditorialSnapshotBlock,
 } from '../editorial/editorialSection'
 
 export type FeedbackLegendItem = {
@@ -44,12 +45,6 @@ const FEEDBACK_QUOTES_BLOCK = {
   kind: 'quote-grid',
   quotes: FEEDBACK_QUOTES,
 } as const satisfies EditorialQuoteGridBlock
-
-export const FEEDBACK_SECTION = {
-  id: 'feedback',
-  intro: FEEDBACK_INTRO,
-  blocks: [FEEDBACK_QUOTES_BLOCK],
-} as const satisfies EditorialSection<EditorialQuoteGridBlock>
 
 export const FEEDBACK_AGGREGATE = {
   voice: {
@@ -109,3 +104,18 @@ export const FEEDBACK_AGGREGATE = {
     },
   },
 } as const
+
+const FEEDBACK_AGGREGATE_BLOCK = {
+  kind: 'snapshot',
+  eyebrow: FEEDBACK_AGGREGATE.snapshot.eyebrow,
+  voice: FEEDBACK_AGGREGATE.voice,
+  perspectiveShift: FEEDBACK_AGGREGATE.snapshot.perspectiveShift,
+  metrics: FEEDBACK_AGGREGATE.snapshot.metrics,
+  topics: FEEDBACK_AGGREGATE.snapshot.topics,
+} as const satisfies EditorialSnapshotBlock
+
+export const FEEDBACK_SECTION = {
+  id: 'feedback',
+  intro: FEEDBACK_INTRO,
+  blocks: [FEEDBACK_QUOTES_BLOCK, FEEDBACK_AGGREGATE_BLOCK],
+} as const satisfies EditorialSection<EditorialQuoteGridBlock | EditorialSnapshotBlock>
