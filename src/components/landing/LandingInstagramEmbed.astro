@@ -43,7 +43,7 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
       >
         {profileName}
       </a>
-      <p class="landing-hero__embed-note">If the Instagram embed does not load, open the profile in a new tab.</p>
+      <p class="landing-hero__embed-note">Profile embeds can be limited in this editor.</p>
     </div>
   </div>
 </div>
@@ -93,3 +93,115 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
     frame.src = frame.dataset.src ?? frame.src
   }
 </script>
+
+<style>
+  .landing-hero__embed {
+    width: min(360px, 100%);
+    min-height: 471px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--landing-border);
+    background: #fff;
+    overflow: hidden;
+  }
+
+  .landing-hero__embed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--landing-border-soft);
+  }
+
+  .landing-hero__embed-handle {
+    font-size: 14px;
+    line-height: 18px;
+    color: #2f2d28;
+  }
+
+  .landing-hero__embed-open,
+  .landing-hero__embed-link {
+    color: var(--landing-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .landing-hero__embed-open {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .landing-hero__embed-open:focus-visible,
+  .landing-hero__embed-link:focus-visible {
+    outline: 2px solid var(--landing-accent);
+    outline-offset: 4px;
+  }
+
+  .landing-hero__embed-body {
+    min-height: 430px;
+    position: relative;
+    overflow: hidden;
+    background: #f3f1eb;
+  }
+
+  .landing-hero__embed-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: #f3f1eb;
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  .landing-hero__embed-body[data-instagram-state='loaded'] .landing-hero__embed-frame {
+    opacity: 1;
+  }
+
+  .landing-hero__embed-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    background: #f3f1eb;
+    transition: opacity 180ms ease;
+  }
+
+  .landing-hero__embed-body[data-instagram-state='loaded'] .landing-hero__embed-fallback {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .landing-hero__embed-title {
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+    color: #4a473f;
+  }
+
+  .landing-hero__embed-link {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .landing-hero__embed-note {
+    margin: 0;
+    max-width: 219px;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--landing-muted-soft);
+  }
+
+  @media (max-width: 900px) {
+    .landing-hero__embed {
+      width: 100%;
+    }
+  }
+</style>

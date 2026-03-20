@@ -196,9 +196,6 @@ a {
 }
 
 :where(
-    .landing-button,
-    .landing-hero__embed-open,
-    .landing-hero__embed-link,
     .landing-get-involved__card-link,
     .landing-get-involved__connect-link,
     .landing-get-involved__connect-action,
