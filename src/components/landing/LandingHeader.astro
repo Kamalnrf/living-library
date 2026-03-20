@@ -11,7 +11,6 @@ type NavigationItem = {
 const navigationItems: readonly NavigationItem[] = [
   {href: '#how-it-works', label: 'how it works'},
   {href: '#get-involved', label: 'partner with us', emphasized: true},
-  {href: '#contact', label: 'contact'},
 ]
 ---
 
@@ -49,7 +48,7 @@ const navigationItems: readonly NavigationItem[] = [
     position: relative;
     z-index: 1;
     width: 100%;
-    background: #fff;
+    background: var(--editorial-color-surface-elevated);
     border-bottom: 1px solid var(--editorial-color-border);
   }
 
@@ -57,16 +56,16 @@ const navigationItems: readonly NavigationItem[] = [
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 24px;
-    padding-block: 8px;
+    gap: 20px;
+    padding-block: 4px;
   }
 
   .landing-header__brand {
-    min-height: 92px;
+    min-height: 78px;
     display: inline-flex;
     align-items: center;
-    gap: 12px;
-    padding-block: 22px;
+    gap: 10px;
+    padding-block: 18px;
     text-decoration: none;
   }
 
@@ -77,17 +76,17 @@ const navigationItems: readonly NavigationItem[] = [
   }
 
   .landing-header__mark {
-    width: 93px;
-    height: 48px;
+    width: 84px;
+    height: 43px;
     flex: 0 0 auto;
   }
 
   .landing-header__brand-text {
     font-family: var(--editorial-font-sans);
-    font-size: 32px;
+    font-size: 28px;
     font-weight: 450;
     font-variation-settings: 'wght' 450;
-    line-height: 38px;
+    line-height: 32px;
     letter-spacing: -0.01em;
     color: var(--editorial-color-text-strong);
     white-space: nowrap;
@@ -96,7 +95,7 @@ const navigationItems: readonly NavigationItem[] = [
   .landing-header__nav {
     display: flex;
     align-items: center;
-    gap: 36px;
+    gap: 30px;
   }
 
   .landing-header__nav-link {
@@ -137,28 +136,59 @@ const navigationItems: readonly NavigationItem[] = [
       flex-direction: column;
       justify-content: flex-start;
       align-items: flex-start;
-      gap: 10px;
+      gap: 8px;
       padding-block: 10px;
     }
 
     .landing-header__brand {
       width: 100%;
+      min-height: 0;
+      padding-block: 10px 6px;
     }
 
     .landing-header__brand-text {
-      font-size: 21px;
-      line-height: 28px;
+      font-size: 20px;
+      line-height: 24px;
     }
 
     .landing-header__nav {
       width: 100%;
-      justify-content: space-between;
-      gap: 12px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 0;
+      border: 1px solid var(--editorial-color-action-border);
+      background: var(--editorial-color-surface-panel);
+      overflow: hidden;
     }
 
     .landing-header__nav-link {
-      font-size: 14px;
-      line-height: 20px;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 10px;
+      font-size: 13px;
+      line-height: 18px;
+      letter-spacing: -0.01em;
+      text-align: center;
+      background: transparent;
+    }
+
+    .landing-header__nav-link::after {
+      display: none;
+    }
+
+    .landing-header__nav-link + .landing-header__nav-link {
+      border-left: 1px solid var(--editorial-color-action-border);
+    }
+
+    .landing-header__nav-link--accent {
+      background: rgb(123 78 42 / 0.06);
+    }
+
+    .landing-header__nav-link:hover,
+    .landing-header__nav-link:focus-visible {
+      background: var(--editorial-color-action-surface-hover);
     }
   }
 </style>

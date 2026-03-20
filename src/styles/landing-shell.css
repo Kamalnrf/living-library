@@ -1,6 +1,11 @@
 :root {
-  --landing-guide-color: #b7ae9b3d;
-  --landing-ruler-color: #b7ae9b4a;
+  --landing-paper-opacity: 0.4;
+  --landing-simplex-opacity: 0.15;
+  --landing-guide-alpha: 0.4;
+  --landing-ruler-alpha: 0.4;
+  --landing-hero-scrim-opacity: 0.74;
+  --landing-guide-color: rgb(183 174 155 / var(--landing-guide-alpha));
+  --landing-ruler-color: rgb(183 174 155 / var(--landing-ruler-alpha));
   --landing-ruler-top-offset: 109px;
   --landing-ruler-group-width: 14px;
   --landing-ruler-group-height: 260px;
@@ -36,12 +41,12 @@
 }
 
 .landing-backdrop__shader-layer--paper-texture {
-  opacity: 0.3;
+  opacity: var(--landing-paper-opacity);
   mix-blend-mode: multiply;
 }
 
 .landing-backdrop__shader-layer--simplex-noise {
-  opacity: 0.14;
+  opacity: var(--landing-simplex-opacity);
   mix-blend-mode: screen;
 }
 

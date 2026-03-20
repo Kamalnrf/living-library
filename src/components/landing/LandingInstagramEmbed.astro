@@ -45,6 +45,10 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
       </a>
       <p class="landing-hero__embed-note">Profile embeds can be limited in this editor.</p>
     </div>
+
+    <div class="landing-hero__embed-footer" aria-hidden="true">
+      Live profile preview
+    </div>
   </div>
 </div>
 
@@ -97,11 +101,11 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
 <style>
   .landing-hero__embed {
     width: min(360px, 100%);
-    min-height: 471px;
+    min-height: 432px;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--editorial-color-border);
-    background: #fff;
+    border: 1px solid var(--editorial-color-widget-border);
+    background: var(--editorial-color-surface-elevated);
     overflow: hidden;
   }
 
@@ -112,6 +116,7 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
     gap: 1rem;
     padding: 10px 12px;
     border-bottom: 1px solid var(--editorial-color-border-soft);
+    background: var(--editorial-color-surface-panel);
   }
 
   .landing-hero__embed-handle {
@@ -140,10 +145,10 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
   }
 
   .landing-hero__embed-body {
-    min-height: 430px;
+    min-height: 390px;
     position: relative;
     overflow: hidden;
-    background: #f3f1eb;
+    background: var(--editorial-color-surface-embed);
   }
 
   .landing-hero__embed-frame {
@@ -152,9 +157,26 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
     width: 100%;
     height: 100%;
     border: 0;
-    background: #f3f1eb;
+    background: var(--editorial-color-surface-embed);
     opacity: 0;
     transition: opacity 180ms ease;
+  }
+
+  .landing-hero__embed-body::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 32px;
+    left: 0;
+    height: 112px;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgb(243 240 231 / 0) 0%,
+      rgb(243 240 231 / 0.78) 58%,
+      var(--editorial-color-surface-embed) 100%
+    );
+    z-index: 1;
   }
 
   .landing-hero__embed-body[data-instagram-state='loaded'] .landing-hero__embed-frame {
@@ -170,8 +192,9 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
     align-items: center;
     gap: 8px;
     text-align: center;
-    background: #f3f1eb;
+    background: var(--editorial-color-surface-embed);
     transition: opacity 180ms ease;
+    z-index: 2;
   }
 
   .landing-hero__embed-body[data-instagram-state='loaded'] .landing-hero__embed-fallback {
@@ -197,6 +220,25 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
     font-size: 12px;
     line-height: 16px;
     color: var(--editorial-color-muted-soft);
+  }
+
+  .landing-hero__embed-footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    min-height: 32px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgb(214 207 190 / 0.8);
+    background: rgb(247 244 237 / 0.94);
+    font-size: 11px;
+    line-height: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--editorial-color-muted-soft);
+    z-index: 2;
   }
 
   @media (max-width: 900px) {

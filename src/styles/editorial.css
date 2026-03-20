@@ -1,18 +1,28 @@
 :root {
-  --editorial-font-sans: 'Inter Tight', system-ui, sans-serif;
-  --editorial-font-serif: 'Prata', serif;
+  --editorial-font-sans: "Inter Tight", system-ui, sans-serif;
+  --editorial-font-serif: "Prata", serif;
   --editorial-color-canvas: #f8f6f2;
   --editorial-color-surface: rgb(255 255 255 / 0.92);
   --editorial-color-surface-soft: rgb(255 251 244 / 0.72);
   --editorial-color-surface-muted: #f6f4ee;
+  --editorial-color-surface-elevated: #fffdfa;
+  --editorial-color-surface-panel: rgb(255 252 246 / 0.82);
+  --editorial-color-surface-embed: #f3f0e7;
+  --editorial-color-surface-embed-soft: #f7f4ed;
   --editorial-color-border: #d8d2c4;
   --editorial-color-border-soft: #e5dfd1;
+  --editorial-color-border-strong: #cec7b7;
   --editorial-color-divider: #ddd7c8;
   --editorial-color-text: #23231f;
   --editorial-color-text-strong: #1f1e1b;
   --editorial-color-muted: #4c4a44;
   --editorial-color-muted-soft: #7b7567;
   --editorial-color-accent: #7b4e2a;
+  --editorial-color-action-surface: #fffdfa;
+  --editorial-color-action-surface-hover: #fcf8ee;
+  --editorial-color-action-border: #d7d0bf;
+  --editorial-color-action-border-hover: #cbbd9c;
+  --editorial-color-action-text: #2f2d28;
   --editorial-color-nav-surface: rgb(255 255 255 / 0.84);
   --editorial-color-quote-border: #d8d4ca;
   --editorial-color-widget-border: #d6cfbe;
@@ -81,7 +91,11 @@ a {
 .editorial-frame--shell {
   --editorial-frame-max-width: var(--editorial-shell-max-width);
   --editorial-frame-gutter: 0px;
-  padding-inline: clamp(var(--editorial-gutter-mobile), 10vw, var(--editorial-shell-padding-desktop));
+  padding-inline: clamp(
+    var(--editorial-gutter-mobile),
+    10vw,
+    var(--editorial-shell-padding-desktop)
+  );
 }
 
 .editorial-frame--artboard {

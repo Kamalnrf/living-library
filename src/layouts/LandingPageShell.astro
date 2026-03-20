@@ -2,6 +2,7 @@
 import Analytics from '@vercel/analytics/astro'
 import EditorialFrame from '../components/editorial/EditorialFrame.astro'
 import LandingShaderBackground from '../components/landing/LandingShaderBackground'
+import LandingVisualTuningPanel from '../components/landing/LandingVisualTuningPanel.astro'
 import '../styles/editorial.css'
 import '../styles/landing-shell.css'
 import {INSTAGRAM_URL, SITE_NAME} from '../utils/site'
@@ -84,5 +85,7 @@ const rulerTickIndices = Array.from({length: 14}, (_, index) => index)
     <div class="visually-hidden">
       <Analytics />
     </div>
+
+    {import.meta.env.DEV && <LandingVisualTuningPanel />}
   </body>
 </html>

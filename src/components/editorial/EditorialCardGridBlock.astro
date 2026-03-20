@@ -141,6 +141,18 @@ const getCardStyle = (card: EditorialActionCard) =>
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 3px;
+    transition:
+      color 180ms ease,
+      text-decoration-color 180ms ease;
+  }
+
+  .editorial-action-card__link:hover {
+    color: #6a4222;
+  }
+
+  .editorial-action-card__link:focus-visible {
+    outline: 2px solid var(--editorial-color-accent);
+    outline-offset: 4px;
   }
 
   @media (max-width: 900px) {

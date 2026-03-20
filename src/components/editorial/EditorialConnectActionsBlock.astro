@@ -129,7 +129,7 @@ const isButtonActionCard = (
     flex-direction: column;
     gap: 12px;
     border: 1px solid var(--editorial-color-border);
-    background: var(--editorial-color-surface-muted);
+    background: var(--editorial-color-surface-panel);
   }
 
   .editorial-connect-card__title {
@@ -165,14 +165,29 @@ const isButtonActionCard = (
     text-underline-offset: 3px;
   }
 
+  .editorial-connect-card__link:hover {
+    color: #6a4222;
+  }
+
   .editorial-connect-card__action {
     width: 100%;
     min-height: 56px;
     padding: 6px;
     display: flex;
     align-items: center;
-    background: #fff;
-    border: 1px solid var(--editorial-color-border);
+    background: var(--editorial-color-action-surface);
+    border: 1px solid var(--editorial-color-action-border);
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .editorial-connect-card__action:hover,
+  .editorial-connect-card__action:focus-visible {
+    background: var(--editorial-color-action-surface-hover);
+    border-color: var(--editorial-color-action-border-hover);
+    transform: translateY(-1px);
   }
 
   .editorial-connect-card__action-value {
@@ -189,11 +204,17 @@ const isButtonActionCard = (
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    border: 1px solid var(--editorial-color-border);
-    background: var(--editorial-color-surface-muted);
-    color: #2f2d28;
+    border: 1px solid var(--editorial-color-action-border);
+    background: var(--editorial-color-surface-panel);
+    color: var(--editorial-color-action-text);
     font-size: 16px;
     line-height: 20px;
+  }
+
+  .editorial-connect-card__link:focus-visible,
+  .editorial-connect-card__action:focus-visible {
+    outline: 2px solid var(--editorial-color-accent);
+    outline-offset: 4px;
   }
 
   @media (max-width: 900px) {
