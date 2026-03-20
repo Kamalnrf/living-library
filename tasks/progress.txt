@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-009 (ready to start)
-Completed: 8/11
+Current story: US-010 (ready to start)
+Completed: 9/11
 
 ## Ralph Instructions
 
@@ -39,7 +39,7 @@ Completed: 8/11
 - [x] US-006: Refactor upcoming sessions styles and add a compact low-volume Luma mode
 - [x] US-007: Refactor How It Works styles and align the section to the shared frame
 - [x] US-008: Refactor feedback styles and align the section to the shared frame
-- [ ] US-009: Refactor Get Involved and Connect styles and align them to the shared frame
+- [x] US-009: Refactor Get Involved and Connect styles and align them to the shared frame
 - [ ] US-010: Refactor the footer with colocated styles and exact Paper spacing
 - [ ] US-011: Run the final Paper audit and repo validation pass
 
@@ -92,3 +92,9 @@ Completed: 8/11
 - Browser verification at `http://127.0.0.1:4321/` confirmed the refactored section matches those Paper measurements on both target breakpoints: desktop renders the feedback section at `1188x1178` with the intro `1186x196`, quotes row `1186x420`, aggregate row `1186x560`, voice quote card `317x84`, and the Paper typography values (`56/56px` title, `18/27px` body, `40/43.2px` quote text); mobile renders the section at `358x1952` with the intro `356x245`, quotes row `356x622`, aggregate row `356x1083`, voice panel `356x363`, snapshot card `288x624`, voice quote card `288x84`, and the Paper mobile typography values (`44/44px` title, `16/25px` body, `34/36px` quote text).
 - No residual `US-008` visual mismatch remains after the refactor: the local feedback section now matches the Paper desktop and mobile section geometry exactly, so there was no additional deviation to record for this story.
 - `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the feedback refactor.
+- Implemented `US-009` by routing [LandingGetInvolved.astro](/Users/kamal/.codex/worktrees/59c2/living-library/src/components/landing/LandingGetInvolved.astro) through the shared `LandingEditorialFrame` section primitive, removing the extra inner wrapper, and colocating all Get Involved and Connect section layout, typography, card, and CTA styles directly inside the Astro component.
+- Removed the migrated Get Involved and Connect selectors from [landing-page.css](/Users/kamal/.codex/worktrees/59c2/living-library/src/styles/landing-page.css), leaving the monolithic landing stylesheet with only the still-unrefactored footer rules for `US-010`.
+- Paper MCP verification used desktop `Get Involved (83-0)` with child frames `84-0`, `1Y6-0`, and `1YH-0`, plus connect child nodes `2BT-0`, `2BU-0`, `2BZ-0`, and `2C3-0`; mobile verification used `Get Involved (3CX-0)` with child frames `3CY-0`, `3D2-0`, `3D3-0`, `3DE-0`, `3DH-0`, `3DI-0`, `3DN-0`, and `3DR-0`, as the source of truth. Those nodes confirmed the final target geometry: desktop section `1188x873`, intro `1186x196`, cards row `1186x300`, `593x300` action cards, connect block `1187x375`, `1119x213` connect split, and `551x213` connect cards; mobile section `358x1346`, intro `356x245`, cards stack `356x528`, `356x276` and `356x252` action cards, connect block `356x571`, `288x422` connect stack, and `288x202` / `288x208` connect cards.
+- Browser verification at `http://127.0.0.1:4321/` confirmed the refactored section matches those Paper measurements on both target breakpoints: desktop renders the section at `1188x873` with intro `1186x196`, cards row `1186x300`, action cards `593x300`, connect block `1186x375`, connect grid `1118x213`, and connect CTA shell `504x56`; mobile renders the section at `358x1346` with intro `356x245`, cards stack `356x528`, action cards `356x276` and `356x252`, connect block `356x571`, connect stack `288x422`, and connect CTA shell `254x52`.
+- Intentional `US-009` content deviation: the second connect card preserves the live Luma destination and copy required by the PRD instead of Paper's static email-updates placeholder content. The card shell, spacing, responsive structure, and CTA treatment still match the Paper desktop and mobile geometry.
+- `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the Get Involved / Connect refactor.

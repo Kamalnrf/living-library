@@ -1,92 +1,444 @@
 ---
+import LandingEditorialFrame from './LandingEditorialFrame.astro'
 import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './getInvolvedData'
 ---
 
-<section
+<LandingEditorialFrame
+  as="section"
+  variant="section"
   id="get-involved"
-  class="landing-section landing-section--get-involved"
+  class="landing-section--get-involved landing-get-involved"
   aria-labelledby="get-involved-title"
 >
-  <div class="landing-get-involved">
-    <div class="landing-get-involved__intro">
-      <p class="landing-get-involved__eyebrow">{GET_INVOLVED_SECTION.eyebrow}</p>
-      <h2 id="get-involved-title">{GET_INVOLVED_SECTION.title}</h2>
-      <p class="landing-get-involved__body">{GET_INVOLVED_SECTION.description}</p>
-    </div>
+  <div class="landing-get-involved__intro">
+    <p class="landing-get-involved__eyebrow">{GET_INVOLVED_SECTION.eyebrow}</p>
+    <h2 id="get-involved-title">{GET_INVOLVED_SECTION.title}</h2>
+    <p class="landing-get-involved__body">{GET_INVOLVED_SECTION.description}</p>
+  </div>
 
-    <div class="landing-get-involved__cards">
-      {
-        GET_INVOLVED_CARDS.map((card) => {
-          const linkAttributes = card.external
-            ? {
-                target: '_blank',
-                rel: 'noreferrer',
-              }
-            : {}
+  <div class="landing-get-involved__cards">
+    {
+      GET_INVOLVED_CARDS.map((card) => {
+        const linkAttributes = card.external
+          ? {
+              target: '_blank',
+              rel: 'noreferrer',
+            }
+          : {}
 
-          return (
-            <article
-              class="landing-get-involved__card"
-              style={`--landing-get-involved-card-min-height: ${card.desktopMinHeight}; --landing-get-involved-card-min-height-mobile: ${card.mobileMinHeight};`}
-            >
-              <p class="landing-get-involved__card-label">{card.id}</p>
-              <h3>{card.title}</h3>
-              <p class="landing-get-involved__card-body landing-get-involved__card-body--desktop">
-                {card.descriptionDesktop}
-              </p>
-              <p class="landing-get-involved__card-body landing-get-involved__card-body--mobile">
-                {card.descriptionMobile}
-              </p>
-              <a class="landing-get-involved__card-link" href={card.href} {...linkAttributes}>
-                {card.linkLabel}
-              </a>
-            </article>
-          )
-        })
-      }
-    </div>
+        return (
+          <article
+            class="landing-get-involved__card"
+            style={`--landing-get-involved-card-min-height: ${card.desktopMinHeight}; --landing-get-involved-card-min-height-mobile: ${card.mobileMinHeight};`}
+          >
+            <p class="landing-get-involved__card-label">{card.id}</p>
+            <h3>{card.title}</h3>
+            <p class="landing-get-involved__card-body landing-get-involved__card-body--desktop">
+              {card.descriptionDesktop}
+            </p>
+            <p class="landing-get-involved__card-body landing-get-involved__card-body--mobile">
+              {card.descriptionMobile}
+            </p>
+            <a class="landing-get-involved__card-link" href={card.href} {...linkAttributes}>
+              {card.linkLabel}
+            </a>
+          </article>
+        )
+      })
+    }
+  </div>
 
-    <div id="contact" class="landing-get-involved__connect" aria-labelledby="contact-title">
-      <div class="landing-get-involved__connect-shell">
-        <p class="landing-get-involved__connect-index">{GET_INVOLVED_CONNECT.id}</p>
-        <h3 id="contact-title" class="landing-get-involved__connect-title">
-          {GET_INVOLVED_CONNECT.title}
-        </h3>
+  <div id="contact" class="landing-get-involved__connect" aria-labelledby="contact-title">
+    <div class="landing-get-involved__connect-shell">
+      <p class="landing-get-involved__connect-index">{GET_INVOLVED_CONNECT.id}</p>
+      <h3 id="contact-title" class="landing-get-involved__connect-title">
+        {GET_INVOLVED_CONNECT.title}
+      </h3>
 
-        <div class="landing-get-involved__connect-grid">
-          {
-            GET_INVOLVED_CONNECT.cards.map((card) => {
-              const linkAttributes = card.external
-                ? {
-                    target: '_blank',
-                    rel: 'noreferrer',
-                  }
-                : {}
+      <div class="landing-get-involved__connect-grid">
+        {
+          GET_INVOLVED_CONNECT.cards.map((card) => {
+            const linkAttributes = card.external
+              ? {
+                  target: '_blank',
+                  rel: 'noreferrer',
+                }
+              : {}
 
-              return (
-                <article class="landing-get-involved__connect-card">
-                  <p class="landing-get-involved__connect-card-label">{card.eyebrow}</p>
-                  <h4>{card.title}</h4>
-                  <p class="landing-get-involved__connect-card-body">{card.description}</p>
+            return (
+              <article class="landing-get-involved__connect-card">
+                <p class="landing-get-involved__connect-card-label">{card.eyebrow}</p>
+                <h4>{card.title}</h4>
+                <p class="landing-get-involved__connect-card-body">{card.description}</p>
 
-                  {'actionButtonLabel' in card ? (
-                    <a class="landing-get-involved__connect-action" href={card.href} {...linkAttributes}>
-                      <span class="landing-get-involved__connect-action-value">{card.actionValue}</span>
-                      <span class="landing-get-involved__connect-action-button">
-                        {card.actionButtonLabel}
-                      </span>
-                    </a>
-                  ) : (
-                    <a class="landing-get-involved__connect-link" href={card.href} {...linkAttributes}>
-                      {card.linkLabel}
-                    </a>
-                  )}
-                </article>
-              )
-            })
-          }
-        </div>
+                {'actionButtonLabel' in card ? (
+                  <a class="landing-get-involved__connect-action" href={card.href} {...linkAttributes}>
+                    <span class="landing-get-involved__connect-action-value">{card.actionValue}</span>
+                    <span class="landing-get-involved__connect-action-button">
+                      {card.actionButtonLabel}
+                    </span>
+                  </a>
+                ) : (
+                  <a class="landing-get-involved__connect-link" href={card.href} {...linkAttributes}>
+                    {card.linkLabel}
+                  </a>
+                )}
+              </article>
+            )
+          })
+        }
       </div>
     </div>
   </div>
-</section>
+</LandingEditorialFrame>
+
+<style>
+  :global(.landing-section--get-involved) {
+    position: relative;
+    margin-top: 32px;
+    scroll-margin-top: 6rem;
+  }
+
+  :global(.landing-get-involved) {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--landing-border);
+  }
+
+  .landing-get-involved__intro {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 34px;
+    border-bottom: 1px solid var(--landing-section-divider);
+  }
+
+  .landing-get-involved__eyebrow,
+  .landing-get-involved__card-label,
+  .landing-get-involved__connect-index,
+  .landing-get-involved__connect-card-label {
+    margin: 0;
+    color: #8e8776;
+    font-family: var(--landing-font-sans);
+    letter-spacing: 0.08em;
+  }
+
+  .landing-get-involved__eyebrow,
+  .landing-get-involved__card-label {
+    font-size: 13px;
+    line-height: 16px;
+  }
+
+  .landing-get-involved__connect-index,
+  .landing-get-involved__connect-card-label {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .landing-get-involved__intro h2 {
+    margin: 0;
+    color: #252520;
+    font-family: var(--landing-font-sans);
+    font-size: 56px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .landing-get-involved__body {
+    margin: 0;
+    color: #3e3d38;
+    font-family: var(--landing-font-sans);
+    font-size: 18px;
+    line-height: 1.5;
+  }
+
+  .landing-get-involved__cards {
+    display: flex;
+    min-height: 300px;
+    justify-content: space-between;
+    overflow: clip;
+  }
+
+  .landing-get-involved__cards > * {
+    width: 50%;
+  }
+
+  .landing-get-involved__cards > :first-child {
+    border-right: 1px solid var(--landing-section-divider);
+  }
+
+  .landing-get-involved__card {
+    min-width: 0;
+    min-height: var(--landing-get-involved-card-min-height, 300px);
+    padding: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .landing-get-involved__card h3 {
+    margin: 0;
+    color: #2b2a25;
+    font-family: var(--landing-font-serif);
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.02;
+  }
+
+  .landing-get-involved__card-body {
+    margin: 0;
+    color: #3f3d37;
+    font-family: var(--landing-font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+  }
+
+  .landing-get-involved__card-body--mobile {
+    display: none;
+  }
+
+  .landing-get-involved__card-link {
+    align-self: flex-start;
+    color: var(--landing-accent);
+    font-family: var(--landing-font-sans);
+    font-size: 20px;
+    line-height: 1.3;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .landing-get-involved__connect {
+    border-top: 1px solid #e4dfd2;
+    scroll-margin-top: 6rem;
+  }
+
+  .landing-get-involved__connect-shell {
+    padding: 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .landing-get-involved__connect-title {
+    margin: 0;
+    color: #2b2a25;
+    font-family: var(--landing-font-serif);
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 45px;
+  }
+
+  .landing-get-involved__connect-grid {
+    display: flex;
+    gap: 18px;
+  }
+
+  .landing-get-involved__connect-card {
+    min-width: 0;
+    flex: 1 1 0;
+    min-height: 213px;
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid #d4d0c6;
+    background: #faf9f6;
+  }
+
+  .landing-get-involved__connect-card h4 {
+    margin: 0;
+    color: #2b2a25;
+    font-family: var(--landing-font-serif);
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 35px;
+  }
+
+  .landing-get-involved__connect-card-body {
+    margin: 0;
+    color: #4b4942;
+    font-family: var(--landing-font-sans);
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .landing-get-involved__connect-link,
+  .landing-get-involved__connect-action {
+    align-self: flex-start;
+    color: var(--landing-accent);
+    font-family: var(--landing-font-sans);
+    text-decoration: none;
+  }
+
+  .landing-get-involved__connect-link {
+    font-size: 20px;
+    line-height: 24px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .landing-get-involved__connect-action {
+    width: 100%;
+    min-height: 56px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #d4d0c6;
+  }
+
+  .landing-get-involved__connect-action-value {
+    flex: 1 1 auto;
+    padding-left: 10px;
+    color: #8a8477;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .landing-get-involved__connect-action-button {
+    width: 74px;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #d4d0c6;
+    background: #faf9f6;
+    color: #2f2d28;
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  @media (max-width: 900px) {
+    :global(.landing-section--get-involved) {
+      margin-top: 24px;
+    }
+
+    .landing-get-involved__intro {
+      gap: 12px;
+    }
+
+    .landing-get-involved__eyebrow {
+      font-size: 11px;
+      line-height: 14px;
+      letter-spacing: 0.11em;
+    }
+
+    .landing-get-involved__intro h2 {
+      font-size: 44px;
+      line-height: 44px;
+    }
+
+    .landing-get-involved__body {
+      font-size: 16px;
+      line-height: 25px;
+    }
+
+    .landing-get-involved__cards {
+      min-height: 0;
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+
+    .landing-get-involved__cards > * {
+      width: 100%;
+    }
+
+    .landing-get-involved__cards > :first-child {
+      border-right: 0;
+      border-bottom: 1px solid var(--landing-section-divider);
+    }
+
+    .landing-get-involved__card {
+      min-height: var(--landing-get-involved-card-min-height-mobile, 252px);
+      gap: 10px;
+    }
+
+    .landing-get-involved__card-label,
+    .landing-get-involved__connect-index,
+    .landing-get-involved__connect-card-label {
+      font-size: 12px;
+      line-height: 16px;
+    }
+
+    .landing-get-involved__card h3 {
+      font-size: 32px;
+      line-height: 34px;
+    }
+
+    .landing-get-involved__card-body {
+      font-size: 15px;
+      line-height: 23px;
+    }
+
+    .landing-get-involved__card-body--desktop {
+      display: none;
+    }
+
+    .landing-get-involved__card-body--mobile {
+      display: block;
+    }
+
+    .landing-get-involved__card-link,
+    .landing-get-involved__connect-link {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .landing-get-involved__connect-shell {
+      gap: 12px;
+    }
+
+    .landing-get-involved__connect-title {
+      font-size: 38px;
+      line-height: 40px;
+    }
+
+    .landing-get-involved__connect-grid {
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .landing-get-involved__connect-card {
+      flex: none;
+      min-height: 0;
+      padding: 16px;
+      gap: 10px;
+    }
+
+    .landing-get-involved__connect-card h4 {
+      font-size: 30px;
+      line-height: 32px;
+    }
+
+    .landing-get-involved__connect-card-body {
+      font-size: 15px;
+      line-height: 22px;
+    }
+
+    .landing-get-involved__connect-action {
+      min-height: 52px;
+    }
+
+    .landing-get-involved__connect-action-value {
+      min-height: 100%;
+      padding-inline: 12px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #e0dbd0;
+      font-size: 16px;
+      line-height: 24px;
+      color: #9a978e;
+    }
+
+    .landing-get-involved__connect-action-button {
+      width: 96px;
+      min-height: 100%;
+      background: transparent;
+      color: #4b4942;
+      line-height: 24px;
+    }
+  }
+</style>
