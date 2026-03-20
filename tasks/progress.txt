@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-010 (Feedback quotes section)
-Completed: 9/13
+Current story: US-011 (Feedback stats snapshot)
+Completed: 10/13
 
 ## Ralph Instructions
 
@@ -38,7 +38,7 @@ Completed: 9/13
 - [x] US-007: Add Instagram profile embed to the hero
 - [x] US-008: Build the upcoming sessions section with Luma
 - [x] US-009: Render the How It Works section from structured step data
-- [ ] US-010: Add the feedback quotes section
+- [x] US-010: Add the feedback quotes section
 - [ ] US-011: Add the feedback stats snapshot
 - [ ] US-012: Build the Get Involved action cards
 - [ ] US-013: Add the connect block and footer
@@ -91,3 +91,9 @@ Completed: 9/13
 - Paper MCP inspection plus local browser verification showed the section now matches the Paper measurements exactly: desktop `1188x1556` section, `1186x204` intro, three `1186x450` rows, `261x58` and `232x58` quote cards, and a `525x381` step-two collage; mobile `358x2355` section, `356x201` intro, `356x691`/`785`/`676` rows, `288x228` framed images, `288x220` collage panels, and `288x56` quote cards.
 - `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the How It Works implementation.
 - Browser verification against `http://127.0.0.1:4321/` confirmed the `How It Works` section renders in the Paper desktop/mobile hierarchy and that the header `#how-it-works` link now lands on the real section instead of the temporary anchor target.
+- Implemented `US-010` with the new `src/components/landing/LandingFeedback.astro` section component and the structured `src/components/landing/feedbackData.ts` content module, then mounted the section in `src/components/landing/LandingPage.astro` directly after `LandingHowItWorks`.
+- Updated `src/styles/landing-page.css` to match the Paper desktop and mobile `What People Say` slice, including the bordered section shell, the `03 / FEEDBACK` intro block, and the two-column / stacked quote cards with the Paper type scale and dividers.
+- Paper MCP inspection plus local browser verification showed the implemented feedback-quotes slice matches the Paper measurements exactly for this story’s scope: desktop `32px` gap from `How It Works`, `1186x196` intro, `1186x420` quotes row, and two `593x420` quote cards; mobile `24px` gap, `356x245` intro, `356x621` quotes row, and `356x311` / `356x310` cards.
+- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the feedback quotes implementation.
+- Browser verification against `http://127.0.0.1:4321/` confirmed the `What People Say` section renders in the Paper desktop/mobile hierarchy with the expected quote copy and typography.
+- The full Paper feedback section continues into the aggregate stats block; that remaining lower portion is intentionally left for `US-011`, so only the intro plus quotes slice is marked complete here.

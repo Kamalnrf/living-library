@@ -1,0 +1,27 @@
+---
+import {FEEDBACK_QUOTES, FEEDBACK_SECTION} from './feedbackData'
+---
+
+<section class="landing-section landing-section--feedback" aria-labelledby="feedback-title">
+  <div class="landing-feedback">
+    <div class="landing-feedback__intro">
+      <p class="landing-feedback__eyebrow">{FEEDBACK_SECTION.eyebrow}</p>
+      <h2 id="feedback-title">{FEEDBACK_SECTION.title}</h2>
+      <p class="landing-feedback__body">{FEEDBACK_SECTION.description}</p>
+    </div>
+
+    <div class="landing-feedback__quotes">
+      {
+        FEEDBACK_QUOTES.map((quote) => (
+          <article class="landing-feedback__quote" data-feedback-quote={quote.id}>
+            <p class="landing-feedback__quote-label">{quote.label}</p>
+            <blockquote class="landing-feedback__quote-text">
+              <p>{quote.quote}</p>
+            </blockquote>
+            <p class="landing-feedback__quote-supporting">{quote.supportingCopy}</p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>
