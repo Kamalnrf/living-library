@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-007 (Instagram profile embed in hero)
-Completed: 6/13
+Current story: US-008 (Upcoming sessions section with Luma)
+Completed: 7/13
 
 ## Ralph Instructions
 
@@ -35,7 +35,7 @@ Completed: 6/13
 - [x] US-004: Build header navigation component
 - [x] US-005: Build hero media and copy section
 - [x] US-006: Align completed shell, header, shader, and hero with Paper using Paper MCP
-- [ ] US-007: Add Instagram profile embed to the hero
+- [x] US-007: Add Instagram profile embed to the hero
 - [ ] US-008: Build the upcoming sessions section with Luma
 - [ ] US-009: Render the How It Works section from structured step data
 - [ ] US-010: Add the feedback quotes section
@@ -76,3 +76,8 @@ Completed: 6/13
 - Paper-vs-local verification showed the key desktop and mobile slice measurements now line up closely, including the 1440x109 desktop header, 390x143 mobile header, 1188px desktop hero width, 358px mobile hero width, the 360x471 desktop preview card, and the 322x471 mobile preview card.
 - `npm run astro -- check` passes with existing repo hints only, and `npm run build` passes.
 - Browser verification at `http://127.0.0.1:4321/` confirmed the revised header and hero render in the Paper-like desktop and mobile structure, and the CTA plus same-page anchor targets still resolve correctly.
+- Implemented `US-007` with the reusable `src/components/landing/LandingInstagramEmbed.astro` component and replaced the hero’s static placeholder in `src/components/landing/LandingHero.astro` with the live `https://www.instagram.com/livingstoriesco/embed` profile iframe.
+- Centralized the hero embed constants in `src/utils/site.ts` and updated `src/styles/landing-page.css` so the iframe sits inside the existing Paper-sized card while the fallback link remains available if Instagram does not render.
+- Paper fidelity stayed intact after the live embed swap: local browser measurements still show the hero Instagram card at `360x471` on desktop and `322x471` on mobile, matching the Paper artboards.
+- `npm run astro -- check` passes with existing repo hints only, and `npm run build` passes after the embed changes.
+- Browser verification at `http://127.0.0.1:4321/` confirmed the live Instagram profile renders in the hero on desktop and mobile, and the `open profile ↗` fallback link remains available.

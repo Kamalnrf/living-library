@@ -1,6 +1,9 @@
 export const SITE_NAME = 'Living Stories Collective'
 export const SITE_TAGLINE = 'Human stories, shared live.'
+export const INSTAGRAM_HANDLE = '@livingstoriesco'
+export const INSTAGRAM_PROFILE_NAME = 'livingstoriesco'
 export const INSTAGRAM_URL = 'https://www.instagram.com/livingstoriesco'
+export const INSTAGRAM_EMBED_URL = `${INSTAGRAM_URL}/embed`
 
 export const HOME_TITLE = SITE_NAME
 export const HOME_DESCRIPTION =

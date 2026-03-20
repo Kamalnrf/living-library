@@ -1,5 +1,12 @@
 ---
-import {INSTAGRAM_URL, SITE_TAGLINE} from '../../utils/site'
+import LandingInstagramEmbed from './LandingInstagramEmbed.astro'
+import {
+  INSTAGRAM_EMBED_URL,
+  INSTAGRAM_HANDLE,
+  INSTAGRAM_PROFILE_NAME,
+  INSTAGRAM_URL,
+  SITE_TAGLINE,
+} from '../../utils/site'
 
 const heroBody =
   `What if you could borrow a person instead of a book? In this unique experience, you won't just read a book, you'll borrow a person. Our "Books" are individuals from diverse walks of life who open up about their lived experiences, inviting you into real, honest, and empathetic conversations that challenge assumptions and break stereotypes.`
@@ -16,32 +23,12 @@ const heroBody =
           See upcoming events
         </a>
 
-        <div class="landing-hero__embed" aria-label="Instagram preview placeholder">
-          <div class="landing-hero__embed-header">
-            <span class="landing-hero__embed-handle">@livingstoriesco</span>
-            <a
-              class="landing-hero__embed-open"
-              href={INSTAGRAM_URL}
-              rel="noreferrer"
-              target="_blank"
-            >
-              open profile ↗
-            </a>
-          </div>
-
-          <div class="landing-hero__embed-body">
-            <p class="landing-hero__embed-title">Instagram preview</p>
-            <a
-              class="landing-hero__embed-link"
-              href={INSTAGRAM_URL}
-              rel="noreferrer"
-              target="_blank"
-            >
-              livingstoriesco
-            </a>
-            <p class="landing-hero__embed-note">Profile embeds can be limited in this browser.</p>
-          </div>
-        </div>
+        <LandingInstagramEmbed
+          embedUrl={INSTAGRAM_EMBED_URL}
+          handle={INSTAGRAM_HANDLE}
+          profileName={INSTAGRAM_PROFILE_NAME}
+          profileUrl={INSTAGRAM_URL}
+        />
       </div>
     </div>
 

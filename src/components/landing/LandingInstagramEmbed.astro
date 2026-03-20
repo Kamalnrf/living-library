@@ -1,0 +1,95 @@
+---
+interface Props {
+  embedUrl: string
+  handle: string
+  profileName: string
+  profileUrl: string
+}
+
+const {embedUrl, handle, profileName, profileUrl} = Astro.props
+---
+
+<div class="landing-hero__embed" aria-label={`${handle} Instagram profile`}>
+  <div class="landing-hero__embed-header">
+    <span class="landing-hero__embed-handle">{handle}</span>
+    <a
+      class="landing-hero__embed-open"
+      href={profileUrl}
+      rel="noreferrer"
+      target="_blank"
+    >
+      open profile ↗
+    </a>
+  </div>
+
+  <div class="landing-hero__embed-body" data-instagram-embed data-instagram-state="loading">
+    <iframe
+      class="landing-hero__embed-frame"
+      data-instagram-frame
+      data-src={embedUrl}
+      src="about:blank"
+      title={`${handle} Instagram profile`}
+      loading="eager"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
+
+    <div class="landing-hero__embed-fallback" data-instagram-fallback aria-live="polite">
+      <p class="landing-hero__embed-title">Instagram preview</p>
+      <a
+        class="landing-hero__embed-link"
+        href={profileUrl}
+        rel="noreferrer"
+        target="_blank"
+      >
+        {profileName}
+      </a>
+      <p class="landing-hero__embed-note">If the Instagram embed does not load, open the profile in a new tab.</p>
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  const INSTAGRAM_EMBED_TIMEOUT_MS = 5000
+
+  for (const embedBody of document.querySelectorAll('[data-instagram-embed]')) {
+    if (!(embedBody instanceof HTMLElement) || embedBody.dataset.instagramBound === 'true') {
+      continue
+    }
+
+    const frame = embedBody.querySelector('[data-instagram-frame]')
+    const fallback = embedBody.querySelector('[data-instagram-fallback]')
+
+    if (!(frame instanceof HTMLIFrameElement) || !(fallback instanceof HTMLElement)) {
+      continue
+    }
+
+    embedBody.dataset.instagramBound = 'true'
+
+    let didLoad = false
+
+    const applyState = (state) => {
+      embedBody.dataset.instagramState = state
+      fallback.hidden = state === 'loaded'
+    }
+
+    const markLoaded = () => {
+      didLoad = true
+      window.clearTimeout(timeoutId)
+      applyState('loaded')
+    }
+
+    const markFailed = () => {
+      if (didLoad) {
+        return
+      }
+
+      applyState('failed')
+    }
+
+    const timeoutId = window.setTimeout(markFailed, INSTAGRAM_EMBED_TIMEOUT_MS)
+
+    frame.addEventListener('load', markLoaded, {once: true})
+    applyState('loading')
+    frame.src = frame.dataset.src ?? frame.src
+  }
+</script>

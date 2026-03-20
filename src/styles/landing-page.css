@@ -327,6 +327,29 @@ a {
 
 .landing-hero__embed-body {
   min-height: 420px;
+  position: relative;
+  overflow: hidden;
+  background: #f6f3ec;
+}
+
+.landing-hero__embed-frame {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  background: #f6f3ec;
+  opacity: 0;
+  transition: opacity 180ms ease;
+}
+
+.landing-hero__embed-body[data-instagram-state='loaded'] .landing-hero__embed-frame {
+  opacity: 1;
+}
+
+.landing-hero__embed-fallback {
+  position: absolute;
+  inset: 0;
   padding: 2.25rem 1.5rem;
   display: flex;
   flex-direction: column;
@@ -334,6 +357,13 @@ a {
   align-items: center;
   gap: 10px;
   text-align: center;
+  background: #f6f3ec;
+  transition: opacity 180ms ease;
+}
+
+.landing-hero__embed-body[data-instagram-state='loaded'] .landing-hero__embed-fallback {
+  opacity: 0;
+  pointer-events: none;
 }
 
 .landing-hero__embed-title {
