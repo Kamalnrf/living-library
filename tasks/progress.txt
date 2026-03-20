@@ -11,13 +11,13 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-001 (implemented; validation blocked by unrelated repo errors)
-Completed: 0/12
+Current story: US-002 (implemented; homepage browser verification passed, repo-wide validation still blocked by unrelated files)
+Completed: 2/12
 
 ## Story Queue
 
-- [ ] US-001: Create landing page shell and thin index route
-- [ ] US-002: Add reusable Paper shader background layer
+- [x] US-001: Create landing page shell and thin index route
+- [x] US-002: Add reusable Paper shader background layer
 - [ ] US-003: Update public branding and homepage metadata
 - [ ] US-004: Build header navigation component
 - [ ] US-005: Build hero media and copy section
@@ -33,8 +33,11 @@ Completed: 0/12
 
 - Implemented the `US-001` route refactor in `src/pages/index.astro`, `src/components/landing/LandingPage.astro`, `src/layouts/LandingPageShell.astro`, and `src/styles/landing-page.css`.
 - The old swipe container, progress bar markup, and homepage scroll script were removed from `src/pages/index.astro`.
+- Implemented `US-002` by adding the pinned `@paper-design/shaders-react` dependency, the reusable `src/components/landing/LandingShaderBackground.tsx` island, and the centralized `src/components/landing/shaderBackgroundConfig.ts` tuning module.
+- Mounted the shader background from `src/layouts/LandingPageShell.astro` and updated `src/styles/landing-page.css` so the `PaperTexture` layer renders at `opacity: 0.26` with `mix-blend-mode: multiply` and the `SimplexNoise` layer uses `mix-blend-mode: screen`.
 - `npm ci` completed successfully in this worktree to install the pinned dependencies.
 - `npm run astro check` is still failing because of pre-existing repo issues outside this task:
   - `src/pages/book-cover-generator.astro` contains unresolved merge conflict markers.
   - `src/pages/reader/[reader].astro` has an existing `Timeout` vs `number` type error.
-- `npm run dev -- --host 127.0.0.1 --port 4321` cannot reach a browser-verifiable state for the same merge-conflict blocker in `src/pages/book-cover-generator.astro`.
+- Browser verification succeeded for `http://127.0.0.1:4321/` using `agent-browser` and Playwright; the landing page rendered and the shader layers were present with the expected blend modes.
+- `npm run dev -- --host 127.0.0.1 --port 4321` still reports a dependency-scan error because of the merge-conflict blocker in `src/pages/book-cover-generator.astro`, even though the homepage route continued to load locally.

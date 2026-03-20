@@ -13,6 +13,7 @@
     "@astrojs/react": "^4.4.2",
     "@astrojs/vercel": "^8.2.0",
     "@notionhq/client": "^3.1.3",
+    "@paper-design/shaders-react": "0.0.72",
     "@tanstack/react-query": "^5.90.21",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

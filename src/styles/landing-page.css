@@ -61,6 +61,34 @@ a {
   z-index: 0;
 }
 
+.landing-backdrop__shader {
+  position: absolute;
+  inset: 0;
+}
+
+.landing-backdrop__shader-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.landing-backdrop__shader-layer > canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.landing-backdrop__shader-layer--paper-texture {
+  opacity: 0.26;
+  mix-blend-mode: multiply;
+}
+
+.landing-backdrop__shader-layer--simplex-noise {
+  opacity: 0.72;
+  mix-blend-mode: screen;
+}
+
 .landing-backdrop__glow {
   position: absolute;
   border-radius: 999px;
