@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-002 (ready to start)
-Completed: 1/11
+Current story: US-003 (ready to start)
+Completed: 2/11
 
 ## Ralph Instructions
 
@@ -37,7 +37,7 @@ Completed: 1/11
 ## Story Queue
 
 - [x] US-001: Create shared editorial foundation and tokens
-- [ ] US-002: Move homepage composition into src/pages/index.astro
+- [x] US-002: Move homepage composition into src/pages/index.astro
 - [ ] US-003: Define shared editorial section schema and section intro primitive
 - [ ] US-004: Migrate repeated homepage intros to the shared section intro primitive
 - [ ] US-005: Add uniform block rendering for action cards and split bands
@@ -58,3 +58,7 @@ Completed: 1/11
 - Verified in the local browser against the Paper artboards:
   - Desktop shell now renders full bleed on wide viewports, with a centered `1440px` inner frame and `144px` inline padding matching the Paper header/footer measurements.
   - Mobile shell matches the Paper header/footer measurements at `390px` wide with `16px` inline padding, `10px` header block padding, `18px` footer block padding, and `24px` footer separation.
+- Completed `US-002` on `2026-03-20`: moved homepage composition from `src/components/landing/LandingPage.astro` into `src/pages/index.astro`, preserved the existing section order and page metadata at the route level, and removed the redundant `LandingPage.astro` wrapper.
+- Verified `US-002` with `npx astro check`.
+- Verified the local homepage in browser at desktop (`1440px`) and mobile (`390px`) against the Paper artboards after the route-level move; the full-bleed header/footer shell and constrained editorial content frame remained unchanged.
+- Remaining Paper variance recorded during `US-002`: the live Instagram and event embed iframes render runtime content, so their interior imagery and text differ from the static placeholder treatments shown in Paper even though their placement and surrounding layout remain aligned.

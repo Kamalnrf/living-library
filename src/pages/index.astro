@@ -1,5 +1,25 @@
 ---
-import LandingPage from '../components/landing/LandingPage.astro'
+import LandingPageShell from '../layouts/LandingPageShell.astro'
+import LandingFeedback from '../components/landing/LandingFeedback.astro'
+import LandingFooter from '../components/landing/LandingFooter.astro'
+import LandingGetInvolved from '../components/landing/LandingGetInvolved.astro'
+import LandingHeader from '../components/landing/LandingHeader.astro'
+import LandingHero from '../components/landing/LandingHero.astro'
+import LandingHowItWorks from '../components/landing/LandingHowItWorks.astro'
+import LandingUpcomingSessions from '../components/landing/LandingUpcomingSessions.astro'
+import {HOME_DESCRIPTION, HOME_TITLE} from '../utils/site'
 ---
 
-<LandingPage />
+<LandingPageShell
+  title={HOME_TITLE}
+  description={HOME_DESCRIPTION}
+>
+  <LandingHeader slot="header" />
+
+  <LandingHero />
+  <LandingUpcomingSessions />
+  <LandingHowItWorks />
+  <LandingFeedback />
+  <LandingGetInvolved />
+  <LandingFooter slot="footer" />
+</LandingPageShell>
