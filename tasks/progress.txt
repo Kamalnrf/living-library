@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-007 (ready to start)
-Completed: 6/11
+Current story: US-008 (ready to start)
+Completed: 7/11
 
 ## Ralph Instructions
 
@@ -37,7 +37,7 @@ Completed: 6/11
 - [x] US-004: Add desktop guide lines and ruler ticks through the shared frame
 - [x] US-005: Refactor hero styles and stabilize the live Instagram embed wrapper
 - [x] US-006: Refactor upcoming sessions styles and add a compact low-volume Luma mode
-- [ ] US-007: Refactor How It Works styles and align the section to the shared frame
+- [x] US-007: Refactor How It Works styles and align the section to the shared frame
 - [ ] US-008: Refactor feedback styles and align the section to the shared frame
 - [ ] US-009: Refactor Get Involved and Connect styles and align them to the shared frame
 - [ ] US-010: Refactor the footer with colocated styles and exact Paper spacing
@@ -81,3 +81,8 @@ Completed: 6/11
 - Intentional Paper deviation for `US-006`: the current page now defaults to the compact low-volume variant, so the live Luma shell is intentionally shorter than the full Paper placeholder card (`525x540` instead of `525x770` on desktop, `288x348` instead of `288x420` on mobile). This is deliberate to avoid the oversized empty-state shell called out in the PRD.
 - Residual live-embed mismatch for `US-006`: the third-party Luma iframe still renders Luma's own empty-state illustration and `No Upcoming Events` copy inside the compact wrapper instead of Paper's static placeholder text and surface treatment. The wrapper size, border, padding, and surrounding section layout now follow the Paper composition; only the live iframe interior remains intentionally different.
 - `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the upcoming-sessions refactor.
+- Implemented `US-007` by routing [LandingHowItWorks.astro](/Users/kamal/.codex/worktrees/59c2/living-library/src/components/landing/LandingHowItWorks.astro) through the shared `LandingEditorialFrame` section primitive, removing the extra inner shell wrapper, and colocating the How It Works spacing, type, divider, collage, and quote styles directly inside the Astro component.
+- Removed the migrated How It Works selectors and mobile overrides from [landing-page.css](/Users/kamal/.codex/worktrees/59c2/living-library/src/styles/landing-page.css), leaving the shared stylesheet focused on the remaining non-refactored sections.
+- Paper MCP verification used desktop `How It Works (R-0)` with child frames `S-0`, `V-0`, `15-0`, `1F-0`, `X-0`, `1ZN-0`, `1D-0`, `1H-0`, `13-0`, and `20A-1`, plus mobile `How It Works (37W-0)` with child frames `3E5-0`, `38K-0`, `389-0`, `37X-0`, `38U-0`, `38D-0`, `38B-0`, `387-0`, `38M-0`, and `37Z-0`, as the source of truth. Those nodes confirmed the target geometry: desktop section `1188x1556`, intro `1186x204`, three `1186x450` rows, `524x381` / `524x382` single-image frames, `344x381 + 165x381` collage media, and `261x58` / `232x58` floating quotes; mobile section `358x2355`, intro `356x201`, row heights `691 / 785 / 676`, `288x228` single-image frames, `288x220 + 288x220` collage stack, and full-width `288x56` quote cards.
+- Browser verification at `http://127.0.0.1:4321/` confirmed the refactored section still matches those Paper measurements exactly on both target breakpoints: desktop renders the section at `1188x1556` with the intro `1186x204`, all three rows at `1186x450`, the step-two collage at `344px / 165px`, and the quotes at `261x58` and `232x58`; mobile renders the section at `358x2355` with the intro `356x201`, rows `356x691`, `356x785`, and `356x676`, the collage at `288x220` stacked over `288x220`, and the quote cards at `288x56`.
+- `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the How It Works refactor.
