@@ -1,0 +1,56 @@
+---
+import LandingPageShell from '../../layouts/LandingPageShell.astro'
+---
+
+<LandingPageShell
+  title="Living Library"
+  description="Real people. Real stories. Real conversations. Connect with someone whose life experience is different from yours and have meaningful conversation."
+>
+  <section class="landing-section landing-section--hero" aria-labelledby="landing-page-title">
+    <div class="landing-panel">
+      <p class="landing-eyebrow">Living Library</p>
+      <h1 id="landing-page-title">A vertically scrolling landing shell is now in place.</h1>
+      <p class="landing-lede">
+        The homepage route now renders through reusable landing-page components
+        instead of the old swipe deck, so the remaining sections can be built in
+        thin slices.
+      </p>
+    </div>
+  </section>
+
+  <section class="landing-section" aria-labelledby="landing-roadmap-title">
+    <div class="landing-section-heading">
+      <p class="landing-kicker">Scaffold</p>
+      <h2 id="landing-roadmap-title">Section anchors are ready for the next stories.</h2>
+    </div>
+
+    <div class="landing-grid">
+      <article class="landing-card" id="how-it-works">
+        <p class="landing-card__eyebrow">US-004 to US-010</p>
+        <h3>How it works</h3>
+        <p>
+          The new page flow now has a stable place for the story explanation,
+          participant quotes, and metrics content.
+        </p>
+      </article>
+
+      <article class="landing-card" id="upcoming-sessions">
+        <p class="landing-card__eyebrow">US-005 to US-007</p>
+        <h3>Hero and sessions</h3>
+        <p>
+          The hero treatment, Instagram embed, and Luma session block can be
+          added without reopening the route shell.
+        </p>
+      </article>
+
+      <article class="landing-card" id="get-involved">
+        <p class="landing-card__eyebrow">US-011 to US-012</p>
+        <h3>Get involved and connect</h3>
+        <p>
+          The lower-page action cards, contact treatment, and footer can now
+          land as isolated follow-up tasks.
+        </p>
+      </article>
+    </div>
+  </section>
+</LandingPageShell>

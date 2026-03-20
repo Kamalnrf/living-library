@@ -1,0 +1,40 @@
+# Ralph Progress
+
+Project: Living Stories Collective Website
+Branch: ralph/living-stories-collective-landing-page
+Source PRD: tasks/prd-living-stories-collective-landing-page.md
+Paper Design File:
+ https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=1-0
+ https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=34X-0
+PRD JSON: tasks/prd.json
+Created: 2026-03-20
+
+## Status
+
+Current story: US-001 (implemented; validation blocked by unrelated repo errors)
+Completed: 0/12
+
+## Story Queue
+
+- [ ] US-001: Create landing page shell and thin index route
+- [ ] US-002: Add reusable Paper shader background layer
+- [ ] US-003: Update public branding and homepage metadata
+- [ ] US-004: Build header navigation component
+- [ ] US-005: Build hero media and copy section
+- [ ] US-006: Add Instagram profile embed to the hero
+- [ ] US-007: Build the upcoming sessions section with Luma
+- [ ] US-008: Render the How It Works section from structured step data
+- [ ] US-009: Add the feedback quotes section
+- [ ] US-010: Add the feedback stats snapshot
+- [ ] US-011: Build the Get Involved action cards
+- [ ] US-012: Add the connect block and footer
+
+## Notes
+
+- Implemented the `US-001` route refactor in `src/pages/index.astro`, `src/components/landing/LandingPage.astro`, `src/layouts/LandingPageShell.astro`, and `src/styles/landing-page.css`.
+- The old swipe container, progress bar markup, and homepage scroll script were removed from `src/pages/index.astro`.
+- `npm ci` completed successfully in this worktree to install the pinned dependencies.
+- `npm run astro check` is still failing because of pre-existing repo issues outside this task:
+  - `src/pages/book-cover-generator.astro` contains unresolved merge conflict markers.
+  - `src/pages/reader/[reader].astro` has an existing `Timeout` vs `number` type error.
+- `npm run dev -- --host 127.0.0.1 --port 4321` cannot reach a browser-verifiable state for the same merge-conflict blocker in `src/pages/book-cover-generator.astro`.

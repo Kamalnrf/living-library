@@ -1,0 +1,53 @@
+---
+import Analytics from '@vercel/analytics/astro'
+import '../styles/landing-page.css'
+
+interface Props {
+  title: string
+  description: string
+}
+
+const {title, description} = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Besley:ital,wght@0,400..900;1,400..900&family=Inter:wght@100..900&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="landing-backdrop" aria-hidden="true">
+      <div class="landing-backdrop__glow landing-backdrop__glow--warm"></div>
+      <div class="landing-backdrop__glow landing-backdrop__glow--cool"></div>
+    </div>
+
+    <main class="landing-page">
+      <slot />
+    </main>
+
+    <div class="visually-hidden">
+      <Analytics />
+    </div>
+  </body>
+</html>
