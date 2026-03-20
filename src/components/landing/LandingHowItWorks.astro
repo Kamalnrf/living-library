@@ -1,9 +1,9 @@
 ---
-import LandingEditorialFrame from './LandingEditorialFrame.astro'
+import EditorialFrame from '../editorial/EditorialFrame.astro'
 import {HOW_IT_WORKS_SECTION, HOW_IT_WORKS_STEPS} from './howItWorksData'
 ---
 
-<LandingEditorialFrame
+<EditorialFrame
   as="section"
   variant="section"
   id="how-it-works"
@@ -113,7 +113,7 @@ import {HOW_IT_WORKS_SECTION, HOW_IT_WORKS_STEPS} from './howItWorksData'
       )
     })
   }
-</LandingEditorialFrame>
+</EditorialFrame>
 
 <style>
   :global(.landing-section--how-it-works) {

@@ -1,11 +1,11 @@
 ---
-import LandingEditorialFrame from './LandingEditorialFrame.astro'
+import EditorialShellRegion from '../editorial/EditorialShellRegion.astro'
 import {INSTAGRAM_URL, SITE_NAME} from '../../utils/site'
 
 const currentYear = new Date().getFullYear()
 ---
 
-<LandingEditorialFrame as="footer" variant="shell" class="landing-footer">
+<EditorialShellRegion as="footer" class="landing-footer" innerClass="landing-footer__inner">
   <div class="landing-footer__brandline" aria-label={`${SITE_NAME} copyright`}>
     <span class="landing-footer__year">© {currentYear}</span>
     <span class="landing-footer__name">{SITE_NAME}</span>
@@ -14,19 +14,22 @@ const currentYear = new Date().getFullYear()
   <a class="landing-footer__link" href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
     instagram ↗
   </a>
-</LandingEditorialFrame>
+</EditorialShellRegion>
 
 <style>
   :global(.landing-footer) {
     width: 100%;
-    min-height: 150px;
     margin-top: 36px;
+    background: #f6f4ee;
+    border-top: 1px solid var(--landing-border);
+  }
+
+  :global(.landing-footer__inner) {
+    min-height: 150px;
     padding-block: 24px;
     display: flex;
     align-items: baseline;
     justify-content: space-between;
-    background: #f6f4ee;
-    border-top: 1px solid var(--landing-border);
   }
 
   .landing-footer__brandline {
@@ -69,8 +72,11 @@ const currentYear = new Date().getFullYear()
 
   @media (max-width: 900px) {
     :global(.landing-footer) {
-      min-height: 96px;
       margin-top: 24px;
+    }
+
+    :global(.landing-footer__inner) {
+      min-height: 96px;
       padding-block: 18px;
       flex-direction: column;
       align-items: flex-start;

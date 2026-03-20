@@ -1,11 +1,11 @@
 ---
-import LandingEditorialFrame from './LandingEditorialFrame.astro'
+import EditorialFrame from '../editorial/EditorialFrame.astro'
 import {FEEDBACK_AGGREGATE, FEEDBACK_QUOTES, FEEDBACK_SECTION} from './feedbackData'
 
 const perspectiveShiftStyle = `--landing-feedback-ring: ${FEEDBACK_AGGREGATE.snapshot.perspectiveShift.ringGradient};`
 ---
 
-<LandingEditorialFrame
+<EditorialFrame
   as="section"
   variant="section"
   class="landing-section--feedback landing-feedback"
@@ -109,7 +109,7 @@ const perspectiveShiftStyle = `--landing-feedback-ring: ${FEEDBACK_AGGREGATE.sna
       </div>
     </div>
   </div>
-</LandingEditorialFrame>
+</EditorialFrame>
 
 <style>
   :global(.landing-section--feedback) {

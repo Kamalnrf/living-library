@@ -1,6 +1,6 @@
 ---
 interface Props {
-  as?: 'div' | 'header' | 'section' | 'footer'
+  as?: 'div' | 'header' | 'section' | 'footer' | 'main' | 'nav'
   variant?: 'artboard' | 'section' | 'shell'
   class?: string
   id?: string
@@ -16,7 +16,8 @@ const {
 ---
 
 <Tag
-  class:list={['landing-editorial-frame', `landing-editorial-frame--${variant}`, className]}
+  class:list={['editorial-frame', `editorial-frame--${variant}`, className]}
+  data-editorial-variant={variant}
   {...rest}
 >
   <slot />

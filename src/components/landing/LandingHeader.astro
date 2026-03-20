@@ -1,5 +1,5 @@
 ---
-import LandingEditorialFrame from './LandingEditorialFrame.astro'
+import EditorialShellRegion from '../editorial/EditorialShellRegion.astro'
 import {SITE_NAME} from '../../utils/site'
 
 type NavigationItem = {
@@ -15,7 +15,7 @@ const navigationItems: readonly NavigationItem[] = [
 ]
 ---
 
-<LandingEditorialFrame as="header" variant="shell" class="landing-header" id="landing-page-top">
+<EditorialShellRegion as="header" class="landing-header" innerClass="landing-header__inner" id="landing-page-top">
   <a class="landing-header__brand" href="#landing-page-top" aria-label={`${SITE_NAME} home`}>
     <img
       class="landing-header__mark"
@@ -42,20 +42,23 @@ const navigationItems: readonly NavigationItem[] = [
       ))
     }
   </nav>
-</LandingEditorialFrame>
+</EditorialShellRegion>
 
 <style>
   :global(.landing-header) {
     position: relative;
     z-index: 2;
+    width: 100%;
+    background: #fff;
+    border-bottom: 1px solid var(--landing-border);
+  }
+
+  :global(.landing-header__inner) {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 24px;
-    width: 100%;
     padding-block: 8px;
-    border-bottom: 1px solid var(--landing-border);
-    background: #fff;
   }
 
   .landing-header__brand {
@@ -129,14 +132,8 @@ const navigationItems: readonly NavigationItem[] = [
     transform: scaleX(1);
   }
 
-  @media (max-width: 1220px) {
-    :global(.landing-header) {
-      padding-inline: var(--landing-mobile-gutter);
-    }
-  }
-
   @media (max-width: 900px) {
-    :global(.landing-header) {
+    :global(.landing-header__inner) {
       flex-direction: column;
       justify-content: flex-start;
       align-items: flex-start;

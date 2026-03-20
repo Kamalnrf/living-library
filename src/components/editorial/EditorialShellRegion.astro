@@ -1,0 +1,26 @@
+---
+import EditorialFrame from './EditorialFrame.astro'
+
+interface Props {
+  as?: 'div' | 'header' | 'section' | 'footer'
+  class?: string
+  innerAs?: 'div' | 'nav'
+  innerClass?: string
+  id?: string
+  ['aria-labelledby']?: string
+}
+
+const {
+  as: Tag = 'div',
+  class: className,
+  innerAs = 'div',
+  innerClass,
+  ...rest
+}: Props = Astro.props
+---
+
+<Tag class:list={['editorial-shell-region', className]} data-editorial-region="shell" {...rest}>
+  <EditorialFrame as={innerAs} variant="shell" class={innerClass}>
+    <slot />
+  </EditorialFrame>
+</Tag>
