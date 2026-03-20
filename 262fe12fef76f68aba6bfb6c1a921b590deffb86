@@ -1,0 +1,64 @@
+src/components/landing/LandingHeader.astro
+  15521e587e8d3854 51,59-60,64,67-68,79-80,86,89,98,139,145-146,150-151,156-161,165-191
+src/components/editorial/EditorialCardGridBlock.astro
+  15521e587e8d3854 144-155
+src/layouts/LandingPageShell.astro
+  15521e587e8d3854 5,88-89
+src/components/landing/LandingVisualTuningPanel.astro
+  15521e587e8d3854 1-239
+src/styles/editorial.css
+  647e87a4d033aaaa 2-3
+  15521e587e8d3854 8-11,14,21-25
+src/components/landing/shaderBackgroundConfig.ts
+  15521e587e8d3854 19-21,23,25,27-28,36,40,42
+src/components/editorial/EditorialConnectActionsBlock.astro
+  15521e587e8d3854 132,168-171,178-190,207-209,214-217
+.prettierrc.json
+  15521e587e8d3854 1-11
+src/components/landing/LandingUpcomingSessions.astro
+  15521e587e8d3854 63,174,177
+src/components/landing/LandingInstagramEmbed.astro
+  15521e587e8d3854 48-51,104,107-108,119,148,151,160,165-179,195,197,225-239,241
+src/components/landing/landingVisualTuning.ts
+  15521e587e8d3854 1-58
+src/components/landing/LandingGetInvolved.astro
+  15521e587e8d3854 29
+src/components/landing/LandingHero.astro
+  15521e587e8d3854 72-73,75,81-99,134-135,140,144-145,150-152,193-194
+src/styles/landing-shell.css
+  647e87a4d033aaaa 2-5
+  15521e587e8d3854 6-8,44,49
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.1.15",
+  "base_commit_sha": "262fe12fef76f68aba6bfb6c1a921b590deffb86",
+  "prompts": {
+    "15521e587e8d3854": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d094d-97ca-7de1-9adf-ee442b82b0ee",
+        "model": "gpt-5.4"
+      },
+      "human_author": "Kamal Mukkamala <kamalnrf@gmail.com>",
+      "messages": [],
+      "total_additions": 682,
+      "total_deletions": 221,
+      "accepted_lines": 519,
+      "overriden_lines": 0
+    },
+    "647e87a4d033aaaa": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019d0b95-8eb8-72b2-b349-81d680388f83",
+        "model": "unknown"
+      },
+      "human_author": "Kamal Mukkamala <kamalnrf@gmail.com>",
+      "messages": [],
+      "total_additions": 11,
+      "total_deletions": 7,
+      "accepted_lines": 6,
+      "overriden_lines": 0
+    }
+  }
+}
