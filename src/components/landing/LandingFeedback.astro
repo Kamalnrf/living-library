@@ -1,5 +1,7 @@
 ---
-import {FEEDBACK_QUOTES, FEEDBACK_SECTION} from './feedbackData'
+import {FEEDBACK_AGGREGATE, FEEDBACK_QUOTES, FEEDBACK_SECTION} from './feedbackData'
+
+const perspectiveShiftStyle = `--landing-feedback-ring: ${FEEDBACK_AGGREGATE.snapshot.perspectiveShift.ringGradient};`
 ---
 
 <section class="landing-section landing-section--feedback" aria-labelledby="feedback-title">
@@ -22,6 +24,85 @@ import {FEEDBACK_QUOTES, FEEDBACK_SECTION} from './feedbackData'
           </article>
         ))
       }
+    </div>
+
+    <div class="landing-feedback__aggregate">
+      <div class="landing-feedback__voice">
+        <p class="landing-feedback__aggregate-label">{FEEDBACK_AGGREGATE.voice.eyebrow}</p>
+        <h3 class="landing-feedback__voice-title">{FEEDBACK_AGGREGATE.voice.title}</h3>
+        <p class="landing-feedback__voice-body">{FEEDBACK_AGGREGATE.voice.description}</p>
+
+        <div class="landing-feedback__voice-quote-wrap">
+          <blockquote class="landing-feedback__voice-quote">
+            <p class="landing-feedback__voice-quote-label">{FEEDBACK_AGGREGATE.voice.quoteLabel}</p>
+            <p class="landing-feedback__voice-quote-text">{FEEDBACK_AGGREGATE.voice.quote}</p>
+            <span class="landing-feedback__voice-quote-dot" aria-hidden="true"></span>
+          </blockquote>
+        </div>
+      </div>
+
+      <div class="landing-feedback__snapshot">
+        <p class="landing-feedback__aggregate-label">{FEEDBACK_AGGREGATE.snapshot.eyebrow}</p>
+
+        <div class="landing-feedback__snapshot-card">
+          <div class="landing-feedback__snapshot-main">
+            <div class="landing-feedback__snapshot-shift">
+              <p class="landing-feedback__snapshot-shift-label">
+                {FEEDBACK_AGGREGATE.snapshot.perspectiveShift.label}
+              </p>
+              <div class="landing-feedback__snapshot-ring" style={perspectiveShiftStyle}>
+                <div class="landing-feedback__snapshot-ring-inner">
+                  <span class="landing-feedback__snapshot-ring-value">
+                    {FEEDBACK_AGGREGATE.snapshot.perspectiveShift.value}
+                  </span>
+                </div>
+              </div>
+              <div class="landing-feedback__snapshot-legend">
+                {
+                  FEEDBACK_AGGREGATE.snapshot.perspectiveShift.legend.map((item) => (
+                    <div class="landing-feedback__snapshot-legend-item">
+                      <span
+                        class="landing-feedback__snapshot-legend-dot"
+                        style={`--landing-feedback-legend-color: ${item.color};`}
+                        aria-hidden="true"
+                      ></span>
+                      <span class="landing-feedback__snapshot-legend-label">{item.label}</span>
+                    </div>
+                  ))
+                }
+              </div>
+            </div>
+
+            <div class="landing-feedback__snapshot-metrics">
+              {
+                FEEDBACK_AGGREGATE.snapshot.metrics.map((metric) => (
+                  <div class="landing-feedback__snapshot-metric">
+                    <div class="landing-feedback__snapshot-metric-head">
+                      <span>{metric.label}</span>
+                      <span>{metric.value}</span>
+                    </div>
+                    <div class="landing-feedback__snapshot-meter">
+                      <span
+                        class="landing-feedback__snapshot-meter-fill"
+                        style={`--landing-feedback-meter-fill-width: ${metric.fillWidth}; --landing-feedback-meter-fill-color: ${metric.fillColor};`}
+                      ></span>
+                    </div>
+                  </div>
+                ))
+              }
+            </div>
+          </div>
+
+          <div class="landing-feedback__snapshot-topics">
+            <p class="landing-feedback__snapshot-topics-label">
+              {FEEDBACK_AGGREGATE.snapshot.topics.label}
+            </p>
+            <p class="landing-feedback__snapshot-topics-body">
+              {FEEDBACK_AGGREGATE.snapshot.topics.body}
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>

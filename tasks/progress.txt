@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-011 (Feedback stats snapshot)
-Completed: 10/13
+Current story: US-012 (Get Involved action cards)
+Completed: 11/13
 
 ## Ralph Instructions
 
@@ -39,7 +39,7 @@ Completed: 10/13
 - [x] US-008: Build the upcoming sessions section with Luma
 - [x] US-009: Render the How It Works section from structured step data
 - [x] US-010: Add the feedback quotes section
-- [ ] US-011: Add the feedback stats snapshot
+- [x] US-011: Add the feedback stats snapshot
 - [ ] US-012: Build the Get Involved action cards
 - [ ] US-013: Add the connect block and footer
 
@@ -97,3 +97,8 @@ Completed: 10/13
 - `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the feedback quotes implementation.
 - Browser verification against `http://127.0.0.1:4321/` confirmed the `What People Say` section renders in the Paper desktop/mobile hierarchy with the expected quote copy and typography.
 - The full Paper feedback section continues into the aggregate stats block; that remaining lower portion is intentionally left for `US-011`, so only the intro plus quotes slice is marked complete here.
+- Implemented `US-011` by extending `src/components/landing/feedbackData.ts` with the structured participant-voice content, perspective-shift ring data, three snapshot metrics, and the topic-summary copy, then rendering that new aggregate row in `src/components/landing/LandingFeedback.astro`.
+- Updated `src/styles/landing-page.css` so the feedback section now includes the Paper-aligned aggregate-stats row: the left participant-voice column with its floating quote card, the right `SNAPSHOT` panel, the conic-gradient perspective ring, the three progress bars, and the bordered topic-summary card on both desktop and mobile.
+- Paper MCP inspection plus local browser verification showed the completed feedback section now matches the Paper aggregate slice exactly for this story’s scope: desktop `1188x1178` section, `1186x560` aggregate row, `451x560` voice panel, `317x84` floating quote, `735x560` snapshot panel, `667x438` snapshot card, `621x254` snapshot main area, `250x254` perspective block, `186x186` ring, `345x136` metric stack, and `621x120` topics card; mobile `358x1952` section, `356x1083` aggregate row, `356x363` voice panel, `288x84` quote card, `356x720` snapshot panel, `288x624` snapshot card, `242x372` snapshot main area, `242x228` perspective block, `160x160` ring, `242x130` metric stack, and `242x192` topics card.
+- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the feedback stats implementation.
+- Browser verification against `http://127.0.0.1:4321/` confirmed the completed `What People Say` section renders with the Paper-matched aggregate metrics layout on desktop and mobile.
