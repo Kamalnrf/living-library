@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-008 (ready to start)
-Completed: 7/11
+Current story: US-009 (ready to start)
+Completed: 8/11
 
 ## Ralph Instructions
 
@@ -38,7 +38,7 @@ Completed: 7/11
 - [x] US-005: Refactor hero styles and stabilize the live Instagram embed wrapper
 - [x] US-006: Refactor upcoming sessions styles and add a compact low-volume Luma mode
 - [x] US-007: Refactor How It Works styles and align the section to the shared frame
-- [ ] US-008: Refactor feedback styles and align the section to the shared frame
+- [x] US-008: Refactor feedback styles and align the section to the shared frame
 - [ ] US-009: Refactor Get Involved and Connect styles and align them to the shared frame
 - [ ] US-010: Refactor the footer with colocated styles and exact Paper spacing
 - [ ] US-011: Run the final Paper audit and repo validation pass
@@ -86,3 +86,9 @@ Completed: 7/11
 - Paper MCP verification used desktop `How It Works (R-0)` with child frames `S-0`, `V-0`, `15-0`, `1F-0`, `X-0`, `1ZN-0`, `1D-0`, `1H-0`, `13-0`, and `20A-1`, plus mobile `How It Works (37W-0)` with child frames `3E5-0`, `38K-0`, `389-0`, `37X-0`, `38U-0`, `38D-0`, `38B-0`, `387-0`, `38M-0`, and `37Z-0`, as the source of truth. Those nodes confirmed the target geometry: desktop section `1188x1556`, intro `1186x204`, three `1186x450` rows, `524x381` / `524x382` single-image frames, `344x381 + 165x381` collage media, and `261x58` / `232x58` floating quotes; mobile section `358x2355`, intro `356x201`, row heights `691 / 785 / 676`, `288x228` single-image frames, `288x220 + 288x220` collage stack, and full-width `288x56` quote cards.
 - Browser verification at `http://127.0.0.1:4321/` confirmed the refactored section still matches those Paper measurements exactly on both target breakpoints: desktop renders the section at `1188x1556` with the intro `1186x204`, all three rows at `1186x450`, the step-two collage at `344px / 165px`, and the quotes at `261x58` and `232x58`; mobile renders the section at `358x2355` with the intro `356x201`, rows `356x691`, `356x785`, and `356x676`, the collage at `288x220` stacked over `288x220`, and the quote cards at `288x56`.
 - `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the How It Works refactor.
+- Implemented `US-008` by routing [LandingFeedback.astro](/Users/kamal/.codex/worktrees/59c2/living-library/src/components/landing/LandingFeedback.astro) through the shared `LandingEditorialFrame` section primitive, removing the extra outer shell wrapper, and colocating all feedback-specific layout, typography, quote-card, and snapshot-panel styles directly inside the Astro component.
+- Removed the migrated feedback selectors and mobile overrides from [landing-page.css](/Users/kamal/.codex/worktrees/59c2/living-library/src/styles/landing-page.css), leaving the shared stylesheet focused on the remaining non-refactored sections.
+- Paper MCP verification used desktop `Feedback Section (75-0)` with child frames `76-0`, `7A-0`, `7J-0`, `2EC-0`, `2EQ-0`, and `2FS-0`, plus mobile `Feedback Section (361-0)` with child frames `37S-0`, `37J-0`, `362-0`, `375-0`, `363-0`, and `364-0`, as the source of truth. Those nodes confirmed the target geometry: desktop section `1188x1178`, intro `1186x196`, quotes row `1186x420`, aggregate row `1186x560`, voice column `451x560`, snapshot column `735x560`, and snapshot card `667x438`; mobile section `358x1952`, intro `356x245`, quotes row `356x622`, aggregate row `356x1083`, voice panel `356x363`, snapshot panel `356x720`, and snapshot card `288x624`.
+- Browser verification at `http://127.0.0.1:4321/` confirmed the refactored section matches those Paper measurements on both target breakpoints: desktop renders the feedback section at `1188x1178` with the intro `1186x196`, quotes row `1186x420`, aggregate row `1186x560`, voice quote card `317x84`, and the Paper typography values (`56/56px` title, `18/27px` body, `40/43.2px` quote text); mobile renders the section at `358x1952` with the intro `356x245`, quotes row `356x622`, aggregate row `356x1083`, voice panel `356x363`, snapshot card `288x624`, voice quote card `288x84`, and the Paper mobile typography values (`44/44px` title, `16/25px` body, `34/36px` quote text).
+- No residual `US-008` visual mismatch remains after the refactor: the local feedback section now matches the Paper desktop and mobile section geometry exactly, so there was no additional deviation to record for this story.
+- `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the feedback refactor.
