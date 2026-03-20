@@ -20,6 +20,14 @@
   --landing-editorial-width: 1188px;
   --landing-shell-padding-desktop: 144px;
   --landing-mobile-gutter: 16px;
+  --landing-guide-color: #b7ae9b55;
+  --landing-ruler-color: #b7ae9b66;
+  --landing-ruler-top-offset: 109px;
+  --landing-ruler-group-width: 14px;
+  --landing-ruler-group-height: 260px;
+  --landing-ruler-tick-width: 12px;
+  --landing-ruler-tick-height: 1px;
+  --landing-ruler-tick-step: 18px;
 }
 
 *,
@@ -100,6 +108,64 @@ a {
   flex-direction: column;
 }
 
+.landing-page-shell {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  isolation: isolate;
+}
+
+.landing-page-guides {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.landing-page-guides__line {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  border-left: 1px dashed var(--landing-guide-color);
+}
+
+.landing-page-guides__line--left {
+  left: calc(50% - (var(--landing-editorial-width) / 2));
+}
+
+.landing-page-guides__line--right {
+  right: calc(50% - (var(--landing-editorial-width) / 2));
+}
+
+.landing-page-guides__ticks {
+  position: absolute;
+  top: var(--landing-ruler-top-offset);
+  width: var(--landing-ruler-group-width);
+  height: var(--landing-ruler-group-height);
+}
+
+.landing-page-guides__ticks--left {
+  left: calc(50% - (var(--landing-shell-max-width) / 2));
+}
+
+.landing-page-guides__ticks--right {
+  right: calc(50% - (var(--landing-shell-max-width) / 2));
+}
+
+.landing-page-guides__tick {
+  position: absolute;
+  left: 0;
+  width: var(--landing-ruler-tick-width);
+  height: var(--landing-ruler-tick-height);
+  top: calc(var(--landing-tick-index) * var(--landing-ruler-tick-step));
+  background: var(--landing-ruler-color);
+}
+
+.landing-page-guides__ticks--right .landing-page-guides__tick {
+  right: 0;
+  left: auto;
+}
+
 .landing-section {
   width: min(var(--landing-editorial-width), calc(100vw - (var(--landing-mobile-gutter) * 2)));
   margin: 0 auto;
@@ -117,6 +183,11 @@ a {
   --landing-editorial-frame-max-width: var(--landing-shell-max-width);
   --landing-editorial-frame-gutter: 0px;
   padding-inline: clamp(var(--landing-mobile-gutter), 10vw, var(--landing-shell-padding-desktop));
+}
+
+.landing-editorial-frame--artboard {
+  --landing-editorial-frame-max-width: var(--landing-shell-max-width);
+  --landing-editorial-frame-gutter: 0px;
 }
 
 .landing-editorial-frame--section {
@@ -150,6 +221,10 @@ a {
 }
 
 @media (max-width: 900px) {
+  .landing-page-guides {
+    display: none;
+  }
+
   .landing-editorial-frame--shell {
     padding-inline: var(--landing-mobile-gutter);
   }
