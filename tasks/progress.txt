@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-006 (ready to start)
-Completed: 5/11
+Current story: US-007 (ready to start)
+Completed: 6/11
 
 ## Ralph Instructions
 
@@ -41,7 +41,7 @@ Completed: 5/11
 - [x] US-003: Define shared editorial section schema and section intro primitive
 - [x] US-004: Migrate repeated homepage intros to the shared section intro primitive
 - [x] US-005: Add uniform block rendering for action cards and split bands
-- [ ] US-006: Add uniform block rendering for story rows, media variants, and quote callouts
+- [x] US-006: Add uniform block rendering for story rows, media variants, and quote callouts
 - [ ] US-007: Add uniform block rendering for feedback quote grids
 - [ ] US-008: Add uniform block rendering for snapshot and metric summary blocks
 - [ ] US-009: Add uniform block rendering for connect and CTA action blocks
@@ -84,3 +84,9 @@ Completed: 5/11
   - Desktop browser-computed metrics now match the Paper card row for both cards: row `300px` min-height, `34px` card padding, `12px` vertical gaps, `36px` card titles, `16px/24px` body copy, `20px/26px` underlined links, and the center divider on card `01`.
   - Mobile browser-computed metrics now match the Paper stacked cards: `34px` card padding, `10px` gaps, `276px` and `252px` card min-heights, `32px/34px` titles, `15px/23px` body copy, `16px/24px` links, the mobile description swap for card `01`, and the single divider below the first card.
 - Remaining Paper variance recorded during `US-005`: the untouched `Connect` block still preserves the live Instagram and Luma destinations required by the homepage, so its right-hand CTA content differs from the Paper placeholder `Email updates` treatment even though the surrounding split-band layout and spacing remain aligned.
+- Completed `US-006` on `2026-03-20`: added `src/components/editorial/EditorialStoryRowBlock.astro` and extended `src/components/editorial/EditorialSectionBlocks.astro` so the shared editorial block system now renders typed `story-row` blocks with text/media ordering, `single-image` and `collage` media variants, and optional quote callouts.
+- Extended `EditorialStoryRowMedia` in `src/components/editorial/editorialSection.ts` with collage accent-frame tone support, moved `How It Works` onto `EditorialSection<EditorialStoryRowBlock>` data in `src/components/landing/howItWorksData.ts`, and replaced the bespoke row loop in `src/components/landing/LandingHowItWorks.astro` with shared block rendering while keeping the section shell local.
+- Verified `US-006` with `npx astro check` (`0` errors, existing repository hints only).
+- Verified the local homepage against the Paper `How It Works` frames on desktop (`R-0`, rows `V-0`, `15-0`, `1F-0`) and mobile (`37W-0`, rows `38K-0`, `389-0`, `37X-0`):
+  - Desktop browser-computed metrics now match the Paper rows: `450px` row min-height, `34px` panel padding, `16px` column gaps, `381px`/`382px` single-image heights, the alternating media/text order, the collage `381px` height with `16px` gap, and the quote callout offsets of `78px`/`256px`/`261px` and `154px`/`301px`/`232px` for steps `1` and `3`.
+  - Mobile browser-computed metrics now match the Paper stacked rows: `34px` panel padding, `228px` single-image heights, the collage stack `220px` panels with `12px` gap, the preserved text-first/media-first ordering per story row, and the quote callouts switching to full-width relative blocks with `8px` top margin and `6px` internal gap.

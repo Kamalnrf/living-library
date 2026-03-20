@@ -1,9 +1,17 @@
 ---
 import EditorialCardGridBlock from './EditorialCardGridBlock.astro'
+import EditorialStoryRowBlock from './EditorialStoryRowBlock.astro'
 import EditorialSplitBandBlock from './EditorialSplitBandBlock.astro'
-import type {EditorialCardGridBlock as EditorialCardGridBlockData, EditorialSplitBandBlock as EditorialSplitBandBlockData} from './editorialSection'
+import type {
+  EditorialCardGridBlock as EditorialCardGridBlockData,
+  EditorialSplitBandBlock as EditorialSplitBandBlockData,
+  EditorialStoryRowBlock as EditorialStoryRowBlockData,
+} from './editorialSection'
 
-type SupportedEditorialBlock = EditorialCardGridBlockData | EditorialSplitBandBlockData
+type SupportedEditorialBlock =
+  | EditorialCardGridBlockData
+  | EditorialSplitBandBlockData
+  | EditorialStoryRowBlockData
 
 interface Props {
   blocks: readonly SupportedEditorialBlock[]
@@ -24,6 +32,10 @@ const {
 
     if (block.kind === 'split-band') {
       return <EditorialSplitBandBlock block={block} headingTag={headingTag} />
+    }
+
+    if (block.kind === 'story-row') {
+      return <EditorialStoryRowBlock block={block} headingTag={headingTag} />
     }
 
     return null

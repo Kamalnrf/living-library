@@ -1,51 +1,10 @@
-import type {EditorialSectionIntroData} from '../editorial/editorialSection'
+import type {
+  EditorialSection,
+  EditorialSectionIntroData,
+  EditorialStoryRowBlock,
+} from '../editorial/editorialSection'
 
-export type HowItWorksImage = {
-  src: string
-  alt: string
-  width: number
-  height: number
-}
-
-export type HowItWorksQuote = {
-  speaker: string
-  text: string
-  desktopOffset: string
-  desktopTop: string
-  desktopMaxWidth: string
-}
-
-export type HowItWorksStep =
-  | {
-      id: string
-      stepLabel: string
-      title: string
-      description: string
-      layout: 'media-first' | 'text-first'
-      media: {
-        kind: 'single'
-        frameTone: 'sage' | 'lavender'
-        desktopHeight: string
-        mobileHeight: string
-        image: HowItWorksImage
-      }
-      quote?: HowItWorksQuote
-    }
-  | {
-      id: string
-      stepLabel: string
-      title: string
-      description: string
-      layout: 'media-first' | 'text-first'
-      media: {
-        kind: 'collage'
-        stackedImages: readonly [HowItWorksImage, HowItWorksImage]
-        accentImage: HowItWorksImage
-      }
-      quote?: undefined
-    }
-
-export const HOW_IT_WORKS_SECTION = {
+const HOW_IT_WORKS_INTRO = {
   eyebrow: '02 / AT EVENT',
   title: 'How It Works',
   description: {
@@ -54,8 +13,9 @@ export const HOW_IT_WORKS_SECTION = {
   },
 } as const satisfies EditorialSectionIntroData
 
-export const HOW_IT_WORKS_STEPS: readonly HowItWorksStep[] = [
+const HOW_IT_WORKS_STEPS = [
   {
+    kind: 'story-row',
     id: 'borrow-a-living-book',
     stepLabel: 'STEP 1',
     title: 'Borrow a Living Book',
@@ -63,10 +23,12 @@ export const HOW_IT_WORKS_STEPS: readonly HowItWorksStep[] = [
       'Choose from real people who volunteer to share their lived experiences - a refugee, a former addict, someone who has experienced homelessness, or a person living with disabilities.',
     layout: 'media-first',
     media: {
-      kind: 'single',
+      kind: 'single-image',
       frameTone: 'sage',
-      desktopHeight: '381px',
-      mobileHeight: '228px',
+      height: {
+        desktop: '381px',
+        mobile: '228px',
+      },
       image: {
         src: '/images/book-catalog.png',
         alt: 'Living Book profiles pinned to a blue display board at an event.',
@@ -83,6 +45,7 @@ export const HOW_IT_WORKS_STEPS: readonly HowItWorksStep[] = [
     },
   },
   {
+    kind: 'story-row',
     id: 'have-a-conversation',
     stepLabel: 'STEP 2',
     title: 'Have a Conversation',
@@ -111,9 +74,11 @@ export const HOW_IT_WORKS_STEPS: readonly HowItWorksStep[] = [
         width: 332,
         height: 762,
       },
+      accentFrameTone: 'sand',
     },
   },
   {
+    kind: 'story-row',
     id: 'return-with-a-changed-perspective',
     stepLabel: 'STEP 3',
     title: 'Return with a Changed Perspective',
@@ -121,10 +86,12 @@ export const HOW_IT_WORKS_STEPS: readonly HowItWorksStep[] = [
       'Return with new insights, challenged assumptions, and a deeper understanding of diverse experiences.',
     layout: 'media-first',
     media: {
-      kind: 'single',
+      kind: 'single-image',
       frameTone: 'lavender',
-      desktopHeight: '382px',
-      mobileHeight: '228px',
+      height: {
+        desktop: '382px',
+        mobile: '228px',
+      },
       image: {
         src: '/images/yulu.png',
         alt: 'A participant riding home at night after a Living Stories Collective session.',
@@ -140,4 +107,10 @@ export const HOW_IT_WORKS_STEPS: readonly HowItWorksStep[] = [
       desktopMaxWidth: '232px',
     },
   },
-]
+] as const satisfies readonly EditorialStoryRowBlock[]
+
+export const HOW_IT_WORKS_SECTION = {
+  id: 'how-it-works',
+  intro: HOW_IT_WORKS_INTRO,
+  blocks: HOW_IT_WORKS_STEPS,
+} as const satisfies EditorialSection<EditorialStoryRowBlock>

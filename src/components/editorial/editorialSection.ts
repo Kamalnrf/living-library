@@ -72,6 +72,7 @@ export type EditorialStoryRowMedia =
     }
   | {
       kind: 'collage'
+      accentFrameTone?: 'sage' | 'lavender' | 'sand'
       stackedImages: readonly [EditorialMediaImage, EditorialMediaImage]
       accentImage: EditorialMediaImage
     }
