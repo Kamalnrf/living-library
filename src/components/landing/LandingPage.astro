@@ -6,6 +6,7 @@ import LandingUpcomingSessions from './LandingUpcomingSessions.astro'
 import LandingHowItWorks from './LandingHowItWorks.astro'
 import LandingFeedback from './LandingFeedback.astro'
 import LandingGetInvolved from './LandingGetInvolved.astro'
+import LandingFooter from './LandingFooter.astro'
 import {HOME_DESCRIPTION, HOME_TITLE} from '../../utils/site'
 ---
 
@@ -20,7 +21,5 @@ import {HOME_DESCRIPTION, HOME_TITLE} from '../../utils/site'
   <LandingHowItWorks />
   <LandingFeedback />
   <LandingGetInvolved />
-  <div class="landing-anchor-rail" aria-hidden="true">
-    <div id="contact" class="landing-anchor-target"></div>
-  </div>
+  <LandingFooter />
 </LandingPageShell>

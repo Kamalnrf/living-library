@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-013 (Connect block and footer)
-Completed: 12/13
+Current story: None (all stories complete)
+Completed: 13/13
 
 ## Ralph Instructions
 
@@ -41,7 +41,7 @@ Completed: 12/13
 - [x] US-010: Add the feedback quotes section
 - [x] US-011: Add the feedback stats snapshot
 - [x] US-012: Build the Get Involved action cards
-- [ ] US-013: Add the connect block and footer
+- [x] US-013: Add the connect block and footer
 
 ## Notes
 
@@ -109,3 +109,9 @@ Completed: 12/13
 - Browser verification against `http://127.0.0.1:4321/` confirmed the header `partner with us` link now lands on the real `#get-involved` section, the `Apply to be a Living Book` card points to `https://app.youform.com/forms/evyp3pwk`, and the `Host an event with us` card updates the URL to `#contact`.
 - `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the Get Involved implementation.
 - The full Paper Get Involved section continues into the lower connect block; that remaining `Connect` portion and the footer are intentionally left for `US-013`, so only the intro plus two action cards slice is marked complete here.
+- Implemented `US-013` by extending `src/components/landing/LandingGetInvolved.astro` with the Paper-matched `Connect` block, adding the new full-width `src/components/landing/LandingFooter.astro`, and replacing the temporary footer/contact stub in `src/components/landing/LandingPage.astro`.
+- Expanded `src/components/landing/getInvolvedData.ts` with the real connect CTA data, using the live Instagram destination plus a real Luma calendar CTA in place of the Paper email-updates mock form so v1 ships only working destinations.
+- Updated `src/styles/landing-page.css` to match the Paper desktop/mobile connect and footer slice, including the bordered connect split, the mobile stacked cards, the Paper footer spacing, and the exact `#contact` anchor placement inside the connect block.
+- Paper MCP inspection plus local browser verification showed the completed ending slice now matches the Paper measurements exactly for this story’s scope: desktop `1188x873` Get Involved section, `1186x375` connect block, `1118x213` connect split, and `1440x150` footer; mobile `358x1346` Get Involved section, `356x571` connect block, `288x422` connect split, `288x202` / `288x208` connect cards, and `390x96` footer.
+- Browser verification against `http://127.0.0.1:4321/` confirmed the header `contact` link and `Host an event with us` CTA both resolve to `#contact`, and that the connect/footer Instagram links plus the Luma calendar CTA all point to live destinations.
+- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the connect/footer implementation.

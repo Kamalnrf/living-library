@@ -1,5 +1,5 @@
 ---
-import {GET_INVOLVED_CARDS, GET_INVOLVED_SECTION} from './getInvolvedData'
+import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './getInvolvedData'
 ---
 
 <section
@@ -44,6 +44,49 @@ import {GET_INVOLVED_CARDS, GET_INVOLVED_SECTION} from './getInvolvedData'
           )
         })
       }
+    </div>
+
+    <div id="contact" class="landing-get-involved__connect" aria-labelledby="contact-title">
+      <div class="landing-get-involved__connect-shell">
+        <p class="landing-get-involved__connect-index">{GET_INVOLVED_CONNECT.id}</p>
+        <h3 id="contact-title" class="landing-get-involved__connect-title">
+          {GET_INVOLVED_CONNECT.title}
+        </h3>
+
+        <div class="landing-get-involved__connect-grid">
+          {
+            GET_INVOLVED_CONNECT.cards.map((card) => {
+              const linkAttributes = card.external
+                ? {
+                    target: '_blank',
+                    rel: 'noreferrer',
+                  }
+                : {}
+
+              return (
+                <article class="landing-get-involved__connect-card">
+                  <p class="landing-get-involved__connect-card-label">{card.eyebrow}</p>
+                  <h4>{card.title}</h4>
+                  <p class="landing-get-involved__connect-card-body">{card.description}</p>
+
+                  {'actionButtonLabel' in card ? (
+                    <a class="landing-get-involved__connect-action" href={card.href} {...linkAttributes}>
+                      <span class="landing-get-involved__connect-action-value">{card.actionValue}</span>
+                      <span class="landing-get-involved__connect-action-button">
+                        {card.actionButtonLabel}
+                      </span>
+                    </a>
+                  ) : (
+                    <a class="landing-get-involved__connect-link" href={card.href} {...linkAttributes}>
+                      {card.linkLabel}
+                    </a>
+                  )}
+                </article>
+              )
+            })
+          }
+        </div>
+      </div>
     </div>
   </div>
 </section>

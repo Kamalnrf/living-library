@@ -1,0 +1,16 @@
+---
+import {INSTAGRAM_URL, SITE_NAME} from '../../utils/site'
+
+const currentYear = new Date().getFullYear()
+---
+
+<footer class="landing-footer">
+  <div class="landing-footer__brandline" aria-label={`${SITE_NAME} copyright`}>
+    <span class="landing-footer__year">© {currentYear}</span>
+    <span class="landing-footer__name">{SITE_NAME}</span>
+  </div>
+
+  <a class="landing-footer__link" href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
+    instagram ↗
+  </a>
+</footer>
