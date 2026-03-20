@@ -1,0 +1,23 @@
+---
+interface Props {
+  as?: 'div' | 'header' | 'section' | 'footer'
+  variant?: 'section' | 'shell'
+  class?: string
+  id?: string
+  ['aria-labelledby']?: string
+}
+
+const {
+  as: Tag = 'div',
+  variant = 'section',
+  class: className,
+  ...rest
+}: Props = Astro.props
+---
+
+<Tag
+  class:list={['landing-editorial-frame', `landing-editorial-frame--${variant}`, className]}
+  {...rest}
+>
+  <slot />
+</Tag>

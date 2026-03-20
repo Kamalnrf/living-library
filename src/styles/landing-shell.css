@@ -1,0 +1,188 @@
+:root {
+  --landing-font-sans: 'Inter Tight', system-ui, sans-serif;
+  --landing-font-serif: 'Prata', serif;
+  --landing-background: #fbf8f2;
+  --landing-surface: rgb(255 255 255 / 0.92);
+  --landing-surface-soft: rgb(255 251 244 / 0.72);
+  --landing-border: #d8d2c4;
+  --landing-border-soft: #e5dfd1;
+  --landing-text: #23231f;
+  --landing-text-strong: #1f1e1b;
+  --landing-muted: #4c4a44;
+  --landing-muted-soft: #7b7567;
+  --landing-accent: #7b4e2a;
+  --landing-nav-surface: rgb(255 255 255 / 0.84);
+  --landing-section-divider: #ddd7c8;
+  --landing-quote-border: #d8d4ca;
+  --landing-widget-border: #d6cfbe;
+  --landing-widget-surface: #f0eee7;
+  --landing-shell-max-width: 1440px;
+  --landing-editorial-width: 1188px;
+  --landing-shell-padding-desktop: 144px;
+  --landing-mobile-gutter: 16px;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  margin: 0;
+  padding: 0;
+  background: var(--landing-background);
+  color: var(--landing-text);
+  font-family: var(--landing-font-sans);
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at top left, rgb(245 222 193 / 0.24), transparent 34rem),
+    radial-gradient(circle at bottom right, rgb(244 235 204 / 0.2), transparent 30rem),
+    linear-gradient(180deg, #fcfaf6 0%, #f8f4ec 100%);
+  color: var(--landing-text);
+  position: relative;
+  overflow-x: clip;
+}
+
+img,
+picture {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+}
+
+.landing-backdrop {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.landing-backdrop__shader {
+  position: absolute;
+  inset: 0;
+}
+
+.landing-backdrop__shader-layer {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.landing-backdrop__shader-layer > canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.landing-backdrop__shader-layer--paper-texture {
+  opacity: 0.26;
+  mix-blend-mode: multiply;
+}
+
+.landing-backdrop__shader-layer--simplex-noise {
+  opacity: 0.68;
+  mix-blend-mode: screen;
+}
+
+.landing-backdrop__glow {
+  position: absolute;
+  border-radius: 999px;
+  filter: blur(132px);
+  opacity: 0.12;
+}
+
+.landing-backdrop__glow--warm {
+  top: -9rem;
+  right: -8rem;
+  width: 28rem;
+  height: 28rem;
+  background: rgb(232 167 109 / 0.16);
+}
+
+.landing-backdrop__glow--cool {
+  bottom: 8rem;
+  left: -10rem;
+  width: 32rem;
+  height: 32rem;
+  background: rgb(238 231 193 / 0.22);
+}
+
+.landing-page {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.landing-section {
+  width: min(var(--landing-editorial-width), calc(100vw - (var(--landing-mobile-gutter) * 2)));
+  margin: 0 auto;
+}
+
+.landing-editorial-frame {
+  width: min(
+    var(--landing-editorial-frame-max-width),
+    calc(100vw - (var(--landing-editorial-frame-gutter) * 2))
+  );
+  margin: 0 auto;
+}
+
+.landing-editorial-frame--shell {
+  --landing-editorial-frame-max-width: var(--landing-shell-max-width);
+  --landing-editorial-frame-gutter: 0px;
+  padding-inline: clamp(var(--landing-mobile-gutter), 10vw, var(--landing-shell-padding-desktop));
+}
+
+.landing-editorial-frame--section {
+  --landing-editorial-frame-max-width: var(--landing-editorial-width);
+  --landing-editorial-frame-gutter: var(--landing-mobile-gutter);
+}
+
+:where(
+    .landing-header__brand,
+    .landing-header__nav-link,
+    .landing-button,
+    .landing-hero__embed-open,
+    .landing-hero__embed-link,
+    .landing-get-involved__card-link,
+    .landing-get-involved__connect-link,
+    .landing-get-involved__connect-action,
+    .landing-footer__link
+  ):focus-visible {
+  outline: 2px solid var(--landing-accent);
+  outline-offset: 4px;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (max-width: 900px) {
+  .landing-editorial-frame--shell {
+    padding-inline: var(--landing-mobile-gutter);
+  }
+
+  .landing-editorial-frame--section {
+    width: calc(100vw - (var(--landing-mobile-gutter) * 2));
+  }
+}

@@ -1,4 +1,5 @@
 ---
+import LandingEditorialFrame from './LandingEditorialFrame.astro'
 import LandingInstagramEmbed from './LandingInstagramEmbed.astro'
 import {
   INSTAGRAM_EMBED_URL,
@@ -12,7 +13,7 @@ const heroBody =
   `What if you could borrow a person instead of a book? In this unique experience, you won't just read a book, you'll borrow a person. Our "Books" are individuals from diverse walks of life who open up about their lived experiences, inviting you into real, honest, and empathetic conversations that challenge assumptions and break stereotypes.`
 ---
 
-<section class="landing-section landing-section--hero" aria-labelledby="landing-page-title">
+<LandingEditorialFrame as="section" variant="section" class="landing-section--hero" aria-labelledby="landing-page-title">
   <div class="landing-hero">
     <div class="landing-hero__content">
       <h1 id="landing-page-title">{SITE_TAGLINE}</h1>
@@ -54,4 +55,4 @@ const heroBody =
       </figure>
     </div>
   </div>
-</section>
+</LandingEditorialFrame>

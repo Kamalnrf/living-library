@@ -1,8 +1,8 @@
 # Ralph Progress
 
 Project: Living Stories Collective Website
-Branch: ralph/living-stories-collective-landing-page
-Source PRD: tasks/prd-living-stories-collective-landing-page.md
+Branch: ralph/landing-page-paper-fidelity-and-refactor
+Source PRD: tasks/prd-landing-page-paper-fidelity-and-refactor.md
 Paper Design File:
  https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=1-0
  https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=34X-0
@@ -11,12 +11,12 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: None (all stories complete)
-Completed: 13/13
+Current story: US-002 (ready to start)
+Completed: 1/11
 
 ## Ralph Instructions
 
-- The Paper design is the source of truth for all remaining UI work.
+- The Paper design is the source of truth for all UI work.
 - Use Paper MCP to inspect the Paper design file and artboards.
 - Do not use Playwright or the paper.design web app as the primary design-reference path.
 - Use browser tooling only for verifying the implemented local site.
@@ -24,94 +24,31 @@ Completed: 13/13
   - Desktop: https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=1-0
   - Mobile: https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=34X-0
 - Do not treat functional completion as story completion if the design visibly diverges from Paper.
-- Match layout structure, spacing, copy hierarchy, imagery, and shader/background effects as closely as possible.
-- If a story is blocked on design fidelity, record the exact mismatch here before moving to the next story.
+- Match layout structure, spacing, copy hierarchy, imagery, guide lines, ruler ticks, and shader/background effects as closely as possible.
+- Colocate section-specific styles with Astro components. Keep shared styles limited to tokens, resets, and shared layout primitives.
+- Keep the live Instagram and Luma embeds. If a third-party embed causes unavoidable visual differences, document the exact mismatch here before moving on.
+- Use a compact upcoming-sessions presentation for the current empty or low-volume Luma state rather than preserving an oversized empty calendar shell.
 
 ## Story Queue
 
-- [x] US-001: Create landing page shell and thin index route
-- [x] US-002: Add reusable Paper shader background layer
-- [x] US-003: Update public branding and homepage metadata
-- [x] US-004: Build header navigation component
-- [x] US-005: Build hero media and copy section
-- [x] US-006: Align completed shell, header, shader, and hero with Paper using Paper MCP
-- [x] US-007: Add Instagram profile embed to the hero
-- [x] US-008: Build the upcoming sessions section with Luma
-- [x] US-009: Render the How It Works section from structured step data
-- [x] US-010: Add the feedback quotes section
-- [x] US-011: Add the feedback stats snapshot
-- [x] US-012: Build the Get Involved action cards
-- [x] US-013: Add the connect block and footer
+- [x] US-001: Add shared editorial frame primitive and shared landing style layer
+- [ ] US-002: Match shell background to the exact Paper shader treatment
+- [ ] US-003: Refactor the header with colocated styles and exact Paper spacing
+- [ ] US-004: Add desktop guide lines and ruler ticks through the shared frame
+- [ ] US-005: Refactor hero styles and stabilize the live Instagram embed wrapper
+- [ ] US-006: Refactor upcoming sessions styles and add a compact low-volume Luma mode
+- [ ] US-007: Refactor How It Works styles and align the section to the shared frame
+- [ ] US-008: Refactor feedback styles and align the section to the shared frame
+- [ ] US-009: Refactor Get Involved and Connect styles and align them to the shared frame
+- [ ] US-010: Refactor the footer with colocated styles and exact Paper spacing
+- [ ] US-011: Run the final Paper audit and repo validation pass
 
 ## Notes
 
-- Implemented the `US-001` route refactor in `src/pages/index.astro`, `src/components/landing/LandingPage.astro`, `src/layouts/LandingPageShell.astro`, and `src/styles/landing-page.css`.
-- The old swipe container, progress bar markup, and homepage scroll script were removed from `src/pages/index.astro`.
-- Implemented `US-002` by adding the pinned `@paper-design/shaders-react` dependency, the reusable `src/components/landing/LandingShaderBackground.tsx` island, and the centralized `src/components/landing/shaderBackgroundConfig.ts` tuning module.
-- Mounted the shader background from `src/layouts/LandingPageShell.astro` and updated `src/styles/landing-page.css` so the `PaperTexture` layer renders at `opacity: 0.26` with `mix-blend-mode: multiply` and the `SimplexNoise` layer uses `mix-blend-mode: screen`.
-- Implemented `US-003` by centralizing the homepage brand text, description, register page title, and Instagram URL in `src/utils/site.ts`.
-- Updated the landing-page metadata and eyebrow branding to use `Living Stories Collective`, and added `og:site_name` in `src/layouts/LandingPageShell.astro`.
-- Updated the `/register` document title to `Register — Living Stories Collective`.
-- `npm ci` completed successfully in this worktree to install the pinned dependencies.
-- Cleared the pre-existing repo-wide validation blockers by removing merge conflict markers from `src/pages/book-cover-generator.astro` and fixing the `setTimeout` typing in `src/pages/reader/[reader].astro`.
-- `npm run astro check` now passes for the repo.
-- Browser verification succeeded for `http://127.0.0.1:4321/` using `agent-browser` and Playwright; the landing page rendered and the shader layers were present with the expected blend modes.
-- Browser verification succeeded for `http://127.0.0.1:4321/` and `http://127.0.0.1:4321/register`; the homepage title, Open Graph tags, Twitter tags, and register page title all resolved to `Living Stories Collective`.
-- `npm run build` also passes for the repo.
-- Implemented `US-004` with the reusable `src/components/landing/LandingHeader.astro` component and a named header slot in `src/layouts/LandingPageShell.astro` so the navigation renders as a full-width bar above the landing-page content.
-- Updated `src/components/landing/LandingPage.astro` and `src/styles/landing-page.css` with the Paper-inspired logo treatment, responsive desktop/mobile header layout, and stable same-page anchors for `#how-it-works`, `#get-involved`, and `#contact`.
-- `npm run astro check` passes, and browser verification confirmed the header renders correctly on desktop and mobile while the nav links resolve to the expected in-page anchors.
-- Implemented `US-005` with the new `src/components/landing/LandingHero.astro` section component, replacing the placeholder homepage hero in `src/components/landing/LandingPage.astro`.
-- Updated `src/styles/landing-page.css` with the hero-specific two-column panel, editorial CTA styling, paired desktop media treatment, and stacked mobile media layout.
-- The hero now uses the local `public/images/mcr-hrd-book-10-reading.png` and `public/images/mcr-hrd-book-13-reading.png` assets and links the CTA to `#upcoming-sessions`.
-- `npm run astro check` and `npm run build` both pass after the hero changes.
-- Browser verification at `http://127.0.0.1:4321/` confirmed the hero renders correctly on desktop and mobile, and the `See upcoming sessions` CTA updates the URL to `#upcoming-sessions`.
-- Tightened Ralph execution guidance so remaining UI stories must match the Paper artboards before they can be marked complete.
-- Added a new immediate Ralph task to reconcile the already completed shell/header/shader/hero work against the Paper artboards before new sections are added.
-- Tightened the Ralph runner instructions so Paper design inspection must go through Paper MCP rather than the Paper web app in Playwright.
-- Implemented `US-006` by inspecting the Paper desktop (`1-0`) and mobile (`34X-0`) artboards with Paper MCP and aligning the shell, header, shader presentation, and hero slice to those measurements before moving on.
-- Updated `src/components/landing/LandingHeader.astro`, `src/components/landing/LandingHero.astro`, `src/components/landing/LandingPage.astro`, `src/layouts/LandingPageShell.astro`, and `src/styles/landing-page.css` to match the Paper header spacing, typography, logo treatment, hero proportions, image ordering, and CTA stack on desktop and mobile.
-- Removed the non-Paper scaffold cards from the homepage so the current implementation only renders the completed slice plus invisible anchor targets for later same-page sections.
-- Added a static Instagram preview placeholder block sized to the Paper hero so the layout matches the artboard now; the live `@livingstoriesco` embed itself remains the next story in `US-007`.
-- Paper-vs-local verification showed the key desktop and mobile slice measurements now line up closely, including the 1440x109 desktop header, 390x143 mobile header, 1188px desktop hero width, 358px mobile hero width, the 360x471 desktop preview card, and the 322x471 mobile preview card.
-- `npm run astro -- check` passes with existing repo hints only, and `npm run build` passes.
-- Browser verification at `http://127.0.0.1:4321/` confirmed the revised header and hero render in the Paper-like desktop and mobile structure, and the CTA plus same-page anchor targets still resolve correctly.
-- Implemented `US-007` with the reusable `src/components/landing/LandingInstagramEmbed.astro` component and replaced the hero’s static placeholder in `src/components/landing/LandingHero.astro` with the live `https://www.instagram.com/livingstoriesco/embed` profile iframe.
-- Centralized the hero embed constants in `src/utils/site.ts` and updated `src/styles/landing-page.css` so the iframe sits inside the existing Paper-sized card while the fallback link remains available if Instagram does not render.
-- Paper fidelity stayed intact after the live embed swap: local browser measurements still show the hero Instagram card at `360x471` on desktop and `322x471` on mobile, matching the Paper artboards.
-- `npm run astro -- check` passes with existing repo hints only, and `npm run build` passes after the embed changes.
-- Browser verification at `http://127.0.0.1:4321/` confirmed the live Instagram profile renders in the hero on desktop and mobile, and the `open profile ↗` fallback link remains available.
-- Implemented `US-008` with the new `src/components/landing/LandingUpcomingSessions.astro` section component and mounted it in `src/components/landing/LandingPage.astro` directly after the hero so the CTA now lands on the real `#upcoming-sessions` section instead of an empty anchor rail target.
-- Centralized the live Luma URLs in `src/utils/site.ts` and updated `src/styles/landing-page.css` with the Paper-matched split section shell, desktop/mobile typography, quote card treatment, and framed Luma embed area.
-- Paper fidelity was verified against the Paper MCP artboards and then confirmed in the local browser with exact DOM measurements: desktop matched the Paper `1188x840` section, `524x169` intro block, `340x74` quote card, and `525x770` Luma frame; mobile matched the Paper `358x846` section footprint, `288x141` intro block, `288x72` quote card, and `288x420` Luma frame.
-- Browser verification with `agent-browser` and Playwright at `http://127.0.0.1:4321/` confirmed the hero CTA updates the URL to `#upcoming-sessions` and the live Luma embed renders inside the upcoming-sessions frame on desktop and mobile.
-- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the upcoming-sessions implementation.
-- Implemented `US-009` with the new `src/components/landing/LandingHowItWorks.astro` section component and the structured `src/components/landing/howItWorksData.ts` content module, then mounted the section in `src/components/landing/LandingPage.astro` directly after `LandingUpcomingSessions`.
-- Updated `src/styles/landing-page.css` to match the Paper desktop and mobile `How It Works` section structure, including the bordered section shell, alternating split-row layout, step-two collage proportions, and the floating participant quote cards for steps one and three.
-- Paper MCP inspection plus local browser verification showed the section now matches the Paper measurements exactly: desktop `1188x1556` section, `1186x204` intro, three `1186x450` rows, `261x58` and `232x58` quote cards, and a `525x381` step-two collage; mobile `358x2355` section, `356x201` intro, `356x691`/`785`/`676` rows, `288x228` framed images, `288x220` collage panels, and `288x56` quote cards.
-- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the How It Works implementation.
-- Browser verification against `http://127.0.0.1:4321/` confirmed the `How It Works` section renders in the Paper desktop/mobile hierarchy and that the header `#how-it-works` link now lands on the real section instead of the temporary anchor target.
-- Implemented `US-010` with the new `src/components/landing/LandingFeedback.astro` section component and the structured `src/components/landing/feedbackData.ts` content module, then mounted the section in `src/components/landing/LandingPage.astro` directly after `LandingHowItWorks`.
-- Updated `src/styles/landing-page.css` to match the Paper desktop and mobile `What People Say` slice, including the bordered section shell, the `03 / FEEDBACK` intro block, and the two-column / stacked quote cards with the Paper type scale and dividers.
-- Paper MCP inspection plus local browser verification showed the implemented feedback-quotes slice matches the Paper measurements exactly for this story’s scope: desktop `32px` gap from `How It Works`, `1186x196` intro, `1186x420` quotes row, and two `593x420` quote cards; mobile `24px` gap, `356x245` intro, `356x621` quotes row, and `356x311` / `356x310` cards.
-- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the feedback quotes implementation.
-- Browser verification against `http://127.0.0.1:4321/` confirmed the `What People Say` section renders in the Paper desktop/mobile hierarchy with the expected quote copy and typography.
-- The full Paper feedback section continues into the aggregate stats block; that remaining lower portion is intentionally left for `US-011`, so only the intro plus quotes slice is marked complete here.
-- Implemented `US-011` by extending `src/components/landing/feedbackData.ts` with the structured participant-voice content, perspective-shift ring data, three snapshot metrics, and the topic-summary copy, then rendering that new aggregate row in `src/components/landing/LandingFeedback.astro`.
-- Updated `src/styles/landing-page.css` so the feedback section now includes the Paper-aligned aggregate-stats row: the left participant-voice column with its floating quote card, the right `SNAPSHOT` panel, the conic-gradient perspective ring, the three progress bars, and the bordered topic-summary card on both desktop and mobile.
-- Paper MCP inspection plus local browser verification showed the completed feedback section now matches the Paper aggregate slice exactly for this story’s scope: desktop `1188x1178` section, `1186x560` aggregate row, `451x560` voice panel, `317x84` floating quote, `735x560` snapshot panel, `667x438` snapshot card, `621x254` snapshot main area, `250x254` perspective block, `186x186` ring, `345x136` metric stack, and `621x120` topics card; mobile `358x1952` section, `356x1083` aggregate row, `356x363` voice panel, `288x84` quote card, `356x720` snapshot panel, `288x624` snapshot card, `242x372` snapshot main area, `242x228` perspective block, `160x160` ring, `242x130` metric stack, and `242x192` topics card.
-- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the feedback stats implementation.
-- Browser verification against `http://127.0.0.1:4321/` confirmed the completed `What People Say` section renders with the Paper-matched aggregate metrics layout on desktop and mobile.
-- Implemented `US-012` with the new `src/components/landing/LandingGetInvolved.astro` section component and structured `src/components/landing/getInvolvedData.ts` content module, then mounted the section in `src/components/landing/LandingPage.astro` directly after `LandingFeedback`.
-- Centralized the live application URL in `src/utils/site.ts`, replaced the temporary `#get-involved` anchor placeholder with the real section root, and kept the `#contact` anchor target in place so the `Host an event with us` card can use the required same-page destination until `US-013` adds the actual connect block.
-- Updated `src/styles/landing-page.css` to match the Paper desktop/mobile Get Involved intro and two-card slice, including the bordered section shell, the exact intro type scale, the split desktop card row, the stacked mobile cards, and the Paper-aligned title/body/link typography for both actions.
-- Paper MCP inspection plus local browser verification showed the implemented Get Involved slice matches the Paper measurements exactly for this story’s scope: desktop `32px` gap from `Feedback`, `1186x196` intro, `1186x300` cards row, and two `593x300` cards; mobile `24px` gap, `356x245` intro, `356x528` cards row, and `356x276` / `356x252` cards.
-- Browser verification against `http://127.0.0.1:4321/` confirmed the header `partner with us` link now lands on the real `#get-involved` section, the `Apply to be a Living Book` card points to `https://app.youform.com/forms/evyp3pwk`, and the `Host an event with us` card updates the URL to `#contact`.
-- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the Get Involved implementation.
-- The full Paper Get Involved section continues into the lower connect block; that remaining `Connect` portion and the footer are intentionally left for `US-013`, so only the intro plus two action cards slice is marked complete here.
-- Implemented `US-013` by extending `src/components/landing/LandingGetInvolved.astro` with the Paper-matched `Connect` block, adding the new full-width `src/components/landing/LandingFooter.astro`, and replacing the temporary footer/contact stub in `src/components/landing/LandingPage.astro`.
-- Expanded `src/components/landing/getInvolvedData.ts` with the real connect CTA data, using the live Instagram destination plus a real Luma calendar CTA in place of the Paper email-updates mock form so v1 ships only working destinations.
-- Updated `src/styles/landing-page.css` to match the Paper desktop/mobile connect and footer slice, including the bordered connect split, the mobile stacked cards, the Paper footer spacing, and the exact `#contact` anchor placement inside the connect block.
-- Paper MCP inspection plus local browser verification showed the completed ending slice now matches the Paper measurements exactly for this story’s scope: desktop `1188x873` Get Involved section, `1186x375` connect block, `1118x213` connect split, and `1440x150` footer; mobile `358x1346` Get Involved section, `356x571` connect block, `288x422` connect split, `288x202` / `288x208` connect cards, and `390x96` footer.
-- Browser verification against `http://127.0.0.1:4321/` confirmed the header `contact` link and `Host an event with us` CTA both resolve to `#contact`, and that the connect/footer Instagram links plus the Luma calendar CTA all point to live destinations.
-- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the connect/footer implementation.
+- Archived the previous completed Ralph run to `tasks/archive/2026-03-20-living-stories-collective-landing-page/` before starting this new branch and story queue.
+- Implemented `US-001` by adding the reusable `src/components/landing/LandingEditorialFrame.astro` primitive with `shell` and `section` variants, plus the new shared `src/styles/landing-shell.css` layer for landing tokens, resets, backdrop styles, `visually-hidden`, shared focus states, and the centralized frame width rules.
+- Updated `src/layouts/LandingPageShell.astro` to load the shared shell stylesheet before `src/styles/landing-page.css`, keeping section-specific landing styles in the existing page stylesheet.
+- Routed the header shell and hero section through the new frame primitive in `src/components/landing/LandingHeader.astro` and `src/components/landing/LandingHero.astro`, while trimming duplicated width and padding math from `src/styles/landing-page.css`.
+- Paper MCP verification used the desktop `Header (2-0)` and `Hero (9-0)` plus mobile `Header (3AN-0)` and `Hero (3FG-0)` artboards as the source of truth for the frame geometry.
+- Browser verification at `http://127.0.0.1:4321/` confirmed the shared frame matches the Paper-measured shell geometry: desktop header `1440x109` with `144px` inline padding, desktop hero width `1188px`, mobile header `390x143` with `16px` inline padding, and mobile hero width `358px`.
+- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the shared frame refactor.
