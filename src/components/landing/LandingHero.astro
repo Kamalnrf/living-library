@@ -1,0 +1,232 @@
+---
+import EditorialFrame from '../editorial/EditorialFrame.astro'
+import LandingInstagramEmbed from './LandingInstagramEmbed.astro'
+import {
+  INSTAGRAM_EMBED_URL,
+  INSTAGRAM_HANDLE,
+  INSTAGRAM_PROFILE_NAME,
+  INSTAGRAM_URL,
+  SITE_TAGLINE,
+} from '../../utils/site'
+
+const heroBody =
+  `What if you could borrow a person instead of a book? In this unique experience, you won't just read a book, you'll borrow a person. Our "Books" are individuals from diverse walks of life who open up about their lived experiences, inviting you into real, honest, and empathetic conversations that challenge assumptions and break stereotypes.`
+---
+
+<EditorialFrame as="section" variant="section" class="landing-section--hero" aria-labelledby="landing-page-title">
+  <div class="landing-hero">
+    <div class="landing-hero__content">
+      <h1 id="landing-page-title">{SITE_TAGLINE}</h1>
+      <p class="landing-lede">{heroBody}</p>
+
+      <div class="landing-hero__actions">
+        <a class="landing-button" href="#upcoming-sessions">
+          See upcoming events
+        </a>
+
+        <LandingInstagramEmbed
+          embedUrl={INSTAGRAM_EMBED_URL}
+          handle={INSTAGRAM_HANDLE}
+          profileName={INSTAGRAM_PROFILE_NAME}
+          profileUrl={INSTAGRAM_URL}
+        />
+      </div>
+    </div>
+
+    <div class="landing-hero__media" aria-label="Scenes from Living Stories Collective sessions">
+      <figure class="landing-hero__figure">
+        <img
+          src="/images/mcr-hrd-book-13-reading.png"
+          alt="Participants gathered around a Living Book conversation table during a Living Stories Collective session."
+          width="1170"
+          height="920"
+          loading="eager"
+        />
+      </figure>
+
+      <figure class="landing-hero__figure">
+        <img
+          src="/images/mcr-hrd-book-10-reading.png"
+          alt="A small-group dialogue unfolding at a Living Stories Collective event."
+          width="1170"
+          height="920"
+          loading="eager"
+        />
+      </figure>
+    </div>
+  </div>
+</EditorialFrame>
+
+<style>
+  .landing-section--hero {
+    padding-block: 82px;
+  }
+
+  .landing-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 603px) minmax(0, 585px);
+    align-items: start;
+  }
+
+  .landing-hero__content {
+    position: relative;
+    isolation: isolate;
+    min-width: 0;
+    padding: 34px 18px 34px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .landing-hero__content::before {
+    content: '';
+    position: absolute;
+    inset: -28px -18px -24px -22px;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        circle at 22% 24%,
+        rgb(248 246 242 / calc(var(--landing-hero-scrim-opacity) * 0.92)) 0%,
+        rgb(248 246 242 / calc(var(--landing-hero-scrim-opacity) * 0.68)) 42%,
+        transparent 78%
+      ),
+      linear-gradient(
+        90deg,
+        rgb(248 246 242 / calc(var(--landing-hero-scrim-opacity) * 0.74)) 0%,
+        rgb(248 246 242 / calc(var(--landing-hero-scrim-opacity) * 0.32)) 58%,
+        transparent 100%
+      );
+  }
+
+  .landing-hero h1 {
+    margin: 0;
+    max-width: 567px;
+    font-family: var(--editorial-font-sans);
+    font-size: 72px;
+    font-weight: 400;
+    line-height: 69px;
+    letter-spacing: -0.04em;
+    color: var(--editorial-color-text);
+  }
+
+  .landing-lede {
+    margin: 0;
+    max-width: 567px;
+    font-size: 18px;
+    line-height: 28px;
+    color: var(--editorial-color-muted);
+  }
+
+  .landing-hero__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .landing-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    padding-inline: 18px;
+    border: 1px solid var(--editorial-color-action-border);
+    background: var(--editorial-color-action-surface);
+    font-family: var(--editorial-font-sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    color: var(--editorial-color-action-text);
+    text-decoration: none;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .landing-button:hover,
+  .landing-button:focus-visible {
+    background: var(--editorial-color-action-surface-hover);
+    border-color: var(--editorial-color-action-border-hover);
+    transform: translateY(-1px);
+  }
+
+  .landing-button:focus-visible {
+    outline: 2px solid var(--editorial-color-accent);
+    outline-offset: 4px;
+  }
+
+  .landing-hero__media {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    height: 919px;
+  }
+
+  .landing-hero__figure {
+    flex: 1 1 0;
+    position: relative;
+    margin: 0;
+    overflow: hidden;
+    background: #f3f0e8;
+  }
+
+  .landing-hero__figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  @media (max-width: 900px) {
+    .landing-hero {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .landing-hero__content {
+      max-width: 100%;
+      padding: 34px 18px;
+      gap: 18px;
+    }
+
+    .landing-hero__content::before {
+      inset: -16px -10px -16px -10px;
+    }
+
+    .landing-hero h1 {
+      max-width: 322px;
+      font-size: 56px;
+      line-height: 54px;
+      letter-spacing: -0.01em;
+    }
+
+    .landing-lede {
+      max-width: 322px;
+      font-size: 17px;
+      line-height: 27px;
+      color: #44423c;
+    }
+
+    .landing-hero__actions {
+      width: 100%;
+    }
+
+    .landing-button {
+      min-height: 44px;
+    }
+
+    .landing-hero__media {
+      order: -1;
+      height: auto;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .landing-hero__figure {
+      aspect-ratio: 175 / 248;
+      flex: none;
+    }
+  }
+</style>

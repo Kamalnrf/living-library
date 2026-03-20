@@ -1,0 +1,91 @@
+---
+import Analytics from '@vercel/analytics/astro'
+import EditorialFrame from '../components/editorial/EditorialFrame.astro'
+import LandingShaderBackground from '../components/landing/LandingShaderBackground'
+import LandingVisualTuningPanel from '../components/landing/LandingVisualTuningPanel.astro'
+import '../styles/editorial.css'
+import '../styles/landing-shell.css'
+import {INSTAGRAM_URL, SITE_NAME} from '../utils/site'
+
+interface Props {
+  title: string
+  description: string
+}
+
+const {title, description} = Astro.props
+const rulerTickIndices = Array.from({length: 14}, (_, index) => index)
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/jpeg" href="/favicon.jpg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:site_name" content={SITE_NAME} />
+    <meta property="og:url" content={Astro.url} />
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="en_US" />
+
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <link rel="me" href={INSTAGRAM_URL} />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400..700&family=Prata&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="landing-backdrop" aria-hidden="true">
+      <LandingShaderBackground client:load />
+    </div>
+
+    <div class="landing-page-shell">
+      <div class="landing-page-guides" aria-hidden="true">
+        <span class="landing-page-guides__line landing-page-guides__line--left"></span>
+        <span class="landing-page-guides__line landing-page-guides__line--right"></span>
+
+        <div class="landing-page-guides__ticks landing-page-guides__ticks--left">
+          {
+            rulerTickIndices.map((index) => (
+              <span class="landing-page-guides__tick" style={`--landing-tick-index: ${index};`}></span>
+            ))
+          }
+        </div>
+
+        <div class="landing-page-guides__ticks landing-page-guides__ticks--right">
+          {
+            rulerTickIndices.map((index) => (
+              <span class="landing-page-guides__tick" style={`--landing-tick-index: ${index};`}></span>
+            ))
+          }
+        </div>
+      </div>
+
+      <slot name="header" />
+
+      <EditorialFrame as="div" variant="artboard" class="landing-page-shell__artboard">
+        <main class="landing-page">
+          <slot />
+        </main>
+      </EditorialFrame>
+
+      <slot name="footer" />
+    </div>
+
+    <div class="visually-hidden">
+      <Analytics />
+    </div>
+
+    {import.meta.env.DEV && <LandingVisualTuningPanel />}
+  </body>
+</html>

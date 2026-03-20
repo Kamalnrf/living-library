@@ -1,0 +1,420 @@
+---
+import type {EditorialStoryRowBlock as EditorialStoryRowBlockData} from './editorialSection'
+
+interface Props {
+  block: EditorialStoryRowBlockData
+  headingTag?: 'h2' | 'h3' | 'h4'
+  class?: string
+}
+
+const {
+  block,
+  headingTag = 'h3',
+  class: className,
+} = Astro.props as Props
+
+const HeadingTag = headingTag
+
+const getFrameToneClass = (frameTone: 'sage' | 'lavender' | 'sand' = 'sand') =>
+  `editorial-story-row__media-frame--${frameTone}`
+---
+
+<article
+  class:list={['editorial-story-row', className]}
+  data-editorial-block-kind="story-row"
+  data-editorial-block-id={block.id}
+  data-editorial-layout={block.layout}
+  data-editorial-media-kind={block.media.kind}
+  data-editorial-has-quote={block.quote ? 'true' : 'false'}
+>
+  {
+    block.layout === 'media-first' ? (
+      <>
+        {block.media.kind === 'single-image' ? (
+          <div class="editorial-story-row__column editorial-story-row__column--media">
+            <figure
+              class:list={[
+                'editorial-story-row__media-frame',
+                getFrameToneClass(block.media.frameTone),
+              ]}
+              data-editorial-frame-tone={block.media.frameTone ?? 'sand'}
+              style={`--editorial-story-row-media-height: ${block.media.height.desktop}; --editorial-story-row-media-height-mobile: ${block.media.height.mobile};`}
+            >
+              <img
+                class="editorial-story-row__media-image"
+                src={block.media.image.src}
+                alt={block.media.image.alt}
+                width={block.media.image.width}
+                height={block.media.image.height}
+                loading="lazy"
+              />
+            </figure>
+          </div>
+        ) : (
+          <div class="editorial-story-row__column editorial-story-row__column--media">
+            <div class="editorial-story-row__collage">
+              <div class="editorial-story-row__collage-stack">
+                {block.media.stackedImages.map((image) => (
+                  <figure class="editorial-story-row__collage-panel">
+                    <img
+                      class="editorial-story-row__media-image"
+                      src={image.src}
+                      alt={image.alt}
+                      width={image.width}
+                      height={image.height}
+                      loading="lazy"
+                    />
+                  </figure>
+                ))}
+              </div>
+
+              <figure
+                class:list={[
+                  'editorial-story-row__media-frame',
+                  getFrameToneClass(block.media.accentFrameTone),
+                ]}
+                data-editorial-frame-tone={block.media.accentFrameTone ?? 'sand'}
+              >
+                <img
+                  class="editorial-story-row__media-image"
+                  src={block.media.accentImage.src}
+                  alt={block.media.accentImage.alt}
+                  width={block.media.accentImage.width}
+                  height={block.media.accentImage.height}
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+          </div>
+        )}
+
+        <div class="editorial-story-row__column editorial-story-row__column--text">
+          <p class="editorial-story-row__step-label">{block.stepLabel}</p>
+          <HeadingTag class="editorial-story-row__title">{block.title}</HeadingTag>
+          <p class="editorial-story-row__step-body">{block.description}</p>
+
+          {
+            block.quote && (
+              <figure class="editorial-story-row__quote">
+                <span class="editorial-story-row__quote-dot" aria-hidden="true"></span>
+                <figcaption class="editorial-story-row__quote-speaker">{block.quote.speaker}</figcaption>
+
+                <blockquote class="editorial-story-row__quote-text">
+                  <p>{block.quote.text}</p>
+                </blockquote>
+              </figure>
+            )
+          }
+        </div>
+      </>
+    ) : (
+      <>
+        <div class="editorial-story-row__column editorial-story-row__column--text">
+          <p class="editorial-story-row__step-label">{block.stepLabel}</p>
+          <HeadingTag class="editorial-story-row__title">{block.title}</HeadingTag>
+          <p class="editorial-story-row__step-body">{block.description}</p>
+
+          {
+            block.quote && (
+              <figure class="editorial-story-row__quote">
+                <span class="editorial-story-row__quote-dot" aria-hidden="true"></span>
+                <figcaption class="editorial-story-row__quote-speaker">{block.quote.speaker}</figcaption>
+
+                <blockquote class="editorial-story-row__quote-text">
+                  <p>{block.quote.text}</p>
+                </blockquote>
+              </figure>
+            )
+          }
+        </div>
+
+        {block.media.kind === 'single-image' ? (
+          <div class="editorial-story-row__column editorial-story-row__column--media">
+            <figure
+              class:list={[
+                'editorial-story-row__media-frame',
+                getFrameToneClass(block.media.frameTone),
+              ]}
+              data-editorial-frame-tone={block.media.frameTone ?? 'sand'}
+              style={`--editorial-story-row-media-height: ${block.media.height.desktop}; --editorial-story-row-media-height-mobile: ${block.media.height.mobile};`}
+            >
+              <img
+                class="editorial-story-row__media-image"
+                src={block.media.image.src}
+                alt={block.media.image.alt}
+                width={block.media.image.width}
+                height={block.media.image.height}
+                loading="lazy"
+              />
+            </figure>
+          </div>
+        ) : (
+          <div class="editorial-story-row__column editorial-story-row__column--media">
+            <div class="editorial-story-row__collage">
+              <div class="editorial-story-row__collage-stack">
+                {block.media.stackedImages.map((image) => (
+                  <figure class="editorial-story-row__collage-panel">
+                    <img
+                      class="editorial-story-row__media-image"
+                      src={image.src}
+                      alt={image.alt}
+                      width={image.width}
+                      height={image.height}
+                      loading="lazy"
+                    />
+                  </figure>
+                ))}
+              </div>
+
+              <figure
+                class:list={[
+                  'editorial-story-row__media-frame',
+                  getFrameToneClass(block.media.accentFrameTone),
+                ]}
+                data-editorial-frame-tone={block.media.accentFrameTone ?? 'sand'}
+              >
+                <img
+                  class="editorial-story-row__media-image"
+                  src={block.media.accentImage.src}
+                  alt={block.media.accentImage.alt}
+                  width={block.media.accentImage.width}
+                  height={block.media.accentImage.height}
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+          </div>
+        )}
+      </>
+    )
+  }
+</article>
+
+<style>
+  .editorial-story-row {
+    display: flex;
+    min-height: 450px;
+    border-bottom: 1px solid var(--editorial-color-divider);
+  }
+
+  .editorial-story-row:last-child {
+    border-bottom: 0;
+  }
+
+  .editorial-story-row > * {
+    width: 50%;
+  }
+
+  .editorial-story-row > :first-child {
+    border-right: 1px solid var(--editorial-color-divider);
+  }
+
+  .editorial-story-row__column {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: var(--editorial-panel-padding);
+  }
+
+  .editorial-story-row__column--text {
+    position: relative;
+  }
+
+  .editorial-story-row__step-label,
+  .editorial-story-row__title,
+  .editorial-story-row__step-body {
+    margin: 0;
+  }
+
+  .editorial-story-row__step-label {
+    color: #8e8776;
+    font-family: var(--editorial-font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.08em;
+  }
+
+  .editorial-story-row__title {
+    color: #252520;
+    font-family: var(--editorial-font-sans);
+    font-size: 44px;
+    font-weight: 400;
+    line-height: 1;
+  }
+
+  .editorial-story-row__step-body {
+    color: #3e3d38;
+    font-family: var(--editorial-font-sans);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  .editorial-story-row__media-frame {
+    position: relative;
+    width: 100%;
+    height: var(--editorial-story-row-media-height, 381px);
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid transparent;
+  }
+
+  .editorial-story-row__media-frame--sage {
+    border-color: #c8d8d0;
+    background:
+      radial-gradient(circle farthest-corner at 10% 0%, rgb(203 229 220 / 0.32) 0%, transparent 72%),
+      linear-gradient(135deg, #f1f5f0 0%, #eef1ed 55%, #f6f7f3 100%);
+  }
+
+  .editorial-story-row__media-frame--sand {
+    border-color: #d7cbb7;
+    background:
+      radial-gradient(circle farthest-corner at 86% 10%, rgb(224 206 175 / 0.28) 0%, transparent 70%),
+      linear-gradient(135deg, #f1eee6 0%, #ece6db 56%, #f4f1e8 100%);
+  }
+
+  .editorial-story-row__media-frame--lavender {
+    border-color: #cdc7de;
+    background:
+      radial-gradient(circle farthest-corner at 14% 0%, rgb(197 191 230 / 0.32) 0%, transparent 72%),
+      linear-gradient(135deg, #f0eef6 0%, #ebebf3 58%, #f5f4f8 100%);
+  }
+
+  .editorial-story-row__media-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .editorial-story-row__collage {
+    display: grid;
+    grid-template-columns: minmax(0, 344fr) minmax(0, 165fr);
+    gap: 16px;
+    width: 100%;
+    height: 381px;
+  }
+
+  .editorial-story-row__collage-stack {
+    display: grid;
+    grid-template-rows: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .editorial-story-row__collage-panel {
+    min-width: 0;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  .editorial-story-row__collage .editorial-story-row__media-frame {
+    height: 100%;
+  }
+
+  .editorial-story-row__quote {
+    position: relative;
+    width: min(var(--editorial-story-row-quote-max-width, 261px), 100%);
+    margin: auto 0 0;
+    padding: 8px 10px;
+    border: 1px solid var(--editorial-color-quote-border);
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .editorial-story-row__quote-dot {
+    position: absolute;
+    top: -10px;
+    left: -12px;
+    width: 20px;
+    height: 20px;
+    border-radius: 999px;
+    background: #fa8b44;
+  }
+
+  .editorial-story-row__quote-speaker {
+    font-family: var(--editorial-font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 16px;
+    color: #00c8e9;
+  }
+
+  .editorial-story-row__quote-text {
+    margin: 0;
+  }
+
+  .editorial-story-row__quote-text p {
+    margin: 0;
+    font-family: var(--editorial-font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    color: #66655f;
+  }
+
+  @media (max-width: 900px) {
+    .editorial-story-row {
+      min-height: 0;
+      flex-direction: column;
+    }
+
+    .editorial-story-row > * {
+      width: 100%;
+    }
+
+    .editorial-story-row > :first-child {
+      border-right: 0;
+      border-bottom: 1px solid var(--editorial-color-divider);
+    }
+
+    .editorial-story-row__title {
+      font-size: 36px;
+      line-height: 36px;
+    }
+
+    .editorial-story-row__step-body {
+      font-size: 16px;
+      line-height: 25px;
+    }
+
+    .editorial-story-row__media-frame {
+      height: var(--editorial-story-row-media-height-mobile, 228px);
+    }
+
+    .editorial-story-row__collage {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      height: auto;
+    }
+
+    .editorial-story-row__collage-stack {
+      height: 220px;
+    }
+
+    .editorial-story-row__collage .editorial-story-row__media-frame {
+      height: 220px;
+    }
+
+    .editorial-story-row__quote {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: 100%;
+      margin-top: 8px;
+      gap: 6px;
+    }
+
+    .editorial-story-row__quote-dot {
+      top: -11px;
+      left: -11px;
+    }
+
+    .editorial-story-row__quote-text p {
+      font-size: 12px;
+    }
+  }
+</style>

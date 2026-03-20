@@ -1,0 +1,147 @@
+---
+import type {EditorialResponsiveText, EditorialSectionIntroData} from './editorialSection'
+
+interface Props {
+  intro: EditorialSectionIntroData
+  as?: 'div' | 'header'
+  headingTag?: 'h1' | 'h2' | 'h3'
+  headingId?: string
+  bordered?: boolean
+  class?: string
+  style?: string
+}
+
+const {
+  intro,
+  as: Tag = 'div',
+  headingTag = 'h2',
+  headingId,
+  bordered = true,
+  class: className,
+  style,
+} = Astro.props as Props
+
+const HeadingTag = headingTag
+const description = intro.description
+
+const isResponsiveText = (
+  value: EditorialResponsiveText | undefined,
+): value is Exclude<EditorialResponsiveText, string> => typeof value === 'object' && value !== null
+
+const hasResponsiveDescription = isResponsiveText(description)
+const descriptionMode = hasResponsiveDescription ? 'responsive' : description ? 'single' : 'none'
+---
+
+<Tag
+  class:list={[
+    'editorial-section-intro',
+    !bordered && 'editorial-section-intro--borderless',
+    className,
+  ]}
+  data-editorial-description-mode={descriptionMode}
+  style={style}
+>
+  <p class="editorial-section-intro__eyebrow">{intro.eyebrow}</p>
+  <HeadingTag id={headingId} class="editorial-section-intro__title">{intro.title}</HeadingTag>
+
+  {
+    hasResponsiveDescription ? (
+      <>
+        <p class="editorial-section-intro__description editorial-section-intro__description--desktop">
+          {description.desktop}
+        </p>
+        <p class="editorial-section-intro__description editorial-section-intro__description--mobile">
+          {description.mobile}
+        </p>
+      </>
+    ) : (
+      description && <p class="editorial-section-intro__description">{description}</p>
+    )
+  }
+</Tag>
+
+<style>
+  .editorial-section-intro {
+    --editorial-section-intro-gap: 14px;
+    --editorial-section-intro-gap-mobile: 12px;
+    --editorial-section-intro-title-margin-top: 0px;
+    --editorial-section-intro-title-margin-top-mobile: var(--editorial-section-intro-title-margin-top);
+
+    display: flex;
+    flex-direction: column;
+    gap: var(--editorial-section-intro-gap);
+    padding: var(--editorial-panel-padding);
+    border-bottom: 1px solid var(--editorial-color-divider);
+  }
+
+  .editorial-section-intro--borderless {
+    border-bottom: 0;
+  }
+
+  .editorial-section-intro__eyebrow,
+  .editorial-section-intro__description,
+  .editorial-section-intro__title {
+    margin: 0;
+  }
+
+  .editorial-section-intro__eyebrow {
+    color: #8e8776;
+    font-family: var(--editorial-font-sans);
+    font-size: var(--editorial-type-label-size);
+    font-weight: 400;
+    line-height: var(--editorial-type-label-line-height);
+    letter-spacing: 0.08em;
+  }
+
+  .editorial-section-intro__title {
+    margin-top: var(--editorial-section-intro-title-margin-top);
+    color: #252520;
+    font-family: var(--editorial-font-sans);
+    font-size: var(--editorial-type-title-xl-size);
+    font-weight: 400;
+    line-height: var(--editorial-type-title-xl-line-height);
+  }
+
+  .editorial-section-intro__description {
+    color: #3e3d38;
+    font-family: var(--editorial-font-sans);
+    font-size: var(--editorial-type-body-lg-size);
+    font-weight: 400;
+    line-height: var(--editorial-type-body-lg-line-height);
+  }
+
+  .editorial-section-intro__description--mobile {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .editorial-section-intro {
+      gap: var(--editorial-section-intro-gap-mobile);
+    }
+
+    .editorial-section-intro__eyebrow {
+      font-size: 11px;
+      line-height: 14px;
+      letter-spacing: 0.11em;
+    }
+
+    .editorial-section-intro__title {
+      margin-top: var(--editorial-section-intro-title-margin-top-mobile);
+      font-size: 44px;
+      line-height: 44px;
+    }
+
+    .editorial-section-intro__description {
+      font-size: 16px;
+      line-height: 25px;
+    }
+
+    .editorial-section-intro__description--desktop {
+      display: none;
+    }
+
+    .editorial-section-intro__description--mobile {
+      display: block;
+    }
+  }
+</style>

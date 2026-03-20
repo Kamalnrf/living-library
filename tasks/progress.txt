@@ -1,0 +1,134 @@
+# Ralph Progress
+
+Project: Living Stories Collective Website
+Branch: ralph/editorial-design-system-and-homepage-composition
+Source PRD: tasks/prd-editorial-design-system-and-homepage-composition.md
+Paper Design File:
+ https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=1-0
+ https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=34X-0
+PRD JSON: tasks/prd.json
+Created: 2026-03-20
+
+## Status
+
+Current story: none (all stories complete)
+Completed: 11/11
+
+## Ralph Instructions
+
+- The Paper design remains the source of truth for the homepage UI during this refactor.
+- Use Paper MCP to inspect the Paper design file and artboards.
+- Do not use Playwright or the paper.design web app as the primary design-reference path.
+- Use browser tooling only for verifying the implemented local site.
+- Target shared editorial or marketing pages only in this run. Do not generalize internal app flows.
+- Move homepage composition into `src/pages/index.astro`. Do not preserve `LandingPage.astro` if it only recreates page structure.
+- Build a shared editorial design system with compound primitives, shared tokens, and one uniform block system using typed block kinds.
+- Use Radix, Base UI, and shadcn as architectural inspiration only: compound primitives, typed APIs, local ownership, and data-attribute or explicit variant styling hooks adapted for Astro.
+- Keep shared styles limited to tokens, resets, and layout primitives. Colocate primitive and section-specific styles with Astro components.
+- Shared reusable primitives must live in a non-landing-specific area and naming scheme.
+- Preserve full-bleed header and footer shell regions across the viewport. The editorial content frame should not constrain them.
+- Do not make the header sticky in this run unless the PRD changes later. Keep header behavior aligned with the current Paper-driven non-sticky structure.
+- Before marking a UI story complete, compare the resulting homepage against both Paper artboards:
+  - Desktop: https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=1-0
+  - Mobile: https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=34X-0
+- Do not accept structural refactors that visually regress the Paper-aligned homepage.
+- If a visual difference is unavoidable, record the exact mismatch here before moving on.
+
+## Story Queue
+
+- [x] US-001: Create shared editorial foundation and tokens
+- [x] US-002: Move homepage composition into src/pages/index.astro
+- [x] US-003: Define shared editorial section schema and section intro primitive
+- [x] US-004: Migrate repeated homepage intros to the shared section intro primitive
+- [x] US-005: Add uniform block rendering for action cards and split bands
+- [x] US-006: Add uniform block rendering for story rows, media variants, and quote callouts
+- [x] US-007: Add uniform block rendering for feedback quote grids
+- [x] US-008: Add uniform block rendering for snapshot and metric summary blocks
+- [x] US-009: Add uniform block rendering for connect and CTA action blocks
+- [x] US-010: Finalize shared naming and page-specific boundaries
+- [x] US-011: Run final homepage regression audit and validation
+
+## Notes
+
+- Archived the previous completed Ralph run to `tasks/archive/2026-03-20-landing-page-paper-fidelity-and-refactor/` before starting this new branch and story queue.
+- Resolved in `US-001`: the homepage header and footer are no longer constrained by the editorial artboard and now extend edge-to-edge across the viewport like the Paper design.
+- Completed `US-001` on `2026-03-20`: added shared editorial primitives in `src/components/editorial/` (`EditorialFrame.astro`, `EditorialShellRegion.astro`) plus shared tokens, reset styles, and layout primitives in `src/styles/editorial.css`; updated the homepage shell to keep the artboard constrained while the header and footer render as full-bleed shell regions.
+- Updated landing sections to consume the shared editorial frame primitive and removed the landing-specific frame component.
+- Verified with `npx astro check`.
+- Verified in the local browser against the Paper artboards:
+  - Desktop shell now renders full bleed on wide viewports, with a centered `1440px` inner frame and `144px` inline padding matching the Paper header/footer measurements.
+  - Mobile shell matches the Paper header/footer measurements at `390px` wide with `16px` inline padding, `10px` header block padding, `18px` footer block padding, and `24px` footer separation.
+- Completed `US-002` on `2026-03-20`: moved homepage composition from `src/components/landing/LandingPage.astro` into `src/pages/index.astro`, preserved the existing section order and page metadata at the route level, and removed the redundant `LandingPage.astro` wrapper.
+- Verified `US-002` with `npx astro check`.
+- Verified the local homepage in browser at desktop (`1440px`) and mobile (`390px`) against the Paper artboards after the route-level move; the full-bleed header/footer shell and constrained editorial content frame remained unchanged.
+- Remaining Paper variance recorded during `US-002`: the live Instagram and event embed iframes render runtime content, so their interior imagery and text differ from the static placeholder treatments shown in Paper even though their placement and surrounding layout remain aligned.
+- Completed `US-003` on `2026-03-20`: added shared editorial section schema types in `src/components/editorial/editorialSection.ts`, including shared intro data plus typed block kinds for `card-grid`, `split-band`, `story-row`, `quote-grid`, `snapshot`, and `connect-actions` patterns.
+- Added `src/components/editorial/EditorialSectionIntro.astro` as the shared intro primitive with eyebrow, title, and description rendering, plus responsive desktop/mobile description handling and styling hooks for section-specific spacing adjustments during later migrations.
+- Checked the Paper source intro frames before finalizing the primitive:
+  - Desktop: `How It Works` (`S-0`), `Feedback` (`76-0`), and `Get Involved` (`84-0`) all use `34px` padding, `14px` vertical gaps, `13px` eyebrow text, `56px` titles, and `18px` body copy.
+  - Mobile: `How It Works` (`3E5-0`), `Feedback` (`37S-0`), and `Get Involved` (`3CY-0`) all use `34px` padding, `12px` vertical gaps, `11px` eyebrow text, `44px` titles, and `16px/25px` body copy.
+- Aligned the current landing intro data with the shared schema in `howItWorksData.ts`, `feedbackData.ts`, and `getInvolvedData.ts`; `How It Works` now stores its desktop/mobile description copy in the shared responsive intro shape, but the repeated landing intro markup itself was intentionally left in place for `US-004`.
+- Verified `US-003` with `npx astro check` (`0` errors, existing repository hints only).
+- Completed `US-004` on `2026-03-20`: migrated the repeated intro markup in `LandingHowItWorks.astro`, `LandingFeedback.astro`, and `LandingGetInvolved.astro` onto `src/components/editorial/EditorialSectionIntro.astro`, leaving the sections responsible only for their non-intro rows.
+- Added typed root style forwarding to `EditorialSectionIntro.astro` so `How It Works` can preserve its Paper-specific desktop `8px` title offset while `Feedback` and `Get Involved` continue using the shared default intro metrics.
+- Removed the duplicated intro-specific landing CSS for the three sections and kept only section-local styles that still belong to the surrounding rows, cards, and quotes.
+- Verified `US-004` with `npx astro check` (`0` errors, existing repository hints only).
+- Verified the local homepage against the Paper intro frames on desktop and mobile:
+  - Browser-computed intro metrics now match the Paper values for all three migrated sections at both breakpoints: `34px` padding, `14px` desktop gap, `12px` mobile gap, `13px/16px` desktop eyebrow, `11px/14px` mobile eyebrow, `56px` desktop titles, and `44px` mobile titles.
+  - `How It Works` retains the Paper desktop-only `8px` title offset and resets to `0px` on mobile; `Feedback` and `Get Involved` remain at `0px` on both breakpoints, matching their Paper frames.
+- Completed `US-005` on `2026-03-20`: added shared editorial block primitives in `src/components/editorial/` (`EditorialCardGridBlock.astro`, `EditorialSplitBandBlock.astro`, `EditorialSectionBlocks.astro`) so the uniform block system now renders the homepage `card-grid` and `split-band` patterns from typed shared block data.
+- Extended `EditorialActionCard` in `src/components/editorial/editorialSection.ts` with responsive min-height data for Paper-aligned action cards, added compact panel and block-gap tokens in `src/styles/editorial.css`, and moved the `Get Involved` action row data in `src/components/landing/getInvolvedData.ts` onto the shared `EditorialSection<EditorialCardGridBlock>` model.
+- Migrated the `Get Involved` action-card row in `src/components/landing/LandingGetInvolved.astro` onto `EditorialSectionBlocks.astro` and removed the row’s bespoke landing-only markup and CSS while leaving the later `Connect` CTA block unchanged for its own story.
+- Verified `US-005` with `npx astro check` (`0` errors, existing repository hints only).
+- Verified the local homepage against the Paper `Get Involved` card-row frames on desktop (`1Y6-0`) and mobile (`3D2-0`):
+  - Desktop browser-computed metrics now match the Paper card row for both cards: row `300px` min-height, `34px` card padding, `12px` vertical gaps, `36px` card titles, `16px/24px` body copy, `20px/26px` underlined links, and the center divider on card `01`.
+  - Mobile browser-computed metrics now match the Paper stacked cards: `34px` card padding, `10px` gaps, `276px` and `252px` card min-heights, `32px/34px` titles, `15px/23px` body copy, `16px/24px` links, the mobile description swap for card `01`, and the single divider below the first card.
+- Remaining Paper variance recorded during `US-005`: the untouched `Connect` block still preserves the live Instagram and Luma destinations required by the homepage, so its right-hand CTA content differs from the Paper placeholder `Email updates` treatment even though the surrounding split-band layout and spacing remain aligned.
+- Completed `US-006` on `2026-03-20`: added `src/components/editorial/EditorialStoryRowBlock.astro` and extended `src/components/editorial/EditorialSectionBlocks.astro` so the shared editorial block system now renders typed `story-row` blocks with text/media ordering, `single-image` and `collage` media variants, and optional quote callouts.
+- Extended `EditorialStoryRowMedia` in `src/components/editorial/editorialSection.ts` with collage accent-frame tone support, moved `How It Works` onto `EditorialSection<EditorialStoryRowBlock>` data in `src/components/landing/howItWorksData.ts`, and replaced the bespoke row loop in `src/components/landing/LandingHowItWorks.astro` with shared block rendering while keeping the section shell local.
+- Verified `US-006` with `npx astro check` (`0` errors, existing repository hints only).
+- Verified the local homepage against the Paper `How It Works` frames on desktop (`R-0`, rows `V-0`, `15-0`, `1F-0`) and mobile (`37W-0`, rows `38K-0`, `389-0`, `37X-0`):
+  - Desktop browser-computed metrics now match the Paper rows: `450px` row min-height, `34px` panel padding, `16px` column gaps, `381px`/`382px` single-image heights, the alternating media/text order, the collage `381px` height with `16px` gap, and the quote callout offsets of `78px`/`256px`/`261px` and `154px`/`301px`/`232px` for steps `1` and `3`.
+  - Mobile browser-computed metrics now match the Paper stacked rows: `34px` panel padding, `228px` single-image heights, the collage stack `220px` panels with `12px` gap, the preserved text-first/media-first ordering per story row, and the quote callouts switching to full-width relative blocks with `8px` top margin and `6px` internal gap.
+- Completed `US-007` on `2026-03-20`: added `src/components/editorial/EditorialQuoteGridBlock.astro` and extended `src/components/editorial/EditorialSectionBlocks.astro` so the shared editorial block system now renders typed `quote-grid` blocks for repeated feedback quote-card rows.
+- Moved the feedback quote-row content in `src/components/landing/feedbackData.ts` onto `EditorialSection<EditorialQuoteGridBlock>` data and replaced the bespoke quote-row markup in `src/components/landing/LandingFeedback.astro` with shared block rendering while leaving the lower aggregate stats row in place for `US-008`.
+- Verified `US-007` with `npx astro check` (`0` errors, existing repository hints only).
+- Verified the local homepage against the Paper `Feedback Section` quote-row frames on desktop (`75-0`, row `7A-0`, cards `7B-0` and `7F-0`) and mobile (`361-0`, row `37J-0`, cards `37O-0` and `37K-0`):
+  - Desktop browser-computed metrics now match the Paper quote row exactly: section `1188x1178`, intro `1186x196`, quote row `1186x420`, both quote cards `593x419`, `34px` card padding, `16px` internal gaps, `40px/43.2px` quote text, `18px/26.1px` supporting copy, and the center divider on the first card.
+  - Mobile browser-computed metrics now match the Paper stacked quote cards exactly: section `358x1952`, intro `356x245`, quote row `356x622`, the first and second cards `356x311` and `356x310`, `34px` card padding, `16px` internal gaps, `34px/36px` quote text, `16px/25px` supporting copy, and the divider moving below the first card.
+- Completed `US-008` on `2026-03-20`: added `src/components/editorial/EditorialSnapshotBlock.astro`, extended `src/components/editorial/EditorialSectionBlocks.astro` to render typed `snapshot` blocks, and updated `src/components/editorial/editorialSection.ts` so snapshot data includes the section-level `SNAPSHOT` eyebrow alongside participant voice, perspective-shift, metric, and topic content.
+- Moved the feedback aggregate stats content in `src/components/landing/feedbackData.ts` onto `EditorialSection<EditorialQuoteGridBlock | EditorialSnapshotBlock>` data and removed the bespoke aggregate markup and CSS from `src/components/landing/LandingFeedback.astro` so the entire feedback section now flows through the shared editorial block system.
+- Verified `US-008` with `npx astro check` (`0` errors, existing repository hints only).
+- Verified the local homepage against the Paper `Feedback Section` aggregate frames on desktop (`75-0`, aggregate row `7J-0`, panels `2EC-0` and `2EQ-0`) and mobile (`361-0`, aggregate row `362-0`, panels `375-0` and `363-0`):
+  - Desktop browser-computed metrics now match the Paper aggregate row exactly: aggregate row `1186x560`, participant-voice panel `451x560`, snapshot panel `735x560`, snapshot card `667x438`, main chart row `621x254`, topics panel `621x120`, `34px` outer padding, `22px` card padding, `18px` card gap, `26px` chart-to-metrics gap, the `317x84` floating quote offset, and the `186px` ring with `96px` inner circle.
+  - Mobile browser-computed metrics now match the Paper stacked aggregate row exactly: aggregate row `356x1083`, participant-voice panel `356x363`, snapshot panel `356x720`, snapshot card `288x624`, main chart stack `242x372`, topics panel `242x192`, `34px` outer padding, `22px` card padding, `14px` internal gaps, the full-width `288x84` quote card, and the `160px` ring with `84px` inner circle.
+- Completed `US-009` on `2026-03-20`: added `src/components/editorial/EditorialConnectActionsBlock.astro`, extended `src/components/editorial/EditorialSectionBlocks.astro` and `src/components/editorial/editorialSection.ts`, and moved the remaining `Get Involved` connect slice onto the shared typed `connect-actions` block system.
+- Updated `src/components/landing/getInvolvedData.ts` so the `Connect` content now lives in shared editorial block data with the `#contact` anchor, and removed the last bespoke connect markup and styles from `src/components/landing/LandingGetInvolved.astro`.
+- Verified `US-009` with `npm run astro -- check` (`0` errors, existing repository hints only).
+- Verified the shared connect block against the Paper `Get Involved` nodes on desktop (`83-0`, connect `1YH-0`, split `2BT-0`, cards `2BU-0` and `2BZ-0`, CTA shell `2C3-0`) and mobile (`3CX-0`, connect `3D3-0`, shell `3DE-0`, split `3DH-0`, cards `3DI-0` and `3DN-0`, CTA shell `3DR-0`).
+- Verified the local homepage in Playwright at `http://127.0.0.1:4321/` on desktop (`1440px`) and mobile (`390px`):
+  - Desktop browser-computed geometry stays aligned with the Paper target: section `1188x873`, intro `1186x196`, cards row `1186x300`, connect block `1186x375`, connect grid `1118x213`, and CTA shell `504x56`. The browser rounds the two desktop connect cards to `550px` each because the `1118px` split width plus the `18px` gap cannot divide evenly, which corresponds to the Paper pair of `551px` cards without creating a visible variance.
+  - Mobile browser-computed geometry matches the Paper connect stack exactly: section `358x1346`, intro `356x245`, cards row `356x528`, connect block `356x571`, connect stack `288x422`, connect cards `288x202` and `288x208`, and CTA shell `254x52`.
+- Verified live destinations after the migration: the header `contact` link and `Host an event with us` CTA both still resolve to `#contact`, and the connect cards still point to the live Instagram profile plus `https://lu.ma/living-library`.
+- Remaining intentional `US-009` content deviation: the second connect card still uses the live Luma calendar destination and copy instead of the Paper `Email updates` placeholder. The shared block shell, spacing, responsive layout, and CTA treatment remain aligned to the Paper artboards.
+- Completed `US-010` on `2026-03-20`: removed the remaining landing-specific compatibility aliases from the shared editorial token layer in `src/styles/editorial.css`, updated the homepage section assemblies and shell styles to consume the editorial token names directly, and kept homepage-only implementation details scoped to the landing page files instead of the shared editorial primitives.
+- Updated `src/components/landing/LandingUpcomingSessions.astro` to use `src/components/editorial/EditorialFrame.astro` rather than the old shared `.landing-section` layout hook, then added the missing `style` prop typing to `EditorialFrame.astro` so the shared frame can type-check section-level inline custom properties.
+- Verified `US-010` with `npm run astro -- check` (`0` errors, existing repository hints only).
+- Verified the homepage against the Paper artboards via Paper MCP screenshots (`1-0`, `34X-0`) and local Playwright captures at `http://127.0.0.1:4321/` on desktop (`1440px`) and mobile (`390px`):
+  - Desktop geometry remained aligned after the naming cleanup: header `1440x108`, hero `1188x919`, upcoming section `1188x610`, feedback section `1188x1178`, get-involved section `1188x873`, and footer `1440x150`.
+  - Mobile geometry remained aligned after the naming cleanup: header `390x142`, hero `358x1304`, upcoming section `358x748`, feedback section `358x1952`, get-involved section `358x1346`, and footer `390x96`.
+- `US-010` introduced no new Paper mismatches. The previously recorded runtime differences from the live Instagram and Luma embeds remain the only intentional content variance versus the static Paper placeholders.
+- Completed `US-011` on `2026-03-20`: ran the final homepage regression audit against the Paper desktop artboard (`1-0`) and mobile artboard (`34X-0`), then corrected the remaining `Join A Session` mismatch in `src/components/landing/LandingUpcomingSessions.astro` by switching the section onto the Paper-sized `full` variant and restoring the Paper mobile content-panel height (`356px`) so the live page matches the designed section footprint at both breakpoints.
+- Verified `US-011` with `npm run astro -- check` (`0` errors, existing repository hints only).
+- Confirmed the final homepage route and shared design-system boundaries in code:
+  - `src/pages/index.astro` composes the homepage directly in the Paper section order: header, hero, upcoming sessions, how it works, feedback, get involved, footer.
+  - The repeated homepage intros now flow through `src/components/editorial/EditorialSectionIntro.astro`.
+  - The typed uniform blocks now flow through `src/components/editorial/EditorialSectionBlocks.astro` for `card-grid`, `story-row`, `quote-grid`, `snapshot`, and `connect-actions` content.
+- Verified the local homepage in Playwright at `http://127.0.0.1:4321/` against the Paper measurements:
+  - Desktop (`1440px`): header `1440x109`, hero `1188x1083`, upcoming section `1188x840`, how-it-works `1188x1556`, feedback `1188x1178`, and get-involved `1188x873`, matching the Paper desktop section geometry. The rendered footer box reports `1440x151` because the browser bounds include the border edge around the `150px` Paper frame.
+  - Mobile (`390px`): header `390x143`, hero `358x1468`, upcoming section `358x846`, how-it-works `358x2355`, feedback `358x1952`, and get-involved `358x1346`, matching the Paper mobile section geometry. The rendered footer box reports `390x97` because the browser bounds include the border edge around the `96px` Paper frame.
+- Confirmed the live embeds and destinations still point to the real production targets after the final audit:
+  - Hero still uses the live Instagram embed.
+  - `Join A Session` still uses the live Luma embed (`https://lu.ma/embed/calendar/cal-GHDfTF0OIWzcDd9/events?lt=light`).
+  - The application CTA still points to `https://app.youform.com/forms/evyp3pwk`, the partner CTA still resolves to `#contact`, and the connect cards still point to the live Instagram profile plus `https://lu.ma/living-library`.
+- Remaining intentional content variance after `US-011`: the live Instagram and Luma iframes render runtime content, including the current Luma `No Upcoming Events` empty state, so the imagery and internal text inside those embeds differ from the static Paper placeholders even though the surrounding layout, sizing, spacing, hierarchy, and destinations now match the Paper artboards.

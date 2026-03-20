@@ -1,0 +1,134 @@
+---
+import type {EditorialResponsiveText, EditorialSplitBandBlock} from './editorialSection'
+
+interface Props {
+  block: EditorialSplitBandBlock
+  headingTag?: 'h2' | 'h3' | 'h4'
+  class?: string
+}
+
+const {
+  block,
+  headingTag = 'h3',
+  class: className,
+} = Astro.props as Props
+
+const HeadingTag = headingTag
+
+const isResponsiveText = (
+  value: EditorialResponsiveText,
+): value is Exclude<EditorialResponsiveText, string> => typeof value === 'object' && value !== null
+---
+
+<div class:list={['editorial-split-band-block', className]} data-editorial-block-kind="split-band">
+  {
+    block.panels.map((panel) => {
+      const description = panel.description
+
+      return (
+        <article class="editorial-split-band-panel" data-editorial-panel-id={panel.id}>
+          {panel.eyebrow && <p class="editorial-split-band-panel__eyebrow">{panel.eyebrow}</p>}
+          <HeadingTag class="editorial-split-band-panel__title">{panel.title}</HeadingTag>
+
+          {isResponsiveText(description) ? (
+            <>
+              <p class="editorial-split-band-panel__description editorial-split-band-panel__description--desktop">
+                {description.desktop}
+              </p>
+              <p class="editorial-split-band-panel__description editorial-split-band-panel__description--mobile">
+                {description.mobile}
+              </p>
+            </>
+          ) : (
+            <p class="editorial-split-band-panel__description">{description}</p>
+          )}
+        </article>
+      )
+    })
+  }
+</div>
+
+<style>
+  .editorial-split-band-block {
+    display: flex;
+    gap: var(--editorial-block-gap);
+  }
+
+  .editorial-split-band-panel {
+    min-width: 0;
+    flex: 1 1 0;
+    min-height: 213px;
+    padding: var(--editorial-panel-padding-compact);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid var(--editorial-color-border);
+    background: var(--editorial-color-surface-muted);
+  }
+
+  .editorial-split-band-panel__eyebrow,
+  .editorial-split-band-panel__title,
+  .editorial-split-band-panel__description {
+    margin: 0;
+  }
+
+  .editorial-split-band-panel__eyebrow {
+    color: #8a8477;
+    font-family: var(--editorial-font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.08em;
+  }
+
+  .editorial-split-band-panel__title {
+    color: #2b2a25;
+    font-family: var(--editorial-font-serif);
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 35px;
+  }
+
+  .editorial-split-band-panel__description {
+    color: #4b4942;
+    font-family: var(--editorial-font-sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  .editorial-split-band-panel__description--mobile {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .editorial-split-band-block {
+      flex-direction: column;
+      gap: var(--editorial-block-gap-mobile);
+    }
+
+    .editorial-split-band-panel {
+      min-height: 0;
+      padding: var(--editorial-panel-padding-compact-mobile);
+      gap: 10px;
+    }
+
+    .editorial-split-band-panel__title {
+      font-size: 30px;
+      line-height: 32px;
+    }
+
+    .editorial-split-band-panel__description {
+      font-size: 15px;
+      line-height: 22px;
+    }
+
+    .editorial-split-band-panel__description--desktop {
+      display: none;
+    }
+
+    .editorial-split-band-panel__description--mobile {
+      display: block;
+    }
+  }
+</style>

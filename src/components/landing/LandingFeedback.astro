@@ -1,0 +1,35 @@
+---
+import EditorialFrame from '../editorial/EditorialFrame.astro'
+import EditorialSectionBlocks from '../editorial/EditorialSectionBlocks.astro'
+import EditorialSectionIntro from '../editorial/EditorialSectionIntro.astro'
+import {FEEDBACK_SECTION} from './feedbackData'
+---
+
+<EditorialFrame
+  as="section"
+  variant="section"
+  class="landing-section--feedback landing-feedback"
+  aria-labelledby="feedback-title"
+>
+  <EditorialSectionIntro intro={FEEDBACK_SECTION.intro} headingId="feedback-title" />
+  <EditorialSectionBlocks blocks={FEEDBACK_SECTION.blocks} />
+</EditorialFrame>
+
+<style>
+  :global(.landing-section--feedback) {
+    margin-top: 32px;
+  }
+
+  :global(.landing-feedback) {
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--editorial-color-border);
+  }
+
+  @media (max-width: 900px) {
+    :global(.landing-section--feedback) {
+      margin-top: 24px;
+    }
+  }
+</style>

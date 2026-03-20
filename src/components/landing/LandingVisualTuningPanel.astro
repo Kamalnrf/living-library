@@ -1,0 +1,239 @@
+---
+import {defaultLandingVisualTuningState, landingVisualDialControls} from './landingVisualTuning'
+---
+
+<aside class="landing-visual-dials" data-landing-visual-dials>
+  <details open>
+    <summary>Landing visual dials</summary>
+
+    <div class="landing-visual-dials__controls">
+      {
+        landingVisualDialControls.map((control) => (
+          <label class="landing-visual-dials__control">
+            <span class="landing-visual-dials__meta">
+              <span>{control.label}</span>
+              <span data-landing-dial-value={control.key}>
+                {defaultLandingVisualTuningState[control.key].toFixed(2)}
+              </span>
+            </span>
+
+            <input
+              data-landing-dial-input={control.key}
+              data-landing-dial-css-var={control.cssVar}
+              type="range"
+              min={control.min}
+              max={control.max}
+              step={control.step}
+              value={defaultLandingVisualTuningState[control.key]}
+            />
+          </label>
+        ))
+      }
+
+      <div class="landing-visual-dials__footer">
+        <span data-landing-dial-status>Defaults match the committed landing values.</span>
+
+        <div class="landing-visual-dials__actions">
+          <button type="button" data-landing-dial-copy>Copy CSS</button>
+          <button type="button" data-landing-dial-reset>Reset</button>
+        </div>
+      </div>
+    </div>
+  </details>
+</aside>
+
+<script is:inline define:vars={{defaultLandingVisualTuningState}}>
+  const root = document.documentElement
+  const dialRoot = document.querySelector('[data-landing-visual-dials]')
+  const inputs = Array.from(document.querySelectorAll('[data-landing-dial-input]'))
+  const copyButton = document.querySelector('[data-landing-dial-copy]')
+  const resetButton = document.querySelector('[data-landing-dial-reset]')
+  const status = document.querySelector('[data-landing-dial-status]')
+
+  const formatValue = (value) => Number(value).toFixed(2)
+
+  const setStatus = (message) => {
+    if (status) {
+      status.textContent = message
+    }
+  }
+
+  const updateVisibleValue = (key, value) => {
+    const output = document.querySelector(`[data-landing-dial-value="${key}"]`)
+
+    if (output) {
+      output.textContent = formatValue(value)
+    }
+  }
+
+  const applyInputValue = (input, value) => {
+    input.value = String(value)
+    const cssVar = input.getAttribute('data-landing-dial-css-var')
+    const key = input.getAttribute('data-landing-dial-input')
+
+    if (cssVar) {
+      root.style.setProperty(cssVar, Number(value).toFixed(3))
+    }
+
+    if (key) {
+      updateVisibleValue(key, value)
+    }
+  }
+
+  const buildCssOverrideBlock = () => {
+    const lines = inputs.map((input) => {
+      const cssVar = input.getAttribute('data-landing-dial-css-var')
+
+      return `  ${cssVar}: ${Number(input.value).toFixed(3)};`
+    })
+
+    return [':root {', ...lines, '}'].join('\n')
+  }
+
+  const copyText = async (text) => {
+    if (navigator.clipboard?.writeText) {
+      await navigator.clipboard.writeText(text)
+      return
+    }
+
+    const textarea = document.createElement('textarea')
+    textarea.value = text
+    textarea.setAttribute('readonly', '')
+    textarea.style.position = 'absolute'
+    textarea.style.left = '-9999px'
+    document.body.appendChild(textarea)
+    textarea.select()
+    document.execCommand('copy')
+    textarea.remove()
+  }
+
+  if (dialRoot) {
+    for (const input of inputs) {
+      input.addEventListener('input', (event) => {
+        const currentInput = event.currentTarget
+
+        if (!(currentInput instanceof HTMLInputElement)) {
+          return
+        }
+
+        applyInputValue(currentInput, currentInput.value)
+      })
+
+      const key = input.getAttribute('data-landing-dial-input')
+
+      if (key) {
+        applyInputValue(input, defaultLandingVisualTuningState[key])
+      }
+    }
+
+    resetButton?.addEventListener('click', () => {
+      for (const input of inputs) {
+        const key = input.getAttribute('data-landing-dial-input')
+
+        if (!key) {
+          continue
+        }
+
+        applyInputValue(input, defaultLandingVisualTuningState[key])
+      }
+
+      setStatus('Defaults restored.')
+    })
+
+    copyButton?.addEventListener('click', async () => {
+      try {
+        await copyText(buildCssOverrideBlock())
+        setStatus('Copied CSS vars for landing-shell.css.')
+      } catch (error) {
+        console.error(error)
+        setStatus('Could not copy. Try again.')
+      }
+    })
+  }
+</script>
+
+<style>
+  .landing-visual-dials {
+    position: fixed;
+    right: 16px;
+    bottom: 16px;
+    z-index: 80;
+    width: min(320px, calc(100vw - 32px));
+    font-family: var(--editorial-font-sans);
+  }
+
+  .landing-visual-dials details {
+    border: 1px solid var(--editorial-color-action-border);
+    background: rgb(255 253 250 / 0.94);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 18px 48px rgb(79 63 32 / 0.08);
+  }
+
+  .landing-visual-dials summary {
+    cursor: pointer;
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--editorial-color-border-soft);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 16px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--editorial-color-muted);
+  }
+
+  .landing-visual-dials__controls {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .landing-visual-dials__control {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .landing-visual-dials__meta {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--editorial-color-muted);
+  }
+
+  .landing-visual-dials__footer {
+    padding-top: 6px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--editorial-color-muted-soft);
+  }
+
+  .landing-visual-dials__actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+  }
+
+  .landing-visual-dials__footer button {
+    min-height: 34px;
+    padding: 0 12px;
+    border: 1px solid var(--editorial-color-action-border);
+    background: var(--editorial-color-action-surface);
+    color: var(--editorial-color-action-text);
+    font: inherit;
+    cursor: pointer;
+  }
+
+  @media (max-width: 900px) {
+    .landing-visual-dials {
+      display: none;
+    }
+  }
+</style>

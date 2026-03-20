@@ -1,0 +1,249 @@
+---
+interface Props {
+  embedUrl: string
+  handle: string
+  profileName: string
+  profileUrl: string
+}
+
+const {embedUrl, handle, profileName, profileUrl} = Astro.props
+---
+
+<div class="landing-hero__embed" aria-label={`${handle} Instagram profile`}>
+  <div class="landing-hero__embed-header">
+    <span class="landing-hero__embed-handle">{handle}</span>
+    <a
+      class="landing-hero__embed-open"
+      href={profileUrl}
+      rel="noreferrer"
+      target="_blank"
+    >
+      open profile ↗
+    </a>
+  </div>
+
+  <div class="landing-hero__embed-body" data-instagram-embed data-instagram-state="loading">
+    <iframe
+      class="landing-hero__embed-frame"
+      data-instagram-frame
+      data-src={embedUrl}
+      src="about:blank"
+      title={`${handle} Instagram profile`}
+      loading="eager"
+      referrerpolicy="strict-origin-when-cross-origin"
+    ></iframe>
+
+    <div class="landing-hero__embed-fallback" data-instagram-fallback aria-live="polite">
+      <p class="landing-hero__embed-title">Instagram preview</p>
+      <a
+        class="landing-hero__embed-link"
+        href={profileUrl}
+        rel="noreferrer"
+        target="_blank"
+      >
+        {profileName}
+      </a>
+      <p class="landing-hero__embed-note">Profile embeds can be limited in this editor.</p>
+    </div>
+
+    <div class="landing-hero__embed-footer" aria-hidden="true">
+      Live profile preview
+    </div>
+  </div>
+</div>
+
+<script is:inline>
+  const INSTAGRAM_EMBED_TIMEOUT_MS = 5000
+
+  for (const embedBody of document.querySelectorAll('[data-instagram-embed]')) {
+    if (!(embedBody instanceof HTMLElement) || embedBody.dataset.instagramBound === 'true') {
+      continue
+    }
+
+    const frame = embedBody.querySelector('[data-instagram-frame]')
+    const fallback = embedBody.querySelector('[data-instagram-fallback]')
+
+    if (!(frame instanceof HTMLIFrameElement) || !(fallback instanceof HTMLElement)) {
+      continue
+    }
+
+    embedBody.dataset.instagramBound = 'true'
+
+    let didLoad = false
+
+    const applyState = (state) => {
+      embedBody.dataset.instagramState = state
+      fallback.hidden = state === 'loaded'
+    }
+
+    const markLoaded = () => {
+      didLoad = true
+      window.clearTimeout(timeoutId)
+      applyState('loaded')
+    }
+
+    const markFailed = () => {
+      if (didLoad) {
+        return
+      }
+
+      applyState('failed')
+    }
+
+    const timeoutId = window.setTimeout(markFailed, INSTAGRAM_EMBED_TIMEOUT_MS)
+
+    frame.addEventListener('load', markLoaded, {once: true})
+    applyState('loading')
+    frame.src = frame.dataset.src ?? frame.src
+  }
+</script>
+
+<style>
+  .landing-hero__embed {
+    width: min(360px, 100%);
+    min-height: 432px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--editorial-color-widget-border);
+    background: var(--editorial-color-surface-elevated);
+    overflow: hidden;
+  }
+
+  .landing-hero__embed-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--editorial-color-border-soft);
+    background: var(--editorial-color-surface-panel);
+  }
+
+  .landing-hero__embed-handle {
+    font-size: 14px;
+    line-height: 18px;
+    color: #2f2d28;
+  }
+
+  .landing-hero__embed-open,
+  .landing-hero__embed-link {
+    color: var(--editorial-color-accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+
+  .landing-hero__embed-open {
+    font-size: 12px;
+    line-height: 16px;
+  }
+
+  .landing-hero__embed-open:focus-visible,
+  .landing-hero__embed-link:focus-visible {
+    outline: 2px solid var(--editorial-color-accent);
+    outline-offset: 4px;
+  }
+
+  .landing-hero__embed-body {
+    min-height: 390px;
+    position: relative;
+    overflow: hidden;
+    background: var(--editorial-color-surface-embed);
+  }
+
+  .landing-hero__embed-frame {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    background: var(--editorial-color-surface-embed);
+    opacity: 0;
+    transition: opacity 180ms ease;
+  }
+
+  .landing-hero__embed-body::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: 32px;
+    left: 0;
+    height: 112px;
+    pointer-events: none;
+    background: linear-gradient(
+      180deg,
+      rgb(243 240 231 / 0) 0%,
+      rgb(243 240 231 / 0.78) 58%,
+      var(--editorial-color-surface-embed) 100%
+    );
+    z-index: 1;
+  }
+
+  .landing-hero__embed-body[data-instagram-state='loaded'] .landing-hero__embed-frame {
+    opacity: 1;
+  }
+
+  .landing-hero__embed-fallback {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    text-align: center;
+    background: var(--editorial-color-surface-embed);
+    transition: opacity 180ms ease;
+    z-index: 2;
+  }
+
+  .landing-hero__embed-body[data-instagram-state='loaded'] .landing-hero__embed-fallback {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .landing-hero__embed-title {
+    margin: 0;
+    font-size: 16px;
+    line-height: 20px;
+    color: #4a473f;
+  }
+
+  .landing-hero__embed-link {
+    font-size: 14px;
+    line-height: 18px;
+  }
+
+  .landing-hero__embed-note {
+    margin: 0;
+    max-width: 219px;
+    font-size: 12px;
+    line-height: 16px;
+    color: var(--editorial-color-muted-soft);
+  }
+
+  .landing-hero__embed-footer {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    min-height: 32px;
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgb(214 207 190 / 0.8);
+    background: rgb(247 244 237 / 0.94);
+    font-size: 11px;
+    line-height: 14px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--editorial-color-muted-soft);
+    z-index: 2;
+  }
+
+  @media (max-width: 900px) {
+    .landing-hero__embed {
+      width: 100%;
+    }
+  }
+</style>

@@ -1,0 +1,64 @@
+---
+import EditorialCardGridBlock from './EditorialCardGridBlock.astro'
+import EditorialConnectActionsBlock from './EditorialConnectActionsBlock.astro'
+import EditorialQuoteGridBlock from './EditorialQuoteGridBlock.astro'
+import EditorialSnapshotBlock from './EditorialSnapshotBlock.astro'
+import EditorialStoryRowBlock from './EditorialStoryRowBlock.astro'
+import EditorialSplitBandBlock from './EditorialSplitBandBlock.astro'
+import type {
+  EditorialCardGridBlock as EditorialCardGridBlockData,
+  EditorialConnectActionsBlock as EditorialConnectActionsBlockData,
+  EditorialQuoteGridBlock as EditorialQuoteGridBlockData,
+  EditorialSnapshotBlock as EditorialSnapshotBlockData,
+  EditorialSplitBandBlock as EditorialSplitBandBlockData,
+  EditorialStoryRowBlock as EditorialStoryRowBlockData,
+} from './editorialSection'
+
+type SupportedEditorialBlock =
+  | EditorialCardGridBlockData
+  | EditorialConnectActionsBlockData
+  | EditorialQuoteGridBlockData
+  | EditorialSnapshotBlockData
+  | EditorialSplitBandBlockData
+  | EditorialStoryRowBlockData
+
+interface Props {
+  blocks: readonly SupportedEditorialBlock[]
+  headingTag?: 'h2' | 'h3' | 'h4'
+}
+
+const {
+  blocks,
+  headingTag = 'h3',
+} = Astro.props as Props
+---
+
+{
+  blocks.map((block) => {
+    if (block.kind === 'card-grid') {
+      return <EditorialCardGridBlock block={block} headingTag={headingTag} />
+    }
+
+    if (block.kind === 'split-band') {
+      return <EditorialSplitBandBlock block={block} headingTag={headingTag} />
+    }
+
+    if (block.kind === 'connect-actions') {
+      return <EditorialConnectActionsBlock block={block} headingTag={headingTag} />
+    }
+
+    if (block.kind === 'quote-grid') {
+      return <EditorialQuoteGridBlock block={block} />
+    }
+
+    if (block.kind === 'snapshot') {
+      return <EditorialSnapshotBlock block={block} headingTag={headingTag} />
+    }
+
+    if (block.kind === 'story-row') {
+      return <EditorialStoryRowBlock block={block} headingTag={headingTag} />
+    }
+
+    return null
+  })
+}

@@ -1,0 +1,103 @@
+---
+import EditorialShellRegion from "../editorial/EditorialShellRegion.astro";
+import { INSTAGRAM_URL, SITE_NAME } from "../../utils/site";
+
+const currentYear = new Date().getFullYear();
+---
+
+<EditorialShellRegion
+  as="footer"
+  class="landing-footer"
+  innerClass="landing-footer__inner"
+>
+  <div class="landing-footer__brandline" aria-label={`${SITE_NAME} copyright`}>
+    <span class="landing-footer__year">© {currentYear}</span>
+    <span class="landing-footer__name">{SITE_NAME}</span>
+  </div>
+
+  <a
+    class="landing-footer__link"
+    href={INSTAGRAM_URL}
+    target="_blank"
+    rel="noreferrer"
+  >
+    instagram ↗
+  </a>
+</EditorialShellRegion>
+
+<style>
+  :global(.landing-footer) {
+    width: 100%;
+    margin-top: 36px;
+    background: #f6f4ee;
+    border-top: 1px solid var(--editorial-color-border);
+  }
+
+  :global(.landing-footer__inner) {
+    min-height: 150px;
+    padding-block: 24px;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+  }
+
+  .landing-footer__brandline {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+  }
+
+  .landing-footer__year {
+    color: #5c594f;
+    font-size: 18px;
+    line-height: 20px;
+  }
+
+  .landing-footer__name,
+  .landing-footer__link {
+    color: #2f2d28;
+  }
+
+  .landing-footer__name {
+    font-size: 18px;
+    line-height: 22px;
+  }
+
+  .landing-footer__link {
+    font-size: 18px;
+    line-height: 22px;
+    text-decoration: none;
+  }
+
+  .landing-footer__link:hover {
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .landing-footer__link:focus-visible {
+    outline: 2px solid var(--editorial-color-accent);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 900px) {
+    :global(.landing-footer) {
+      margin-top: 24px;
+    }
+
+    :global(.landing-footer__inner) {
+      min-height: 96px;
+      padding-block: 18px;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: flex-start;
+      gap: 8px;
+    }
+
+    .landing-footer__name,
+    .landing-footer__year,
+    .landing-footer__link {
+      font-size: 15px;
+      line-height: 20px;
+    }
+  }
+</style>

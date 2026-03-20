@@ -1,0 +1,278 @@
+---
+import type {EditorialConnectActionCard, EditorialConnectActionsBlock} from './editorialSection'
+
+interface Props {
+  block: EditorialConnectActionsBlock
+  headingTag?: 'h2' | 'h3' | 'h4'
+  class?: string
+}
+
+const {
+  block,
+  headingTag = 'h3',
+  class: className,
+} = Astro.props as Props
+
+const HeadingTag = headingTag
+const headingId = block.anchorId ? `${block.anchorId}-title` : undefined
+
+const isButtonActionCard = (
+  card: EditorialConnectActionCard,
+): card is Extract<EditorialConnectActionCard, {actionButtonLabel: string}> =>
+  'actionButtonLabel' in card
+---
+
+<section
+  id={block.anchorId}
+  class:list={['editorial-connect-actions-block', className]}
+  data-editorial-block-kind="connect-actions"
+  aria-labelledby={headingId}
+>
+  <div class="editorial-connect-actions-block__shell">
+    <p class="editorial-connect-actions-block__index">{block.id}</p>
+    <HeadingTag id={headingId} class="editorial-connect-actions-block__title">
+      {block.title}
+    </HeadingTag>
+
+    <div class="editorial-connect-actions-block__grid">
+      {
+        block.cards.map((card) => {
+          const linkAttributes = card.external
+            ? {
+                target: '_blank',
+                rel: 'noreferrer',
+              }
+            : {}
+
+          return (
+            <article class="editorial-connect-card" data-editorial-connect-card-id={card.id}>
+              <p class="editorial-connect-card__eyebrow">{card.eyebrow}</p>
+              <h4 class="editorial-connect-card__title">{card.title}</h4>
+              <p class="editorial-connect-card__description">{card.description}</p>
+
+              {isButtonActionCard(card) ? (
+                <a
+                  class="editorial-connect-card__action"
+                  data-editorial-connect-card-action="button"
+                  href={card.href}
+                  {...linkAttributes}
+                >
+                  <span class="editorial-connect-card__action-value">{card.actionValue}</span>
+                  <span class="editorial-connect-card__action-button">{card.actionButtonLabel}</span>
+                </a>
+              ) : (
+                <a
+                  class="editorial-connect-card__link"
+                  data-editorial-connect-card-action="link"
+                  href={card.href}
+                  {...linkAttributes}
+                >
+                  {card.linkLabel}
+                </a>
+              )}
+            </article>
+          )
+        })
+      }
+    </div>
+  </div>
+</section>
+
+<style>
+  .editorial-connect-actions-block {
+    border-top: 1px solid #e4dfd2;
+    scroll-margin-top: 6rem;
+  }
+
+  .editorial-connect-actions-block__shell {
+    padding: var(--editorial-panel-padding);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .editorial-connect-actions-block__index,
+  .editorial-connect-card__eyebrow {
+    margin: 0;
+    color: #8e8776;
+    font-family: var(--editorial-font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.08em;
+  }
+
+  .editorial-connect-actions-block__title,
+  .editorial-connect-card__title,
+  .editorial-connect-card__description {
+    margin: 0;
+  }
+
+  .editorial-connect-actions-block__title {
+    color: #2b2a25;
+    font-family: var(--editorial-font-serif);
+    font-size: 42px;
+    font-weight: 400;
+    line-height: 45px;
+  }
+
+  .editorial-connect-actions-block__grid {
+    display: flex;
+    gap: var(--editorial-block-gap);
+  }
+
+  .editorial-connect-card {
+    min-width: 0;
+    flex: 1 1 0;
+    padding: var(--editorial-panel-padding-compact);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border: 1px solid var(--editorial-color-border);
+    background: var(--editorial-color-surface-panel);
+  }
+
+  .editorial-connect-card__title {
+    color: #2b2a25;
+    font-family: var(--editorial-font-serif);
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 35px;
+  }
+
+  .editorial-connect-card__description {
+    color: #4b4942;
+    font-family: var(--editorial-font-sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+
+  .editorial-connect-card__link,
+  .editorial-connect-card__action {
+    align-self: flex-start;
+    color: var(--editorial-color-accent);
+    font-family: var(--editorial-font-sans);
+    font-weight: 400;
+    text-decoration: none;
+  }
+
+  .editorial-connect-card__link {
+    font-size: 20px;
+    line-height: 24px;
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+  }
+
+  .editorial-connect-card__link:hover {
+    color: #6a4222;
+  }
+
+  .editorial-connect-card__action {
+    width: 100%;
+    min-height: 56px;
+    padding: 6px;
+    display: flex;
+    align-items: center;
+    background: var(--editorial-color-action-surface);
+    border: 1px solid var(--editorial-color-action-border);
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .editorial-connect-card__action:hover,
+  .editorial-connect-card__action:focus-visible {
+    background: var(--editorial-color-action-surface-hover);
+    border-color: var(--editorial-color-action-border-hover);
+    transform: translateY(-1px);
+  }
+
+  .editorial-connect-card__action-value {
+    flex: 1 1 auto;
+    padding-left: 10px;
+    color: #8a8477;
+    font-size: 20px;
+    line-height: 24px;
+  }
+
+  .editorial-connect-card__action-button {
+    width: 74px;
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--editorial-color-action-border);
+    background: var(--editorial-color-surface-panel);
+    color: var(--editorial-color-action-text);
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .editorial-connect-card__link:focus-visible,
+  .editorial-connect-card__action:focus-visible {
+    outline: 2px solid var(--editorial-color-accent);
+    outline-offset: 4px;
+  }
+
+  @media (max-width: 900px) {
+    .editorial-connect-actions-block__shell {
+      gap: 12px;
+    }
+
+    .editorial-connect-actions-block__title {
+      font-size: 38px;
+      line-height: 40px;
+    }
+
+    .editorial-connect-actions-block__grid {
+      flex-direction: column;
+      gap: var(--editorial-block-gap-mobile);
+    }
+
+    .editorial-connect-card {
+      padding: var(--editorial-panel-padding-compact-mobile);
+      gap: 10px;
+    }
+
+    .editorial-connect-card__title {
+      font-size: 30px;
+      line-height: 32px;
+    }
+
+    .editorial-connect-card__description {
+      font-size: 15px;
+      line-height: 22px;
+    }
+
+    .editorial-connect-card__link {
+      font-size: 16px;
+      line-height: 24px;
+    }
+
+    .editorial-connect-card__action {
+      min-height: 52px;
+    }
+
+    .editorial-connect-card__action-value {
+      min-height: 100%;
+      padding-inline: 12px;
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid #e0dbd0;
+      font-size: 16px;
+      line-height: 24px;
+      color: #9a978e;
+    }
+
+    .editorial-connect-card__action-button {
+      width: 96px;
+      min-height: 100%;
+      background: transparent;
+      color: #4b4942;
+      line-height: 24px;
+    }
+  }
+</style>

@@ -1,0 +1,38 @@
+---
+import EditorialFrame from '../editorial/EditorialFrame.astro'
+import EditorialSectionBlocks from '../editorial/EditorialSectionBlocks.astro'
+import EditorialSectionIntro from '../editorial/EditorialSectionIntro.astro'
+import {GET_INVOLVED_SECTION} from './getInvolvedData'
+---
+
+<EditorialFrame
+  as="section"
+  variant="section"
+  id="get-involved"
+  class="landing-section--get-involved landing-get-involved"
+  aria-labelledby="get-involved-title"
+>
+  <EditorialSectionIntro intro={GET_INVOLVED_SECTION.intro} headingId="get-involved-title" />
+  <EditorialSectionBlocks blocks={GET_INVOLVED_SECTION.blocks} headingTag="h3" />
+</EditorialFrame>
+
+<style>
+  :global(.landing-section--get-involved) {
+    position: relative;
+    margin-top: 32px;
+    scroll-margin-top: 6rem;
+  }
+
+  :global(.landing-get-involved) {
+    display: flex;
+    flex-direction: column;
+    background: var(--editorial-color-surface-elevated);
+    border: 1px solid var(--editorial-color-border);
+  }
+
+  @media (max-width: 900px) {
+    :global(.landing-section--get-involved) {
+      margin-top: 24px;
+    }
+  }
+</style>
