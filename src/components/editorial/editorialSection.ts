@@ -55,9 +55,6 @@ export type EditorialMediaImage = {
 export type EditorialStoryRowQuoteCallout = {
   speaker: string
   text: string
-  desktopOffset?: string
-  desktopTop?: string
-  desktopMaxWidth?: string
 }
 
 export type EditorialStoryRowMedia =

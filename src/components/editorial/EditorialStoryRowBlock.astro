@@ -17,22 +17,12 @@ const HeadingTag = headingTag
 
 const getFrameToneClass = (frameTone: 'sage' | 'lavender' | 'sand' = 'sand') =>
   `editorial-story-row__media-frame--${frameTone}`
-
-const quoteStyles =
-  block.quote &&
-  [
-    block.quote.desktopOffset && `--editorial-story-row-quote-offset: ${block.quote.desktopOffset}`,
-    block.quote.desktopTop && `--editorial-story-row-quote-top: ${block.quote.desktopTop}`,
-    block.quote.desktopMaxWidth &&
-      `--editorial-story-row-quote-max-width: ${block.quote.desktopMaxWidth}`,
-  ]
-    .filter(Boolean)
-    .join('; ')
 ---
 
 <article
   class:list={['editorial-story-row', className]}
   data-editorial-block-kind="story-row"
+  data-editorial-block-id={block.id}
   data-editorial-layout={block.layout}
   data-editorial-media-kind={block.media.kind}
   data-editorial-has-quote={block.quote ? 'true' : 'false'}
@@ -98,7 +88,7 @@ const quoteStyles =
           </div>
         )}
 
-        <div class="editorial-story-row__column editorial-story-row__column--text" style={quoteStyles}>
+        <div class="editorial-story-row__column editorial-story-row__column--text">
           <p class="editorial-story-row__step-label">{block.stepLabel}</p>
           <HeadingTag class="editorial-story-row__title">{block.title}</HeadingTag>
           <p class="editorial-story-row__step-body">{block.description}</p>
@@ -119,7 +109,7 @@ const quoteStyles =
       </>
     ) : (
       <>
-        <div class="editorial-story-row__column editorial-story-row__column--text" style={quoteStyles}>
+        <div class="editorial-story-row__column editorial-story-row__column--text">
           <p class="editorial-story-row__step-label">{block.stepLabel}</p>
           <HeadingTag class="editorial-story-row__title">{block.title}</HeadingTag>
           <p class="editorial-story-row__step-body">{block.description}</p>
@@ -324,14 +314,9 @@ const quoteStyles =
   }
 
   .editorial-story-row__quote {
-    position: absolute;
-    top: var(--editorial-story-row-quote-top, auto);
-    left: var(--editorial-story-row-quote-offset, 0px);
-    width: min(
-      var(--editorial-story-row-quote-max-width, 261px),
-      calc(100% - var(--editorial-story-row-quote-offset, 0px) - 1rem)
-    );
-    margin: 0;
+    position: relative;
+    width: min(var(--editorial-story-row-quote-max-width, 261px), 100%);
+    margin: auto 0 0;
     padding: 8px 10px;
     border: 1px solid var(--editorial-color-quote-border);
     background: #fff;

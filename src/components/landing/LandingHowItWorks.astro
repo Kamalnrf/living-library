@@ -34,6 +34,28 @@ import {HOW_IT_WORKS_SECTION} from './howItWorksData'
     border: 1px solid var(--editorial-color-border);
   }
 
+  :global(
+    .landing-how-it-works [data-editorial-block-id='borrow-a-living-book'] .editorial-story-row__quote
+  ) {
+    position: absolute;
+    top: 256px;
+    left: 78px;
+    width: min(261px, calc(100% - 78px - 1rem));
+    margin-top: 0;
+  }
+
+  :global(
+    .landing-how-it-works
+      [data-editorial-block-id='return-with-a-changed-perspective']
+      .editorial-story-row__quote
+  ) {
+    position: absolute;
+    top: 301px;
+    left: 154px;
+    width: min(232px, calc(100% - 154px - 1rem));
+    margin-top: 0;
+  }
+
   @media (max-width: 900px) {
     :global(.landing-section--how-it-works) {
       margin-top: 24px;

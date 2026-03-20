@@ -1,17 +1,26 @@
 ---
-import EditorialShellRegion from '../editorial/EditorialShellRegion.astro'
-import {INSTAGRAM_URL, SITE_NAME} from '../../utils/site'
+import EditorialShellRegion from "../editorial/EditorialShellRegion.astro";
+import { INSTAGRAM_URL, SITE_NAME } from "../../utils/site";
 
-const currentYear = new Date().getFullYear()
+const currentYear = new Date().getFullYear();
 ---
 
-<EditorialShellRegion as="footer" class="landing-footer" innerClass="landing-footer__inner">
+<EditorialShellRegion
+  as="footer"
+  class="landing-footer"
+  innerClass="landing-footer__inner"
+>
   <div class="landing-footer__brandline" aria-label={`${SITE_NAME} copyright`}>
     <span class="landing-footer__year">© {currentYear}</span>
     <span class="landing-footer__name">{SITE_NAME}</span>
   </div>
 
-  <a class="landing-footer__link" href={INSTAGRAM_URL} target="_blank" rel="noreferrer">
+  <a
+    class="landing-footer__link"
+    href={INSTAGRAM_URL}
+    target="_blank"
+    rel="noreferrer"
+  >
     instagram ↗
   </a>
 </EditorialShellRegion>
@@ -85,6 +94,7 @@ const currentYear = new Date().getFullYear()
     }
 
     .landing-footer__name,
+    .landing-footer__year,
     .landing-footer__link {
       font-size: 15px;
       line-height: 20px;
