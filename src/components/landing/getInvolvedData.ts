@@ -21,12 +21,8 @@ const GET_INVOLVED_ACTION_CARDS = [
 	{
 		id: "01",
 		title: "Apply to be a Living Book",
-		description: {
-			desktop:
-				"Share your lived experience in a facilitated setting. Keep this as a direct link, like your current flow.",
-			mobile:
-				"Share your lived experience in a facilitated setting. Keep the format honest and personal.",
-		},
+		description:
+			"Share your unique story and help others understand diverse perspectives and experiences.",
 		action: {
 			href: LIVING_BOOK_APPLICATION_URL,
 			label: "Open application form ↗",
