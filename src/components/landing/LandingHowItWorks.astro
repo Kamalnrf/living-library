@@ -1,0 +1,115 @@
+---
+import {HOW_IT_WORKS_SECTION, HOW_IT_WORKS_STEPS} from './howItWorksData'
+---
+
+<section
+  id="how-it-works"
+  class="landing-section landing-section--how-it-works"
+  aria-labelledby="how-it-works-title"
+>
+  <div class="landing-how-it-works">
+    <div class="landing-how-it-works__intro">
+      <p class="landing-how-it-works__eyebrow">{HOW_IT_WORKS_SECTION.eyebrow}</p>
+      <h2 id="how-it-works-title">{HOW_IT_WORKS_SECTION.title}</h2>
+      <p class="landing-how-it-works__body landing-how-it-works__body--desktop">
+        {HOW_IT_WORKS_SECTION.descriptionDesktop}
+      </p>
+      <p class="landing-how-it-works__body landing-how-it-works__body--mobile">
+        {HOW_IT_WORKS_SECTION.descriptionMobile}
+      </p>
+    </div>
+
+    {
+      HOW_IT_WORKS_STEPS.map((step) => {
+        const quoteStyles =
+          step.quote &&
+          [
+            `--landing-step-quote-offset: ${step.quote.desktopOffset}`,
+            `--landing-step-quote-top: ${step.quote.desktopTop}`,
+            `--landing-step-quote-max-width: ${step.quote.desktopMaxWidth}`,
+          ].join('; ')
+
+        const renderText = (
+          <div class="landing-how-it-works__column landing-how-it-works__column--text" style={quoteStyles}>
+            <p class="landing-how-it-works__step-label">{step.stepLabel}</p>
+            <h3>{step.title}</h3>
+            <p class="landing-how-it-works__step-body">{step.description}</p>
+
+            {
+              step.quote && (
+                <figure class="landing-how-it-works__quote">
+                  <span class="landing-how-it-works__quote-dot" aria-hidden="true"></span>
+                  <figcaption class="landing-how-it-works__quote-speaker">{step.quote.speaker}</figcaption>
+
+                  <blockquote class="landing-how-it-works__quote-text">
+                    <p>{step.quote.text}</p>
+                  </blockquote>
+                </figure>
+              )
+            }
+          </div>
+        )
+
+        const renderMedia =
+          step.media.kind === 'single' ? (
+            <div class="landing-how-it-works__column landing-how-it-works__column--media">
+              <figure
+                class:list={[
+                  'landing-how-it-works__media-frame',
+                  step.media.frameTone === 'sage'
+                    ? 'landing-how-it-works__media-frame--sage'
+                    : 'landing-how-it-works__media-frame--lavender',
+                ]}
+                style={`--landing-step-media-height: ${step.media.desktopHeight}; --landing-step-media-height-mobile: ${step.media.mobileHeight};`}
+              >
+                <img
+                  class="landing-how-it-works__media-image"
+                  src={step.media.image.src}
+                  alt={step.media.image.alt}
+                  width={step.media.image.width}
+                  height={step.media.image.height}
+                  loading="lazy"
+                />
+              </figure>
+            </div>
+          ) : (
+            <div class="landing-how-it-works__column landing-how-it-works__column--media">
+              <div class="landing-how-it-works__collage">
+                <div class="landing-how-it-works__collage-stack">
+                  {step.media.stackedImages.map((image) => (
+                    <figure class="landing-how-it-works__collage-panel">
+                      <img
+                        class="landing-how-it-works__media-image"
+                        src={image.src}
+                        alt={image.alt}
+                        width={image.width}
+                        height={image.height}
+                        loading="lazy"
+                      />
+                    </figure>
+                  ))}
+                </div>
+
+                <figure class="landing-how-it-works__media-frame landing-how-it-works__media-frame--sand">
+                  <img
+                    class="landing-how-it-works__media-image"
+                    src={step.media.accentImage.src}
+                    alt={step.media.accentImage.alt}
+                    width={step.media.accentImage.width}
+                    height={step.media.accentImage.height}
+                    loading="lazy"
+                  />
+                </figure>
+              </div>
+            </div>
+          )
+
+        return (
+          <article class="landing-how-it-works__row">
+            {step.layout === 'media-first' ? [renderMedia, renderText] : [renderText, renderMedia]}
+          </article>
+        )
+      })
+    }
+  </div>
+</section>
