@@ -1,7 +1,7 @@
 :root {
   --landing-font-sans: 'Inter Tight', system-ui, sans-serif;
   --landing-font-serif: 'Prata', serif;
-  --landing-background: #fbf8f2;
+  --landing-background: #f8f6f2;
   --landing-surface: rgb(255 255 255 / 0.92);
   --landing-surface-soft: rgb(255 251 244 / 0.72);
   --landing-border: #d8d2c4;
@@ -40,10 +40,7 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background:
-    radial-gradient(circle at top left, rgb(245 222 193 / 0.24), transparent 34rem),
-    radial-gradient(circle at bottom right, rgb(244 235 204 / 0.2), transparent 30rem),
-    linear-gradient(180deg, #fcfaf6 0%, #f8f4ec 100%);
+  background: var(--landing-background);
   color: var(--landing-text);
   position: relative;
   overflow-x: clip;
@@ -91,31 +88,8 @@ a {
 }
 
 .landing-backdrop__shader-layer--simplex-noise {
-  opacity: 0.68;
+  opacity: 0.18;
   mix-blend-mode: screen;
-}
-
-.landing-backdrop__glow {
-  position: absolute;
-  border-radius: 999px;
-  filter: blur(132px);
-  opacity: 0.12;
-}
-
-.landing-backdrop__glow--warm {
-  top: -9rem;
-  right: -8rem;
-  width: 28rem;
-  height: 28rem;
-  background: rgb(232 167 109 / 0.16);
-}
-
-.landing-backdrop__glow--cool {
-  bottom: 8rem;
-  left: -10rem;
-  width: 32rem;
-  height: 32rem;
-  background: rgb(238 231 193 / 0.22);
 }
 
 .landing-page {
