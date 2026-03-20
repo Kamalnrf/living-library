@@ -1,0 +1,45 @@
+---
+import {SITE_NAME} from '../../utils/site'
+
+type NavigationItem = {
+  href: `#${string}`
+  label: string
+  emphasized?: boolean
+}
+
+const navigationItems: readonly NavigationItem[] = [
+  {href: '#how-it-works', label: 'how it works'},
+  {href: '#get-involved', label: 'partner with us', emphasized: true},
+  {href: '#contact', label: 'contact'},
+]
+---
+
+<header class="landing-header" id="landing-page-top">
+  <div class="landing-header__inner">
+    <a class="landing-header__brand" href="#landing-page-top" aria-label={`${SITE_NAME} home`}>
+      <span class="landing-header__mark" aria-hidden="true">
+        <span class="landing-header__shape landing-header__shape--circle landing-header__shape--circle-small"></span>
+        <span class="landing-header__shape landing-header__shape--circle landing-header__shape--circle-large"></span>
+        <span class="landing-header__shape landing-header__shape--triangle landing-header__shape--triangle-small"></span>
+        <span class="landing-header__shape landing-header__shape--triangle landing-header__shape--triangle-large"></span>
+        <span class="landing-header__shape landing-header__shape--square landing-header__shape--square-small"></span>
+        <span class="landing-header__shape landing-header__shape--square landing-header__shape--square-large"></span>
+      </span>
+
+      <span class="landing-header__brand-text">{SITE_NAME}</span>
+    </a>
+
+    <nav class="landing-header__nav" aria-label="Primary">
+      {
+        navigationItems.map((item) => (
+          <a
+            class:list={['landing-header__nav-link', item.emphasized && 'landing-header__nav-link--accent']}
+            href={item.href}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>

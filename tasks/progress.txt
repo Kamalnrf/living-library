@@ -11,15 +11,15 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-004 (ready to start)
-Completed: 3/12
+Current story: US-005 (ready to start)
+Completed: 4/12
 
 ## Story Queue
 
 - [x] US-001: Create landing page shell and thin index route
 - [x] US-002: Add reusable Paper shader background layer
 - [x] US-003: Update public branding and homepage metadata
-- [ ] US-004: Build header navigation component
+- [x] US-004: Build header navigation component
 - [ ] US-005: Build hero media and copy section
 - [ ] US-006: Add Instagram profile embed to the hero
 - [ ] US-007: Build the upcoming sessions section with Luma
@@ -44,3 +44,6 @@ Completed: 3/12
 - Browser verification succeeded for `http://127.0.0.1:4321/` using `agent-browser` and Playwright; the landing page rendered and the shader layers were present with the expected blend modes.
 - Browser verification succeeded for `http://127.0.0.1:4321/` and `http://127.0.0.1:4321/register`; the homepage title, Open Graph tags, Twitter tags, and register page title all resolved to `Living Stories Collective`.
 - `npm run build` also passes for the repo.
+- Implemented `US-004` with the reusable `src/components/landing/LandingHeader.astro` component and a named header slot in `src/layouts/LandingPageShell.astro` so the navigation renders as a full-width bar above the landing-page content.
+- Updated `src/components/landing/LandingPage.astro` and `src/styles/landing-page.css` with the Paper-inspired logo treatment, responsive desktop/mobile header layout, and stable same-page anchors for `#how-it-works`, `#get-involved`, and `#contact`.
+- `npm run astro check` passes, and browser verification confirmed the header renders correctly on desktop and mobile while the nav links resolve to the expected in-page anchors.

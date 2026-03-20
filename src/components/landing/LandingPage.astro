@@ -1,5 +1,6 @@
 ---
 import LandingPageShell from '../../layouts/LandingPageShell.astro'
+import LandingHeader from './LandingHeader.astro'
 import {HOME_DESCRIPTION, HOME_TITLE, SITE_NAME} from '../../utils/site'
 ---
 
@@ -7,6 +8,8 @@ import {HOME_DESCRIPTION, HOME_TITLE, SITE_NAME} from '../../utils/site'
   title={HOME_TITLE}
   description={HOME_DESCRIPTION}
 >
+  <LandingHeader slot="header" />
+
   <section class="landing-section landing-section--hero" aria-labelledby="landing-page-title">
     <div class="landing-panel">
       <p class="landing-eyebrow">{SITE_NAME}</p>
@@ -53,5 +56,7 @@ import {HOME_DESCRIPTION, HOME_TITLE, SITE_NAME} from '../../utils/site'
         </p>
       </article>
     </div>
+
+    <div id="contact" class="landing-anchor-target" aria-hidden="true"></div>
   </section>
 </LandingPageShell>
