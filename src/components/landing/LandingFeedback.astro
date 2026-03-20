@@ -1,5 +1,6 @@
 ---
 import EditorialFrame from '../editorial/EditorialFrame.astro'
+import EditorialSectionIntro from '../editorial/EditorialSectionIntro.astro'
 import {FEEDBACK_AGGREGATE, FEEDBACK_QUOTES, FEEDBACK_SECTION} from './feedbackData'
 
 const perspectiveShiftStyle = `--landing-feedback-ring: ${FEEDBACK_AGGREGATE.snapshot.perspectiveShift.ringGradient};`
@@ -11,11 +12,7 @@ const perspectiveShiftStyle = `--landing-feedback-ring: ${FEEDBACK_AGGREGATE.sna
   class="landing-section--feedback landing-feedback"
   aria-labelledby="feedback-title"
 >
-  <div class="landing-feedback__intro">
-    <p class="landing-feedback__eyebrow">{FEEDBACK_SECTION.eyebrow}</p>
-    <h2 id="feedback-title">{FEEDBACK_SECTION.title}</h2>
-    <p class="landing-feedback__body">{FEEDBACK_SECTION.description}</p>
-  </div>
+  <EditorialSectionIntro intro={FEEDBACK_SECTION} headingId="feedback-title" />
 
   <div class="landing-feedback__quotes">
     {
@@ -124,41 +121,11 @@ const perspectiveShiftStyle = `--landing-feedback-ring: ${FEEDBACK_AGGREGATE.sna
     border: 1px solid var(--landing-border);
   }
 
-  .landing-feedback__intro {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 34px;
-    border-bottom: 1px solid var(--landing-section-divider);
-  }
-
-  .landing-feedback__eyebrow,
   .landing-feedback__quote-label {
     margin: 0;
     color: #8e8776;
     font-family: var(--landing-font-sans);
     letter-spacing: 0.08em;
-  }
-
-  .landing-feedback__eyebrow {
-    font-size: 13px;
-    line-height: 16px;
-  }
-
-  .landing-feedback__intro h2 {
-    margin: 0;
-    color: var(--landing-text);
-    font-family: var(--landing-font-sans);
-    font-size: 56px;
-    font-weight: 400;
-    line-height: 1;
-  }
-
-  .landing-feedback__body {
-    margin: 0;
-    color: #3e3d38;
-    font-size: 18px;
-    line-height: 1.5;
   }
 
   .landing-feedback__quotes {
@@ -460,26 +427,6 @@ const perspectiveShiftStyle = `--landing-feedback-ring: ${FEEDBACK_AGGREGATE.sna
   @media (max-width: 900px) {
     :global(.landing-section--feedback) {
       margin-top: 24px;
-    }
-
-    .landing-feedback__intro {
-      gap: 12px;
-    }
-
-    .landing-feedback__eyebrow {
-      font-size: 11px;
-      line-height: 14px;
-      letter-spacing: 0.11em;
-    }
-
-    .landing-feedback__intro h2 {
-      font-size: 44px;
-      line-height: 44px;
-    }
-
-    .landing-feedback__body {
-      font-size: 16px;
-      line-height: 25px;
     }
 
     .landing-feedback__quotes {

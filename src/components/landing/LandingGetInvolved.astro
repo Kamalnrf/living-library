@@ -1,5 +1,6 @@
 ---
 import EditorialFrame from '../editorial/EditorialFrame.astro'
+import EditorialSectionIntro from '../editorial/EditorialSectionIntro.astro'
 import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './getInvolvedData'
 ---
 
@@ -10,11 +11,7 @@ import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './
   class="landing-section--get-involved landing-get-involved"
   aria-labelledby="get-involved-title"
 >
-  <div class="landing-get-involved__intro">
-    <p class="landing-get-involved__eyebrow">{GET_INVOLVED_SECTION.eyebrow}</p>
-    <h2 id="get-involved-title">{GET_INVOLVED_SECTION.title}</h2>
-    <p class="landing-get-involved__body">{GET_INVOLVED_SECTION.description}</p>
-  </div>
+  <EditorialSectionIntro intro={GET_INVOLVED_SECTION} headingId="get-involved-title" />
 
   <div class="landing-get-involved__cards">
     {
@@ -106,15 +103,6 @@ import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './
     border: 1px solid var(--landing-border);
   }
 
-  .landing-get-involved__intro {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 34px;
-    border-bottom: 1px solid var(--landing-section-divider);
-  }
-
-  .landing-get-involved__eyebrow,
   .landing-get-involved__card-label,
   .landing-get-involved__connect-index,
   .landing-get-involved__connect-card-label {
@@ -124,7 +112,6 @@ import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './
     letter-spacing: 0.08em;
   }
 
-  .landing-get-involved__eyebrow,
   .landing-get-involved__card-label {
     font-size: 13px;
     line-height: 16px;
@@ -134,23 +121,6 @@ import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './
   .landing-get-involved__connect-card-label {
     font-size: 12px;
     line-height: 16px;
-  }
-
-  .landing-get-involved__intro h2 {
-    margin: 0;
-    color: #252520;
-    font-family: var(--landing-font-sans);
-    font-size: 56px;
-    font-weight: 400;
-    line-height: 1;
-  }
-
-  .landing-get-involved__body {
-    margin: 0;
-    color: #3e3d38;
-    font-family: var(--landing-font-sans);
-    font-size: 18px;
-    line-height: 1.5;
   }
 
   .landing-get-involved__cards {
@@ -314,26 +284,6 @@ import {GET_INVOLVED_CARDS, GET_INVOLVED_CONNECT, GET_INVOLVED_SECTION} from './
   @media (max-width: 900px) {
     :global(.landing-section--get-involved) {
       margin-top: 24px;
-    }
-
-    .landing-get-involved__intro {
-      gap: 12px;
-    }
-
-    .landing-get-involved__eyebrow {
-      font-size: 11px;
-      line-height: 14px;
-      letter-spacing: 0.11em;
-    }
-
-    .landing-get-involved__intro h2 {
-      font-size: 44px;
-      line-height: 44px;
-    }
-
-    .landing-get-involved__body {
-      font-size: 16px;
-      line-height: 25px;
     }
 
     .landing-get-involved__cards {

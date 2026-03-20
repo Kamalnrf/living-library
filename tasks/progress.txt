@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-004 (ready to start)
-Completed: 3/11
+Current story: US-005 (ready to start)
+Completed: 4/11
 
 ## Ralph Instructions
 
@@ -39,7 +39,7 @@ Completed: 3/11
 - [x] US-001: Create shared editorial foundation and tokens
 - [x] US-002: Move homepage composition into src/pages/index.astro
 - [x] US-003: Define shared editorial section schema and section intro primitive
-- [ ] US-004: Migrate repeated homepage intros to the shared section intro primitive
+- [x] US-004: Migrate repeated homepage intros to the shared section intro primitive
 - [ ] US-005: Add uniform block rendering for action cards and split bands
 - [ ] US-006: Add uniform block rendering for story rows, media variants, and quote callouts
 - [ ] US-007: Add uniform block rendering for feedback quote grids
@@ -69,3 +69,10 @@ Completed: 3/11
   - Mobile: `How It Works` (`3E5-0`), `Feedback` (`37S-0`), and `Get Involved` (`3CY-0`) all use `34px` padding, `12px` vertical gaps, `11px` eyebrow text, `44px` titles, and `16px/25px` body copy.
 - Aligned the current landing intro data with the shared schema in `howItWorksData.ts`, `feedbackData.ts`, and `getInvolvedData.ts`; `How It Works` now stores its desktop/mobile description copy in the shared responsive intro shape, but the repeated landing intro markup itself was intentionally left in place for `US-004`.
 - Verified `US-003` with `npx astro check` (`0` errors, existing repository hints only).
+- Completed `US-004` on `2026-03-20`: migrated the repeated intro markup in `LandingHowItWorks.astro`, `LandingFeedback.astro`, and `LandingGetInvolved.astro` onto `src/components/editorial/EditorialSectionIntro.astro`, leaving the sections responsible only for their non-intro rows.
+- Added typed root style forwarding to `EditorialSectionIntro.astro` so `How It Works` can preserve its Paper-specific desktop `8px` title offset while `Feedback` and `Get Involved` continue using the shared default intro metrics.
+- Removed the duplicated intro-specific landing CSS for the three sections and kept only section-local styles that still belong to the surrounding rows, cards, and quotes.
+- Verified `US-004` with `npx astro check` (`0` errors, existing repository hints only).
+- Verified the local homepage against the Paper intro frames on desktop and mobile:
+  - Browser-computed intro metrics now match the Paper values for all three migrated sections at both breakpoints: `34px` padding, `14px` desktop gap, `12px` mobile gap, `13px/16px` desktop eyebrow, `11px/14px` mobile eyebrow, `56px` desktop titles, and `44px` mobile titles.
+  - `How It Works` retains the Paper desktop-only `8px` title offset and resets to `0px` on mobile; `Feedback` and `Get Involved` remain at `0px` on both breakpoints, matching their Paper frames.

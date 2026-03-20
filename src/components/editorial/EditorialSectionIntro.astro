@@ -8,6 +8,7 @@ interface Props {
   headingId?: string
   bordered?: boolean
   class?: string
+  style?: string
 }
 
 const {
@@ -17,6 +18,7 @@ const {
   headingId,
   bordered = true,
   class: className,
+  style,
 } = Astro.props as Props
 
 const HeadingTag = headingTag
@@ -37,6 +39,7 @@ const descriptionMode = hasResponsiveDescription ? 'responsive' : description ? 
     className,
   ]}
   data-editorial-description-mode={descriptionMode}
+  style={style}
 >
   <p class="editorial-section-intro__eyebrow">{intro.eyebrow}</p>
   <HeadingTag id={headingId} class="editorial-section-intro__title">{intro.title}</HeadingTag>

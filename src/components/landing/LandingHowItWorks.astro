@@ -1,5 +1,6 @@
 ---
 import EditorialFrame from '../editorial/EditorialFrame.astro'
+import EditorialSectionIntro from '../editorial/EditorialSectionIntro.astro'
 import {HOW_IT_WORKS_SECTION, HOW_IT_WORKS_STEPS} from './howItWorksData'
 ---
 
@@ -10,16 +11,11 @@ import {HOW_IT_WORKS_SECTION, HOW_IT_WORKS_STEPS} from './howItWorksData'
   class="landing-section--how-it-works landing-how-it-works"
   aria-labelledby="how-it-works-title"
 >
-  <div class="landing-how-it-works__intro">
-    <p class="landing-how-it-works__eyebrow">{HOW_IT_WORKS_SECTION.eyebrow}</p>
-    <h2 id="how-it-works-title">{HOW_IT_WORKS_SECTION.title}</h2>
-    <p class="landing-how-it-works__body landing-how-it-works__body--desktop">
-      {HOW_IT_WORKS_SECTION.description.desktop}
-    </p>
-    <p class="landing-how-it-works__body landing-how-it-works__body--mobile">
-      {HOW_IT_WORKS_SECTION.description.mobile}
-    </p>
-  </div>
+  <EditorialSectionIntro
+    intro={HOW_IT_WORKS_SECTION}
+    headingId="how-it-works-title"
+    style="--editorial-section-intro-title-margin-top: 8px; --editorial-section-intro-title-margin-top-mobile: 0px;"
+  />
 
   {
     HOW_IT_WORKS_STEPS.map((step) => {
@@ -129,44 +125,10 @@ import {HOW_IT_WORKS_SECTION, HOW_IT_WORKS_STEPS} from './howItWorksData'
     border: 1px solid var(--landing-border);
   }
 
-  .landing-how-it-works__intro {
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    padding: 34px;
-    border-bottom: 1px solid var(--landing-section-divider);
-  }
-
-  .landing-how-it-works__eyebrow,
   .landing-how-it-works__step-label {
     margin: 0;
     color: #8e8776;
     letter-spacing: 0.08em;
-  }
-
-  .landing-how-it-works__eyebrow {
-    font-size: 13px;
-    line-height: 16px;
-  }
-
-  .landing-how-it-works__intro h2 {
-    margin: 8px 0 0;
-    font-family: var(--landing-font-sans);
-    font-size: 56px;
-    font-weight: 400;
-    line-height: 1;
-    color: #252520;
-  }
-
-  .landing-how-it-works__body {
-    margin: 0;
-    font-size: 18px;
-    line-height: 1.5;
-    color: #3e3d38;
-  }
-
-  .landing-how-it-works__body--mobile {
-    display: none;
   }
 
   .landing-how-it-works__row {
@@ -329,32 +291,6 @@ import {HOW_IT_WORKS_SECTION, HOW_IT_WORKS_STEPS} from './howItWorksData'
   @media (max-width: 900px) {
     :global(.landing-section--how-it-works) {
       margin-top: 24px;
-    }
-
-    .landing-how-it-works__intro {
-      gap: 12px;
-    }
-
-    .landing-how-it-works__eyebrow {
-      font-size: 11px;
-      line-height: 14px;
-      letter-spacing: 0.11em;
-    }
-
-    .landing-how-it-works__intro h2 {
-      margin-top: 0;
-      font-size: 44px;
-      line-height: 44px;
-    }
-
-    .landing-how-it-works__body--desktop {
-      display: none;
-    }
-
-    .landing-how-it-works__body--mobile {
-      display: block;
-      font-size: 16px;
-      line-height: 25px;
     }
 
     .landing-how-it-works__row {
