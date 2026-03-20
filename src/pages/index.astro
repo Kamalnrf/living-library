@@ -1,4 +1,6 @@
 ---
+export const prerender = false
+
 import LandingPageShell from '../layouts/LandingPageShell.astro'
 import LandingFeedback from '../components/landing/LandingFeedback.astro'
 import LandingFooter from '../components/landing/LandingFooter.astro'
@@ -8,6 +10,11 @@ import LandingHero from '../components/landing/LandingHero.astro'
 import LandingHowItWorks from '../components/landing/LandingHowItWorks.astro'
 import LandingUpcomingSessions from '../components/landing/LandingUpcomingSessions.astro'
 import {HOME_DESCRIPTION, HOME_TITLE} from '../utils/site'
+
+Astro.response.headers.set(
+  'Cache-Control',
+  'public, max-age=0, must-revalidate, s-maxage=604800, stale-while-revalidate=2592000',
+)
 ---
 
 <LandingPageShell
