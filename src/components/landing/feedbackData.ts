@@ -1,11 +1,9 @@
-import type {EditorialSectionIntroData} from '../editorial/editorialSection'
-
-export type FeedbackQuote = {
-  id: string
-  label: string
-  quote: string
-  supportingCopy: string
-}
+import type {
+  EditorialQuoteGridBlock,
+  EditorialQuoteGridItem,
+  EditorialSection,
+  EditorialSectionIntroData,
+} from '../editorial/editorialSection'
 
 export type FeedbackLegendItem = {
   id: string
@@ -21,13 +19,13 @@ export type FeedbackSnapshotMetric = {
   fillColor: string
 }
 
-export const FEEDBACK_SECTION = {
+const FEEDBACK_INTRO = {
   eyebrow: '03 / FEEDBACK',
   title: 'What People Say',
   description: 'Short quotes plus aggregate event insights from participant forms.',
 } as const satisfies EditorialSectionIntroData
 
-export const FEEDBACK_QUOTES: readonly FeedbackQuote[] = [
+export const FEEDBACK_QUOTES = [
   {
     id: 'cherish-experience',
     label: 'QUOTE · PARTICIPANT',
@@ -40,7 +38,18 @@ export const FEEDBACK_QUOTES: readonly FeedbackQuote[] = [
     quote: '"Every story we heard changed our perception of society."',
     supportingCopy: 'Empathy toward others became the biggest takeaway.',
   },
-] as const
+] as const satisfies readonly EditorialQuoteGridItem[]
+
+const FEEDBACK_QUOTES_BLOCK = {
+  kind: 'quote-grid',
+  quotes: FEEDBACK_QUOTES,
+} as const satisfies EditorialQuoteGridBlock
+
+export const FEEDBACK_SECTION = {
+  id: 'feedback',
+  intro: FEEDBACK_INTRO,
+  blocks: [FEEDBACK_QUOTES_BLOCK],
+} as const satisfies EditorialSection<EditorialQuoteGridBlock>
 
 export const FEEDBACK_AGGREGATE = {
   voice: {

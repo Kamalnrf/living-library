@@ -1,7 +1,8 @@
 ---
 import EditorialFrame from '../editorial/EditorialFrame.astro'
+import EditorialSectionBlocks from '../editorial/EditorialSectionBlocks.astro'
 import EditorialSectionIntro from '../editorial/EditorialSectionIntro.astro'
-import {FEEDBACK_AGGREGATE, FEEDBACK_QUOTES, FEEDBACK_SECTION} from './feedbackData'
+import {FEEDBACK_AGGREGATE, FEEDBACK_SECTION} from './feedbackData'
 
 const perspectiveShiftStyle = `--landing-feedback-ring: ${FEEDBACK_AGGREGATE.snapshot.perspectiveShift.ringGradient};`
 ---
@@ -12,21 +13,8 @@ const perspectiveShiftStyle = `--landing-feedback-ring: ${FEEDBACK_AGGREGATE.sna
   class="landing-section--feedback landing-feedback"
   aria-labelledby="feedback-title"
 >
-  <EditorialSectionIntro intro={FEEDBACK_SECTION} headingId="feedback-title" />
-
-  <div class="landing-feedback__quotes">
-    {
-      FEEDBACK_QUOTES.map((quote) => (
-        <article class="landing-feedback__quote" data-feedback-quote={quote.id}>
-          <p class="landing-feedback__quote-label">{quote.label}</p>
-          <blockquote class="landing-feedback__quote-text">
-            <p>{quote.quote}</p>
-          </blockquote>
-          <p class="landing-feedback__quote-supporting">{quote.supportingCopy}</p>
-        </article>
-      ))
-    }
-  </div>
+  <EditorialSectionIntro intro={FEEDBACK_SECTION.intro} headingId="feedback-title" />
+  <EditorialSectionBlocks blocks={FEEDBACK_SECTION.blocks} />
 
   <div class="landing-feedback__aggregate">
     <div class="landing-feedback__voice">
@@ -119,59 +107,6 @@ const perspectiveShiftStyle = `--landing-feedback-ring: ${FEEDBACK_AGGREGATE.sna
     flex-direction: column;
     background: #fff;
     border: 1px solid var(--landing-border);
-  }
-
-  .landing-feedback__quote-label {
-    margin: 0;
-    color: #8e8776;
-    font-family: var(--landing-font-sans);
-    letter-spacing: 0.08em;
-  }
-
-  .landing-feedback__quotes {
-    display: flex;
-    min-height: 420px;
-    border-bottom: 1px solid var(--landing-section-divider);
-  }
-
-  .landing-feedback__quotes > * {
-    width: 50%;
-  }
-
-  .landing-feedback__quotes > :first-child {
-    border-right: 1px solid var(--landing-section-divider);
-  }
-
-  .landing-feedback__quote {
-    min-width: 0;
-    padding: 34px;
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-  }
-
-  .landing-feedback__quote-label {
-    font-size: 12px;
-    line-height: 16px;
-  }
-
-  .landing-feedback__quote-text,
-  .landing-feedback__quote-supporting,
-  .landing-feedback__quote-text p {
-    margin: 0;
-  }
-
-  .landing-feedback__quote-text {
-    color: #2e2d28;
-    font-family: var(--landing-font-serif);
-    font-size: 40px;
-    line-height: 1.08;
-  }
-
-  .landing-feedback__quote-supporting {
-    color: #3e3d38;
-    font-size: 18px;
-    line-height: 1.45;
   }
 
   .landing-feedback__aggregate {
@@ -427,30 +362,6 @@ const perspectiveShiftStyle = `--landing-feedback-ring: ${FEEDBACK_AGGREGATE.sna
   @media (max-width: 900px) {
     :global(.landing-section--feedback) {
       margin-top: 24px;
-    }
-
-    .landing-feedback__quotes {
-      min-height: 0;
-      flex-direction: column;
-    }
-
-    .landing-feedback__quotes > * {
-      width: 100%;
-    }
-
-    .landing-feedback__quotes > :first-child {
-      border-right: 0;
-      border-bottom: 1px solid var(--landing-section-divider);
-    }
-
-    .landing-feedback__quote-text {
-      font-size: 34px;
-      line-height: 36px;
-    }
-
-    .landing-feedback__quote-supporting {
-      font-size: 16px;
-      line-height: 25px;
     }
 
     .landing-feedback__aggregate {

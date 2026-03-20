@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-007 (ready to start)
-Completed: 6/11
+Current story: US-008 (ready to start)
+Completed: 7/11
 
 ## Ralph Instructions
 
@@ -42,7 +42,7 @@ Completed: 6/11
 - [x] US-004: Migrate repeated homepage intros to the shared section intro primitive
 - [x] US-005: Add uniform block rendering for action cards and split bands
 - [x] US-006: Add uniform block rendering for story rows, media variants, and quote callouts
-- [ ] US-007: Add uniform block rendering for feedback quote grids
+- [x] US-007: Add uniform block rendering for feedback quote grids
 - [ ] US-008: Add uniform block rendering for snapshot and metric summary blocks
 - [ ] US-009: Add uniform block rendering for connect and CTA action blocks
 - [ ] US-010: Finalize shared naming and page-specific boundaries
@@ -90,3 +90,9 @@ Completed: 6/11
 - Verified the local homepage against the Paper `How It Works` frames on desktop (`R-0`, rows `V-0`, `15-0`, `1F-0`) and mobile (`37W-0`, rows `38K-0`, `389-0`, `37X-0`):
   - Desktop browser-computed metrics now match the Paper rows: `450px` row min-height, `34px` panel padding, `16px` column gaps, `381px`/`382px` single-image heights, the alternating media/text order, the collage `381px` height with `16px` gap, and the quote callout offsets of `78px`/`256px`/`261px` and `154px`/`301px`/`232px` for steps `1` and `3`.
   - Mobile browser-computed metrics now match the Paper stacked rows: `34px` panel padding, `228px` single-image heights, the collage stack `220px` panels with `12px` gap, the preserved text-first/media-first ordering per story row, and the quote callouts switching to full-width relative blocks with `8px` top margin and `6px` internal gap.
+- Completed `US-007` on `2026-03-20`: added `src/components/editorial/EditorialQuoteGridBlock.astro` and extended `src/components/editorial/EditorialSectionBlocks.astro` so the shared editorial block system now renders typed `quote-grid` blocks for repeated feedback quote-card rows.
+- Moved the feedback quote-row content in `src/components/landing/feedbackData.ts` onto `EditorialSection<EditorialQuoteGridBlock>` data and replaced the bespoke quote-row markup in `src/components/landing/LandingFeedback.astro` with shared block rendering while leaving the lower aggregate stats row in place for `US-008`.
+- Verified `US-007` with `npx astro check` (`0` errors, existing repository hints only).
+- Verified the local homepage against the Paper `Feedback Section` quote-row frames on desktop (`75-0`, row `7A-0`, cards `7B-0` and `7F-0`) and mobile (`361-0`, row `37J-0`, cards `37O-0` and `37K-0`):
+  - Desktop browser-computed metrics now match the Paper quote row exactly: section `1188x1178`, intro `1186x196`, quote row `1186x420`, both quote cards `593x419`, `34px` card padding, `16px` internal gaps, `40px/43.2px` quote text, `18px/26.1px` supporting copy, and the center divider on the first card.
+  - Mobile browser-computed metrics now match the Paper stacked quote cards exactly: section `358x1952`, intro `356x245`, quote row `356x622`, the first and second cards `356x311` and `356x310`, `34px` card padding, `16px` internal gaps, `34px/36px` quote text, `16px/25px` supporting copy, and the divider moving below the first card.

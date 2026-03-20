@@ -1,0 +1,117 @@
+---
+import type {EditorialQuoteGridBlock as EditorialQuoteGridBlockData} from './editorialSection'
+
+interface Props {
+  block: EditorialQuoteGridBlockData
+  class?: string
+}
+
+const {
+  block,
+  class: className,
+} = Astro.props as Props
+---
+
+<div
+  class:list={['editorial-quote-grid-block', className]}
+  data-editorial-block-kind="quote-grid"
+  data-editorial-quote-count={block.quotes.length}
+>
+  {
+    block.quotes.map((quote, index) => (
+      <article
+        class="editorial-quote-grid-card"
+        data-editorial-quote-id={quote.id}
+        data-editorial-quote-index={index + 1}
+      >
+        <p class="editorial-quote-grid-card__label">{quote.label}</p>
+        <blockquote class="editorial-quote-grid-card__quote">
+          <p>{quote.quote}</p>
+        </blockquote>
+        <p class="editorial-quote-grid-card__supporting">{quote.supportingCopy}</p>
+      </article>
+    ))
+  }
+</div>
+
+<style>
+  .editorial-quote-grid-block {
+    display: flex;
+    min-height: 420px;
+    border-bottom: 1px solid var(--editorial-color-divider);
+  }
+
+  .editorial-quote-grid-block > * {
+    width: 50%;
+  }
+
+  .editorial-quote-grid-block > :first-child {
+    border-right: 1px solid var(--editorial-color-divider);
+  }
+
+  .editorial-quote-grid-card {
+    min-width: 0;
+    padding: var(--editorial-panel-padding);
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .editorial-quote-grid-card__label,
+  .editorial-quote-grid-card__quote,
+  .editorial-quote-grid-card__quote p,
+  .editorial-quote-grid-card__supporting {
+    margin: 0;
+  }
+
+  .editorial-quote-grid-card__label {
+    color: #8e8776;
+    font-family: var(--editorial-font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.08em;
+  }
+
+  .editorial-quote-grid-card__quote {
+    color: #2e2d28;
+    font-family: var(--editorial-font-serif);
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 1.08;
+  }
+
+  .editorial-quote-grid-card__supporting {
+    color: #3e3d38;
+    font-family: var(--editorial-font-sans);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 1.45;
+  }
+
+  @media (max-width: 900px) {
+    .editorial-quote-grid-block {
+      min-height: 0;
+      flex-direction: column;
+    }
+
+    .editorial-quote-grid-block > * {
+      width: 100%;
+    }
+
+    .editorial-quote-grid-block > :first-child {
+      border-right: 0;
+      border-bottom: 1px solid var(--editorial-color-divider);
+    }
+
+    .editorial-quote-grid-card__quote {
+      font-size: 34px;
+      line-height: 36px;
+    }
+
+    .editorial-quote-grid-card__supporting {
+      font-size: 16px;
+      line-height: 25px;
+    }
+  }
+</style>

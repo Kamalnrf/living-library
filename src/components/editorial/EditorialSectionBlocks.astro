@@ -1,15 +1,18 @@
 ---
 import EditorialCardGridBlock from './EditorialCardGridBlock.astro'
+import EditorialQuoteGridBlock from './EditorialQuoteGridBlock.astro'
 import EditorialStoryRowBlock from './EditorialStoryRowBlock.astro'
 import EditorialSplitBandBlock from './EditorialSplitBandBlock.astro'
 import type {
   EditorialCardGridBlock as EditorialCardGridBlockData,
+  EditorialQuoteGridBlock as EditorialQuoteGridBlockData,
   EditorialSplitBandBlock as EditorialSplitBandBlockData,
   EditorialStoryRowBlock as EditorialStoryRowBlockData,
 } from './editorialSection'
 
 type SupportedEditorialBlock =
   | EditorialCardGridBlockData
+  | EditorialQuoteGridBlockData
   | EditorialSplitBandBlockData
   | EditorialStoryRowBlockData
 
@@ -32,6 +35,10 @@ const {
 
     if (block.kind === 'split-band') {
       return <EditorialSplitBandBlock block={block} headingTag={headingTag} />
+    }
+
+    if (block.kind === 'quote-grid') {
+      return <EditorialQuoteGridBlock block={block} />
     }
 
     if (block.kind === 'story-row') {
