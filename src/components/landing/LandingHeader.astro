@@ -16,32 +16,152 @@ const navigationItems: readonly NavigationItem[] = [
 ---
 
 <LandingEditorialFrame as="header" variant="shell" class="landing-header" id="landing-page-top">
-  <div class="landing-header__inner">
-    <a class="landing-header__brand" href="#landing-page-top" aria-label={`${SITE_NAME} home`}>
-      <img
-        class="landing-header__mark"
-        src="/images/logo.png"
-        alt=""
-        width="93"
-        height="48"
-        loading="eager"
-        decoding="async"
-      />
+  <a class="landing-header__brand" href="#landing-page-top" aria-label={`${SITE_NAME} home`}>
+    <img
+      class="landing-header__mark"
+      src="/images/logo.png"
+      alt=""
+      width="93"
+      height="48"
+      loading="eager"
+      decoding="async"
+    />
 
-      <span class="landing-header__brand-text">{SITE_NAME}</span>
-    </a>
+    <span class="landing-header__brand-text">{SITE_NAME}</span>
+  </a>
 
-    <nav class="landing-header__nav" aria-label="Primary">
-      {
-        navigationItems.map((item) => (
-          <a
-            class:list={['landing-header__nav-link', item.emphasized && 'landing-header__nav-link--accent']}
-            href={item.href}
-          >
-            {item.label}
-          </a>
-        ))
-      }
-    </nav>
-  </div>
+  <nav class="landing-header__nav" aria-label="Primary">
+    {
+      navigationItems.map((item) => (
+        <a
+          class:list={['landing-header__nav-link', item.emphasized && 'landing-header__nav-link--accent']}
+          href={item.href}
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
 </LandingEditorialFrame>
+
+<style>
+  :global(.landing-header) {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    padding-block: 8px;
+    border-bottom: 1px solid var(--landing-border);
+    background: #fff;
+  }
+
+  .landing-header__brand {
+    min-height: 92px;
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+    padding-block: 22px;
+    text-decoration: none;
+  }
+
+  .landing-header__brand:focus-visible,
+  .landing-header__nav-link:focus-visible {
+    outline: 2px solid var(--landing-accent);
+    outline-offset: 4px;
+  }
+
+  .landing-header__mark {
+    width: 93px;
+    height: 48px;
+    flex: 0 0 auto;
+  }
+
+  .landing-header__brand-text {
+    font-family: var(--landing-font-sans);
+    font-size: 32px;
+    font-weight: 450;
+    font-variation-settings: 'wght' 450;
+    line-height: 38px;
+    letter-spacing: -0.01em;
+    color: var(--landing-text-strong);
+    white-space: nowrap;
+  }
+
+  .landing-header__nav {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+  }
+
+  .landing-header__nav-link {
+    position: relative;
+    font-family: var(--landing-font-sans);
+    font-size: 17px;
+    font-weight: 400;
+    line-height: 22px;
+    letter-spacing: -0.005em;
+    color: #3f3d37;
+    text-decoration: none;
+  }
+
+  .landing-header__nav-link::after {
+    content: '';
+    position: absolute;
+    right: 0;
+    bottom: -1px;
+    left: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 160ms ease;
+  }
+
+  .landing-header__nav-link--accent {
+    color: var(--landing-accent);
+  }
+
+  .landing-header__nav-link:hover::after,
+  .landing-header__nav-link:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  @media (max-width: 1220px) {
+    :global(.landing-header) {
+      padding-inline: var(--landing-mobile-gutter);
+    }
+  }
+
+  @media (max-width: 900px) {
+    :global(.landing-header) {
+      flex-direction: column;
+      justify-content: flex-start;
+      align-items: flex-start;
+      gap: 10px;
+      padding-block: 10px;
+    }
+
+    .landing-header__brand {
+      width: 100%;
+    }
+
+    .landing-header__brand-text {
+      font-size: 21px;
+      line-height: 28px;
+    }
+
+    .landing-header__nav {
+      width: 100%;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .landing-header__nav-link {
+      font-size: 14px;
+      line-height: 20px;
+    }
+  }
+</style>

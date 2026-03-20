@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-003 (ready to start)
-Completed: 2/11
+Current story: US-004 (ready to start)
+Completed: 3/11
 
 ## Ralph Instructions
 
@@ -33,7 +33,7 @@ Completed: 2/11
 
 - [x] US-001: Add shared editorial frame primitive and shared landing style layer
 - [x] US-002: Match shell background to the exact Paper shader treatment
-- [ ] US-003: Refactor the header with colocated styles and exact Paper spacing
+- [x] US-003: Refactor the header with colocated styles and exact Paper spacing
 - [ ] US-004: Add desktop guide lines and ruler ticks through the shared frame
 - [ ] US-005: Refactor hero styles and stabilize the live Instagram embed wrapper
 - [ ] US-006: Refactor upcoming sessions styles and add a compact low-volume Luma mode
@@ -57,3 +57,9 @@ Completed: 2/11
 - Paper MCP verification used the desktop artboard `Wireframe (1-0)`, mobile artboard `Wireframe Mobile (34X-0)`, and shader nodes `Paper Texture (O3-0, 3AW-0)` plus `Simplex Noise (1ZF-0, 3AV-0)` as the source of truth. Paper exposed the flat artboard background `#F8F6F2`, `PaperTexture` `opacity 0.26` with `mix-blend-mode: multiply`, and `SimplexNoise` `mix-blend-mode: screen`; the final shell also keeps a low `0.18` `SimplexNoise` layer opacity because that visual tuning was required to match the much subtler combined Paper screenshots on both breakpoints.
 - Browser verification at `http://127.0.0.1:4321/` confirmed the updated shell now renders `body` background `rgb(248, 246, 242)` with no background image, zero `.landing-backdrop__glow` nodes, `PaperTexture` at `opacity 0.26` / `multiply`, and `SimplexNoise` at `opacity 0.18` / `screen`; desktop and mobile screenshots were rechecked against the Paper artboards and the background treatment reads materially closer than the previous saturated orange/green shell.
 - `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the background correction.
+- Implemented `US-003` by refactoring [src/components/landing/LandingHeader.astro](/Users/kamal/.codex/worktrees/59c2/living-library/src/components/landing/LandingHeader.astro) so the shared `LandingEditorialFrame` is the actual header layout container, removing the extra inner wrapper and colocating the header-specific styles directly in the Astro component.
+- Removed the old header rules and mobile header overrides from [src/styles/landing-page.css](/Users/kamal/.codex/worktrees/59c2/living-library/src/styles/landing-page.css), and trimmed the shared focus selector in [src/styles/landing-shell.css](/Users/kamal/.codex/worktrees/59c2/living-library/src/styles/landing-shell.css) so header-only interaction styles now live with the header component.
+- Paper MCP verification used desktop header node `2-0` with child frames `Y1-0` and `4-0`, plus mobile header node `3AN-0` with child frames `3AS-0` and `3AO-0`, as the source of truth. Those nodes confirmed the final target values: desktop `1440x109`, `8px` vertical padding, `144px` inline padding, white background, `1px` bottom border, `12px` brand gap, `36px` nav gap, `32/38px` brand type, and `17/22px` nav type; mobile `390x143`, `10px` row gap, `16px` inline padding, `21/28px` brand type, and `14/20px` nav type.
+- Browser verification at `http://127.0.0.1:4321/` confirmed the local header matches those Paper measurements on both target breakpoints: desktop renders `1440x109` with `144px` inline padding, `rgb(255, 255, 255)` background, `1px solid rgb(216, 210, 196)` border, no `backdrop-filter`, `32px` brand text, and `17px` nav text; mobile renders `390x143` with `16px` inline padding, `10px` stack gap, `358x92` brand row, `21px` brand text, and `14px` nav text.
+- Added a header-only gutter adjustment below `1220px` inside [src/components/landing/LandingHeader.astro](/Users/kamal/.codex/worktrees/59c2/living-library/src/components/landing/LandingHeader.astro) so the header aligns to the same `16px` gutters as the editorial sections once the section frame has already collapsed, preventing the nav from wrapping at intermediate widths like `920px` while keeping the exact Paper desktop and mobile endpoints intact.
+- `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the header refactor.

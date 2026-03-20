@@ -125,8 +125,6 @@ a {
 }
 
 :where(
-    .landing-header__brand,
-    .landing-header__nav-link,
     .landing-button,
     .landing-hero__embed-open,
     .landing-hero__embed-link,
