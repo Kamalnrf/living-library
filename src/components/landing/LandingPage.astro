@@ -1,7 +1,8 @@
 ---
 import LandingPageShell from '../../layouts/LandingPageShell.astro'
 import LandingHeader from './LandingHeader.astro'
-import {HOME_DESCRIPTION, HOME_TITLE, SITE_NAME} from '../../utils/site'
+import LandingHero from './LandingHero.astro'
+import {HOME_DESCRIPTION, HOME_TITLE} from '../../utils/site'
 ---
 
 <LandingPageShell
@@ -10,17 +11,7 @@ import {HOME_DESCRIPTION, HOME_TITLE, SITE_NAME} from '../../utils/site'
 >
   <LandingHeader slot="header" />
 
-  <section class="landing-section landing-section--hero" aria-labelledby="landing-page-title">
-    <div class="landing-panel">
-      <p class="landing-eyebrow">{SITE_NAME}</p>
-      <h1 id="landing-page-title">A vertically scrolling landing shell is now in place.</h1>
-      <p class="landing-lede">
-        The homepage route now renders through reusable landing-page components
-        instead of the old swipe deck, so the remaining sections can be built in
-        thin slices.
-      </p>
-    </div>
-  </section>
+  <LandingHero />
 
   <section class="landing-section" aria-labelledby="landing-roadmap-title">
     <div class="landing-section-heading">
@@ -39,11 +30,12 @@ import {HOME_DESCRIPTION, HOME_TITLE, SITE_NAME} from '../../utils/site'
       </article>
 
       <article class="landing-card" id="upcoming-sessions">
-        <p class="landing-card__eyebrow">US-005 to US-007</p>
-        <h3>Hero and sessions</h3>
+        <p class="landing-card__eyebrow">US-006 to US-007</p>
+        <h3>Instagram and sessions</h3>
         <p>
-          The hero treatment, Instagram embed, and Luma session block can be
-          added without reopening the route shell.
+          The hero slice is now live, and the upcoming work can focus on the
+          Instagram profile embed and the Luma session block without reopening
+          the page shell.
         </p>
       </article>
 

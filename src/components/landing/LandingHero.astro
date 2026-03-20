@@ -1,0 +1,47 @@
+---
+import {SITE_NAME, SITE_TAGLINE} from '../../utils/site'
+
+const heroLead =
+  'Living Stories Collective brings people together for real conversations across lived experience.'
+const heroDetail =
+  'Join a session to listen deeply, ask thoughtful questions, and meet perspectives you may never encounter otherwise.'
+---
+
+<section class="landing-section landing-section--hero" aria-labelledby="landing-page-title">
+  <div class="landing-panel landing-hero">
+    <div class="landing-hero__content">
+      <p class="landing-eyebrow">{SITE_NAME}</p>
+      <h1 id="landing-page-title">{SITE_TAGLINE}</h1>
+      <p class="landing-lede">{heroLead}</p>
+      <p class="landing-hero__detail">{heroDetail}</p>
+
+      <div class="landing-hero__actions">
+        <a class="landing-button" href="#upcoming-sessions">
+          See upcoming sessions
+        </a>
+      </div>
+    </div>
+
+    <div class="landing-hero__media" aria-label="Scenes from Living Stories Collective sessions">
+      <figure class="landing-hero__figure landing-hero__figure--primary">
+        <img
+          src="/images/mcr-hrd-book-10-reading.png"
+          alt="Participants gathered around a Living Book conversation table during a Living Stories Collective session."
+          width="1170"
+          height="920"
+          loading="eager"
+        />
+      </figure>
+
+      <figure class="landing-hero__figure landing-hero__figure--secondary">
+        <img
+          src="/images/mcr-hrd-book-13-reading.png"
+          alt="A small-group dialogue unfolding at a Living Stories Collective event."
+          width="1170"
+          height="920"
+          loading="eager"
+        />
+      </figure>
+    </div>
+  </div>
+</section>

@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-005 (ready to start)
-Completed: 4/12
+Current story: US-006 (ready to start)
+Completed: 5/12
 
 ## Story Queue
 
@@ -20,7 +20,7 @@ Completed: 4/12
 - [x] US-002: Add reusable Paper shader background layer
 - [x] US-003: Update public branding and homepage metadata
 - [x] US-004: Build header navigation component
-- [ ] US-005: Build hero media and copy section
+- [x] US-005: Build hero media and copy section
 - [ ] US-006: Add Instagram profile embed to the hero
 - [ ] US-007: Build the upcoming sessions section with Luma
 - [ ] US-008: Render the How It Works section from structured step data
@@ -47,3 +47,8 @@ Completed: 4/12
 - Implemented `US-004` with the reusable `src/components/landing/LandingHeader.astro` component and a named header slot in `src/layouts/LandingPageShell.astro` so the navigation renders as a full-width bar above the landing-page content.
 - Updated `src/components/landing/LandingPage.astro` and `src/styles/landing-page.css` with the Paper-inspired logo treatment, responsive desktop/mobile header layout, and stable same-page anchors for `#how-it-works`, `#get-involved`, and `#contact`.
 - `npm run astro check` passes, and browser verification confirmed the header renders correctly on desktop and mobile while the nav links resolve to the expected in-page anchors.
+- Implemented `US-005` with the new `src/components/landing/LandingHero.astro` section component, replacing the placeholder homepage hero in `src/components/landing/LandingPage.astro`.
+- Updated `src/styles/landing-page.css` with the hero-specific two-column panel, editorial CTA styling, paired desktop media treatment, and stacked mobile media layout.
+- The hero now uses the local `public/images/mcr-hrd-book-10-reading.png` and `public/images/mcr-hrd-book-13-reading.png` assets and links the CTA to `#upcoming-sessions`.
+- `npm run astro check` and `npm run build` both pass after the hero changes.
+- Browser verification at `http://127.0.0.1:4321/` confirmed the hero renders correctly on desktop and mobile, and the `See upcoming sessions` CTA updates the URL to `#upcoming-sessions`.
