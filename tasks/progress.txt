@@ -11,8 +11,21 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-006 (ready to start)
-Completed: 5/12
+Current story: US-007 (Instagram profile embed in hero)
+Completed: 6/13
+
+## Ralph Instructions
+
+- The Paper design is the source of truth for all remaining UI work.
+- Use Paper MCP to inspect the Paper design file and artboards.
+- Do not use Playwright or the paper.design web app as the primary design-reference path.
+- Use browser tooling only for verifying the implemented local site.
+- Before marking a UI story complete, compare the implemented section against both Paper artboards:
+  - Desktop: https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=1-0
+  - Mobile: https://app.paper.design/file/01KM34BNDFPQATR9E3R3411Z88?node=34X-0
+- Do not treat functional completion as story completion if the design visibly diverges from Paper.
+- Match layout structure, spacing, copy hierarchy, imagery, and shader/background effects as closely as possible.
+- If a story is blocked on design fidelity, record the exact mismatch here before moving to the next story.
 
 ## Story Queue
 
@@ -21,13 +34,14 @@ Completed: 5/12
 - [x] US-003: Update public branding and homepage metadata
 - [x] US-004: Build header navigation component
 - [x] US-005: Build hero media and copy section
-- [ ] US-006: Add Instagram profile embed to the hero
-- [ ] US-007: Build the upcoming sessions section with Luma
-- [ ] US-008: Render the How It Works section from structured step data
-- [ ] US-009: Add the feedback quotes section
-- [ ] US-010: Add the feedback stats snapshot
-- [ ] US-011: Build the Get Involved action cards
-- [ ] US-012: Add the connect block and footer
+- [x] US-006: Align completed shell, header, shader, and hero with Paper using Paper MCP
+- [ ] US-007: Add Instagram profile embed to the hero
+- [ ] US-008: Build the upcoming sessions section with Luma
+- [ ] US-009: Render the How It Works section from structured step data
+- [ ] US-010: Add the feedback quotes section
+- [ ] US-011: Add the feedback stats snapshot
+- [ ] US-012: Build the Get Involved action cards
+- [ ] US-013: Add the connect block and footer
 
 ## Notes
 
@@ -52,3 +66,13 @@ Completed: 5/12
 - The hero now uses the local `public/images/mcr-hrd-book-10-reading.png` and `public/images/mcr-hrd-book-13-reading.png` assets and links the CTA to `#upcoming-sessions`.
 - `npm run astro check` and `npm run build` both pass after the hero changes.
 - Browser verification at `http://127.0.0.1:4321/` confirmed the hero renders correctly on desktop and mobile, and the `See upcoming sessions` CTA updates the URL to `#upcoming-sessions`.
+- Tightened Ralph execution guidance so remaining UI stories must match the Paper artboards before they can be marked complete.
+- Added a new immediate Ralph task to reconcile the already completed shell/header/shader/hero work against the Paper artboards before new sections are added.
+- Tightened the Ralph runner instructions so Paper design inspection must go through Paper MCP rather than the Paper web app in Playwright.
+- Implemented `US-006` by inspecting the Paper desktop (`1-0`) and mobile (`34X-0`) artboards with Paper MCP and aligning the shell, header, shader presentation, and hero slice to those measurements before moving on.
+- Updated `src/components/landing/LandingHeader.astro`, `src/components/landing/LandingHero.astro`, `src/components/landing/LandingPage.astro`, `src/layouts/LandingPageShell.astro`, and `src/styles/landing-page.css` to match the Paper header spacing, typography, logo treatment, hero proportions, image ordering, and CTA stack on desktop and mobile.
+- Removed the non-Paper scaffold cards from the homepage so the current implementation only renders the completed slice plus invisible anchor targets for later same-page sections.
+- Added a static Instagram preview placeholder block sized to the Paper hero so the layout matches the artboard now; the live `@livingstoriesco` embed itself remains the next story in `US-007`.
+- Paper-vs-local verification showed the key desktop and mobile slice measurements now line up closely, including the 1440x109 desktop header, 390x143 mobile header, 1188px desktop hero width, 358px mobile hero width, the 360x471 desktop preview card, and the 322x471 mobile preview card.
+- `npm run astro -- check` passes with existing repo hints only, and `npm run build` passes.
+- Browser verification at `http://127.0.0.1:4321/` confirmed the revised header and hero render in the Paper-like desktop and mobile structure, and the CTA plus same-page anchor targets still resolve correctly.

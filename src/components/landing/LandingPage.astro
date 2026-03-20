@@ -12,43 +12,10 @@ import {HOME_DESCRIPTION, HOME_TITLE} from '../../utils/site'
   <LandingHeader slot="header" />
 
   <LandingHero />
-
-  <section class="landing-section" aria-labelledby="landing-roadmap-title">
-    <div class="landing-section-heading">
-      <p class="landing-kicker">Scaffold</p>
-      <h2 id="landing-roadmap-title">Section anchors are ready for the next stories.</h2>
-    </div>
-
-    <div class="landing-grid">
-      <article class="landing-card" id="how-it-works">
-        <p class="landing-card__eyebrow">US-004 to US-010</p>
-        <h3>How it works</h3>
-        <p>
-          The new page flow now has a stable place for the story explanation,
-          participant quotes, and metrics content.
-        </p>
-      </article>
-
-      <article class="landing-card" id="upcoming-sessions">
-        <p class="landing-card__eyebrow">US-006 to US-007</p>
-        <h3>Instagram and sessions</h3>
-        <p>
-          The hero slice is now live, and the upcoming work can focus on the
-          Instagram profile embed and the Luma session block without reopening
-          the page shell.
-        </p>
-      </article>
-
-      <article class="landing-card" id="get-involved">
-        <p class="landing-card__eyebrow">US-011 to US-012</p>
-        <h3>Get involved and connect</h3>
-        <p>
-          The lower-page action cards, contact treatment, and footer can now
-          land as isolated follow-up tasks.
-        </p>
-      </article>
-    </div>
-
-    <div id="contact" class="landing-anchor-target" aria-hidden="true"></div>
-  </section>
+  <div class="landing-anchor-rail" aria-hidden="true">
+    <div id="upcoming-sessions" class="landing-anchor-target"></div>
+    <div id="how-it-works" class="landing-anchor-target"></div>
+    <div id="get-involved" class="landing-anchor-target"></div>
+    <div id="contact" class="landing-anchor-target"></div>
+  </div>
 </LandingPageShell>

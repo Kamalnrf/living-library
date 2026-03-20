@@ -17,14 +17,15 @@ const navigationItems: readonly NavigationItem[] = [
 <header class="landing-header" id="landing-page-top">
   <div class="landing-header__inner">
     <a class="landing-header__brand" href="#landing-page-top" aria-label={`${SITE_NAME} home`}>
-      <span class="landing-header__mark" aria-hidden="true">
-        <span class="landing-header__shape landing-header__shape--circle landing-header__shape--circle-small"></span>
-        <span class="landing-header__shape landing-header__shape--circle landing-header__shape--circle-large"></span>
-        <span class="landing-header__shape landing-header__shape--triangle landing-header__shape--triangle-small"></span>
-        <span class="landing-header__shape landing-header__shape--triangle landing-header__shape--triangle-large"></span>
-        <span class="landing-header__shape landing-header__shape--square landing-header__shape--square-small"></span>
-        <span class="landing-header__shape landing-header__shape--square landing-header__shape--square-large"></span>
-      </span>
+      <img
+        class="landing-header__mark"
+        src="/images/logo.png"
+        alt=""
+        width="93"
+        height="48"
+        loading="eager"
+        decoding="async"
+      />
 
       <span class="landing-header__brand-text">{SITE_NAME}</span>
     </a>
