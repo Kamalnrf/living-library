@@ -1,3 +1,5 @@
+import type {EditorialSectionIntroData} from '../editorial/editorialSection'
+
 export type FeedbackQuote = {
   id: string
   label: string
@@ -23,7 +25,7 @@ export const FEEDBACK_SECTION = {
   eyebrow: '03 / FEEDBACK',
   title: 'What People Say',
   description: 'Short quotes plus aggregate event insights from participant forms.',
-} as const
+} as const satisfies EditorialSectionIntroData
 
 export const FEEDBACK_QUOTES: readonly FeedbackQuote[] = [
   {

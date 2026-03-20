@@ -1,4 +1,5 @@
 import {INSTAGRAM_URL, LIVING_BOOK_APPLICATION_URL, LUMA_CALENDAR_URL} from '../../utils/site'
+import type {EditorialSectionIntroData} from '../editorial/editorialSection'
 
 export type GetInvolvedCard = {
   id: string
@@ -40,7 +41,7 @@ export const GET_INVOLVED_SECTION = {
   eyebrow: '04 / GET INVOLVED',
   title: 'Three ways to reach us',
   description: 'Whether you want to share, host, or connect.',
-} as const
+} as const satisfies EditorialSectionIntroData
 
 export const GET_INVOLVED_CARDS: readonly GetInvolvedCard[] = [
   {

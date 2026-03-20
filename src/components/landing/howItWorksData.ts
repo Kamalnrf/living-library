@@ -1,3 +1,5 @@
+import type {EditorialSectionIntroData} from '../editorial/editorialSection'
+
 export type HowItWorksImage = {
   src: string
   alt: string
@@ -46,9 +48,11 @@ export type HowItWorksStep =
 export const HOW_IT_WORKS_SECTION = {
   eyebrow: '02 / AT EVENT',
   title: 'How It Works',
-  descriptionDesktop: 'Our simple process creates meaningful connections through personal storytelling.',
-  descriptionMobile: 'Our process builds connection through personal storytelling.',
-} as const
+  description: {
+    desktop: 'Our simple process creates meaningful connections through personal storytelling.',
+    mobile: 'Our process builds connection through personal storytelling.',
+  },
+} as const satisfies EditorialSectionIntroData
 
 export const HOW_IT_WORKS_STEPS: readonly HowItWorksStep[] = [
   {
