@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-006 (ready to start)
-Completed: 5/11
+Current story: US-007 (ready to start)
+Completed: 6/11
 
 ## Ralph Instructions
 
@@ -36,7 +36,7 @@ Completed: 5/11
 - [x] US-003: Refactor the header with colocated styles and exact Paper spacing
 - [x] US-004: Add desktop guide lines and ruler ticks through the shared frame
 - [x] US-005: Refactor hero styles and stabilize the live Instagram embed wrapper
-- [ ] US-006: Refactor upcoming sessions styles and add a compact low-volume Luma mode
+- [x] US-006: Refactor upcoming sessions styles and add a compact low-volume Luma mode
 - [ ] US-007: Refactor How It Works styles and align the section to the shared frame
 - [ ] US-008: Refactor feedback styles and align the section to the shared frame
 - [ ] US-009: Refactor Get Involved and Connect styles and align them to the shared frame
@@ -74,3 +74,10 @@ Completed: 5/11
 - Browser verification at `http://127.0.0.1:4321/` confirmed the local hero now matches those Paper measurements on both target breakpoints: desktop renders hero section `1188x1083`, inner grid `603px / 585px`, content `603x919`, media `585x919`, two `459.5px` image slots, white embed shell `360x471`, `#F3F1EB` embed body, and the Paper fallback note copy; mobile renders hero section `358x1468`, media strip `358x248`, content `358x1036`, embed `322x471`, `320x430` embed body, and the Paper mobile lede color `rgb(68, 66, 60)`.
 - Residual mismatch recorded for the live Instagram embed: when the third-party iframe loads successfully, the interior shows Instagram's real profile chrome and live posts instead of Paper's static placeholder panel. The wrapper size, header row, border, fallback state, and mobile/desktop shell geometry match Paper; only the live third-party interior remains intentionally different.
 - `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the hero/embed refactor.
+- Implemented `US-006` by moving all upcoming-sessions layout, typography, quote, divider, and embed-shell rules into [src/components/landing/LandingUpcomingSessions.astro](/Users/kamal/.codex/worktrees/59c2/living-library/src/components/landing/LandingUpcomingSessions.astro), while removing the migrated section selectors from [src/styles/landing-page.css](/Users/kamal/.codex/worktrees/59c2/living-library/src/styles/landing-page.css).
+- Added a local `upcomingSessionsVariant` configuration inside [src/components/landing/LandingUpcomingSessions.astro](/Users/kamal/.codex/worktrees/59c2/living-library/src/components/landing/LandingUpcomingSessions.astro) with `full` and `compact` presets, and set the current landing page to the compact mode required for the current low-volume Luma state.
+- Paper MCP verification used desktop `Join A Session (F-0)` with child frames `G-0`, `O-0`, and placeholder shell `P-0`, plus mobile `Join A Session (390-0)` with child frames `394-0`, `391-0`, and placeholder shell `392-0`, as the source of truth. Those nodes confirmed the preserved Paper framing and typography targets: desktop section `1188x840`, two `593px` columns, `34px` shell padding, `62/60px` title, `20/31px` body copy, `340px` quote card, and `525x770` full placeholder shell; mobile section `358x846`, `34px` shell padding, `52/50px` title, `17/27px` body copy, and `288x420` full placeholder shell.
+- Browser verification at `http://127.0.0.1:4321/` confirmed the compact live-Luma presentation preserves the Paper structure while shrinking the empty-state calendar shell: desktop renders the section at `1188x610` with the live shell at `525x540`; mobile renders the section at `358x748` with the live shell at `288x348`. The hero CTA still lands on `#upcoming-sessions`, and the desktop/mobile copy hierarchy, borders, padding, and quote treatment remain aligned to the Paper artboards.
+- Intentional Paper deviation for `US-006`: the current page now defaults to the compact low-volume variant, so the live Luma shell is intentionally shorter than the full Paper placeholder card (`525x540` instead of `525x770` on desktop, `288x348` instead of `288x420` on mobile). This is deliberate to avoid the oversized empty-state shell called out in the PRD.
+- Residual live-embed mismatch for `US-006`: the third-party Luma iframe still renders Luma's own empty-state illustration and `No Upcoming Events` copy inside the compact wrapper instead of Paper's static placeholder text and surface treatment. The wrapper size, border, padding, and surrounding section layout now follow the Paper composition; only the live iframe interior remains intentionally different.
+- `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the upcoming-sessions refactor.
