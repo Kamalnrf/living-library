@@ -387,7 +387,7 @@ const eventLibraryCards: EventLibraryCard[] = (() => {
     });
 
     // Track scroll events
-    let scrollTimeout: number;
+    let scrollTimeout: ReturnType<typeof setTimeout>;
     track.addEventListener("scroll", () => {
       clearTimeout(scrollTimeout);
       scrollTimeout = setTimeout(updateActiveSlide, 100);
