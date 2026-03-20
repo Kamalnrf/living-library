@@ -1,0 +1,49 @@
+---
+import {GET_INVOLVED_CARDS, GET_INVOLVED_SECTION} from './getInvolvedData'
+---
+
+<section
+  id="get-involved"
+  class="landing-section landing-section--get-involved"
+  aria-labelledby="get-involved-title"
+>
+  <div class="landing-get-involved">
+    <div class="landing-get-involved__intro">
+      <p class="landing-get-involved__eyebrow">{GET_INVOLVED_SECTION.eyebrow}</p>
+      <h2 id="get-involved-title">{GET_INVOLVED_SECTION.title}</h2>
+      <p class="landing-get-involved__body">{GET_INVOLVED_SECTION.description}</p>
+    </div>
+
+    <div class="landing-get-involved__cards">
+      {
+        GET_INVOLVED_CARDS.map((card) => {
+          const linkAttributes = card.external
+            ? {
+                target: '_blank',
+                rel: 'noreferrer',
+              }
+            : {}
+
+          return (
+            <article
+              class="landing-get-involved__card"
+              style={`--landing-get-involved-card-min-height: ${card.desktopMinHeight}; --landing-get-involved-card-min-height-mobile: ${card.mobileMinHeight};`}
+            >
+              <p class="landing-get-involved__card-label">{card.id}</p>
+              <h3>{card.title}</h3>
+              <p class="landing-get-involved__card-body landing-get-involved__card-body--desktop">
+                {card.descriptionDesktop}
+              </p>
+              <p class="landing-get-involved__card-body landing-get-involved__card-body--mobile">
+                {card.descriptionMobile}
+              </p>
+              <a class="landing-get-involved__card-link" href={card.href} {...linkAttributes}>
+                {card.linkLabel}
+              </a>
+            </article>
+          )
+        })
+      }
+    </div>
+  </div>
+</section>

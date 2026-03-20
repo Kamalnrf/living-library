@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-012 (Get Involved action cards)
-Completed: 11/13
+Current story: US-013 (Connect block and footer)
+Completed: 12/13
 
 ## Ralph Instructions
 
@@ -40,7 +40,7 @@ Completed: 11/13
 - [x] US-009: Render the How It Works section from structured step data
 - [x] US-010: Add the feedback quotes section
 - [x] US-011: Add the feedback stats snapshot
-- [ ] US-012: Build the Get Involved action cards
+- [x] US-012: Build the Get Involved action cards
 - [ ] US-013: Add the connect block and footer
 
 ## Notes
@@ -102,3 +102,10 @@ Completed: 11/13
 - Paper MCP inspection plus local browser verification showed the completed feedback section now matches the Paper aggregate slice exactly for this story’s scope: desktop `1188x1178` section, `1186x560` aggregate row, `451x560` voice panel, `317x84` floating quote, `735x560` snapshot panel, `667x438` snapshot card, `621x254` snapshot main area, `250x254` perspective block, `186x186` ring, `345x136` metric stack, and `621x120` topics card; mobile `358x1952` section, `356x1083` aggregate row, `356x363` voice panel, `288x84` quote card, `356x720` snapshot panel, `288x624` snapshot card, `242x372` snapshot main area, `242x228` perspective block, `160x160` ring, `242x130` metric stack, and `242x192` topics card.
 - `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the feedback stats implementation.
 - Browser verification against `http://127.0.0.1:4321/` confirmed the completed `What People Say` section renders with the Paper-matched aggregate metrics layout on desktop and mobile.
+- Implemented `US-012` with the new `src/components/landing/LandingGetInvolved.astro` section component and structured `src/components/landing/getInvolvedData.ts` content module, then mounted the section in `src/components/landing/LandingPage.astro` directly after `LandingFeedback`.
+- Centralized the live application URL in `src/utils/site.ts`, replaced the temporary `#get-involved` anchor placeholder with the real section root, and kept the `#contact` anchor target in place so the `Host an event with us` card can use the required same-page destination until `US-013` adds the actual connect block.
+- Updated `src/styles/landing-page.css` to match the Paper desktop/mobile Get Involved intro and two-card slice, including the bordered section shell, the exact intro type scale, the split desktop card row, the stacked mobile cards, and the Paper-aligned title/body/link typography for both actions.
+- Paper MCP inspection plus local browser verification showed the implemented Get Involved slice matches the Paper measurements exactly for this story’s scope: desktop `32px` gap from `Feedback`, `1186x196` intro, `1186x300` cards row, and two `593x300` cards; mobile `24px` gap, `356x245` intro, `356x528` cards row, and `356x276` / `356x252` cards.
+- Browser verification against `http://127.0.0.1:4321/` confirmed the header `partner with us` link now lands on the real `#get-involved` section, the `Apply to be a Living Book` card points to `https://app.youform.com/forms/evyp3pwk`, and the `Host an event with us` card updates the URL to `#contact`.
+- `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes after the Get Involved implementation.
+- The full Paper Get Involved section continues into the lower connect block; that remaining `Connect` portion and the footer are intentionally left for `US-013`, so only the intro plus two action cards slice is marked complete here.
