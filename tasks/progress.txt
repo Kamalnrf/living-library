@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-010 (ready to start)
-Completed: 9/11
+Current story: US-011 (ready to start)
+Completed: 10/11
 
 ## Ralph Instructions
 
@@ -45,7 +45,7 @@ Completed: 9/11
 - [x] US-007: Add uniform block rendering for feedback quote grids
 - [x] US-008: Add uniform block rendering for snapshot and metric summary blocks
 - [x] US-009: Add uniform block rendering for connect and CTA action blocks
-- [ ] US-010: Finalize shared naming and page-specific boundaries
+- [x] US-010: Finalize shared naming and page-specific boundaries
 - [ ] US-011: Run final homepage regression audit and validation
 
 ## Notes
@@ -111,3 +111,10 @@ Completed: 9/11
   - Mobile browser-computed geometry matches the Paper connect stack exactly: section `358x1346`, intro `356x245`, cards row `356x528`, connect block `356x571`, connect stack `288x422`, connect cards `288x202` and `288x208`, and CTA shell `254x52`.
 - Verified live destinations after the migration: the header `contact` link and `Host an event with us` CTA both still resolve to `#contact`, and the connect cards still point to the live Instagram profile plus `https://lu.ma/living-library`.
 - Remaining intentional `US-009` content deviation: the second connect card still uses the live Luma calendar destination and copy instead of the Paper `Email updates` placeholder. The shared block shell, spacing, responsive layout, and CTA treatment remain aligned to the Paper artboards.
+- Completed `US-010` on `2026-03-20`: removed the remaining landing-specific compatibility aliases from the shared editorial token layer in `src/styles/editorial.css`, updated the homepage section assemblies and shell styles to consume the editorial token names directly, and kept homepage-only implementation details scoped to the landing page files instead of the shared editorial primitives.
+- Updated `src/components/landing/LandingUpcomingSessions.astro` to use `src/components/editorial/EditorialFrame.astro` rather than the old shared `.landing-section` layout hook, then added the missing `style` prop typing to `EditorialFrame.astro` so the shared frame can type-check section-level inline custom properties.
+- Verified `US-010` with `npm run astro -- check` (`0` errors, existing repository hints only).
+- Verified the homepage against the Paper artboards via Paper MCP screenshots (`1-0`, `34X-0`) and local Playwright captures at `http://127.0.0.1:4321/` on desktop (`1440px`) and mobile (`390px`):
+  - Desktop geometry remained aligned after the naming cleanup: header `1440x108`, hero `1188x919`, upcoming section `1188x610`, feedback section `1188x1178`, get-involved section `1188x873`, and footer `1440x150`.
+  - Mobile geometry remained aligned after the naming cleanup: header `390x142`, hero `358x1304`, upcoming section `358x748`, feedback section `358x1952`, get-involved section `358x1346`, and footer `390x96`.
+- `US-010` introduced no new Paper mismatches. The previously recorded runtime differences from the live Instagram and Luma embeds remain the only intentional content variance versus the static Paper placeholders.

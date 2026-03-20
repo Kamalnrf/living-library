@@ -100,7 +100,7 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
     min-height: 471px;
     display: flex;
     flex-direction: column;
-    border: 1px solid var(--landing-border);
+    border: 1px solid var(--editorial-color-border);
     background: #fff;
     overflow: hidden;
   }
@@ -111,7 +111,7 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
     align-items: center;
     gap: 1rem;
     padding: 10px 12px;
-    border-bottom: 1px solid var(--landing-border-soft);
+    border-bottom: 1px solid var(--editorial-color-border-soft);
   }
 
   .landing-hero__embed-handle {
@@ -122,7 +122,7 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
 
   .landing-hero__embed-open,
   .landing-hero__embed-link {
-    color: var(--landing-accent);
+    color: var(--editorial-color-accent);
     text-decoration: underline;
     text-decoration-thickness: 1px;
     text-underline-offset: 2px;
@@ -135,7 +135,7 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
 
   .landing-hero__embed-open:focus-visible,
   .landing-hero__embed-link:focus-visible {
-    outline: 2px solid var(--landing-accent);
+    outline: 2px solid var(--editorial-color-accent);
     outline-offset: 4px;
   }
 
@@ -196,7 +196,7 @@ const {embedUrl, handle, profileName, profileUrl} = Astro.props
     max-width: 219px;
     font-size: 12px;
     line-height: 16px;
-    color: var(--landing-muted-soft);
+    color: var(--editorial-color-muted-soft);
   }
 
   @media (max-width: 900px) {

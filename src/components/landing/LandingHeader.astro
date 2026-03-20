@@ -50,7 +50,7 @@ const navigationItems: readonly NavigationItem[] = [
     z-index: 2;
     width: 100%;
     background: #fff;
-    border-bottom: 1px solid var(--landing-border);
+    border-bottom: 1px solid var(--editorial-color-border);
   }
 
   :global(.landing-header__inner) {
@@ -72,7 +72,7 @@ const navigationItems: readonly NavigationItem[] = [
 
   .landing-header__brand:focus-visible,
   .landing-header__nav-link:focus-visible {
-    outline: 2px solid var(--landing-accent);
+    outline: 2px solid var(--editorial-color-accent);
     outline-offset: 4px;
   }
 
@@ -83,13 +83,13 @@ const navigationItems: readonly NavigationItem[] = [
   }
 
   .landing-header__brand-text {
-    font-family: var(--landing-font-sans);
+    font-family: var(--editorial-font-sans);
     font-size: 32px;
     font-weight: 450;
     font-variation-settings: 'wght' 450;
     line-height: 38px;
     letter-spacing: -0.01em;
-    color: var(--landing-text-strong);
+    color: var(--editorial-color-text-strong);
     white-space: nowrap;
   }
 
@@ -101,7 +101,7 @@ const navigationItems: readonly NavigationItem[] = [
 
   .landing-header__nav-link {
     position: relative;
-    font-family: var(--landing-font-sans);
+    font-family: var(--editorial-font-sans);
     font-size: 17px;
     font-weight: 400;
     line-height: 22px;
@@ -124,7 +124,7 @@ const navigationItems: readonly NavigationItem[] = [
   }
 
   .landing-header__nav-link--accent {
-    color: var(--landing-accent);
+    color: var(--editorial-color-accent);
   }
 
   .landing-header__nav-link:hover::after,
