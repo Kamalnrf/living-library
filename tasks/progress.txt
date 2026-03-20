@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-010 (ready to start)
-Completed: 9/11
+Current story: US-011 (ready to start)
+Completed: 10/11
 
 ## Ralph Instructions
 
@@ -40,7 +40,7 @@ Completed: 9/11
 - [x] US-007: Refactor How It Works styles and align the section to the shared frame
 - [x] US-008: Refactor feedback styles and align the section to the shared frame
 - [x] US-009: Refactor Get Involved and Connect styles and align them to the shared frame
-- [ ] US-010: Refactor the footer with colocated styles and exact Paper spacing
+- [x] US-010: Refactor the footer with colocated styles and exact Paper spacing
 - [ ] US-011: Run the final Paper audit and repo validation pass
 
 ## Notes
@@ -98,3 +98,9 @@ Completed: 9/11
 - Browser verification at `http://127.0.0.1:4321/` confirmed the refactored section matches those Paper measurements on both target breakpoints: desktop renders the section at `1188x873` with intro `1186x196`, cards row `1186x300`, action cards `593x300`, connect block `1186x375`, connect grid `1118x213`, and connect CTA shell `504x56`; mobile renders the section at `358x1346` with intro `356x245`, cards stack `356x528`, action cards `356x276` and `356x252`, connect block `356x571`, connect stack `288x422`, and connect CTA shell `254x52`.
 - Intentional `US-009` content deviation: the second connect card preserves the live Luma destination and copy required by the PRD instead of Paper's static email-updates placeholder content. The card shell, spacing, responsive structure, and CTA treatment still match the Paper desktop and mobile geometry.
 - `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the Get Involved / Connect refactor.
+- Implemented `US-010` by refactoring [src/components/landing/LandingFooter.astro](/Users/kamal/.codex/worktrees/59c2/living-library/src/components/landing/LandingFooter.astro) to render through the shared `LandingEditorialFrame` shell primitive, moving all footer-specific layout, spacing, typography, and interaction styles into the component so the footer now owns its Paper spacing directly.
+- Removed the final footer selectors from the old monolithic landing stylesheet, trimmed the shared focus selector in [landing-shell.css](/Users/kamal/.codex/worktrees/59c2/living-library/src/styles/landing-shell.css), removed the dead stylesheet import from [LandingPageShell.astro](/Users/kamal/.codex/worktrees/59c2/living-library/src/layouts/LandingPageShell.astro), and deleted [landing-page.css](/Users/kamal/.codex/worktrees/59c2/living-library/src/styles/landing-page.css) now that the landing page no longer depends on it.
+- Paper MCP verification used desktop footer node `Footer (F3-0)` with child frames `2BQ-0` and `2BL-0`, plus text nodes `2BP-0`, `2BK-0`, and `2BM-0`; mobile verification used footer node `Footer (3DW-0)` with child frames `3DZ-0` and `3DX-0`, plus text nodes `3E1-0`, `3E0-0`, and `3DY-0`, as the source of truth. Those nodes confirmed the target geometry and type values: desktop footer `1440x150`, `36px` top margin, `24px` vertical padding, `144px` inline padding, `18/20px` year text, and `18/22px` brand/link text; mobile footer `390x96`, `24px` top margin, `18px` vertical padding, `16px` inline padding, `8px` stack gap, `18/20px` year text, and `15/20px` brand/link text.
+- Browser verification at `http://127.0.0.1:4321/` confirmed the refactored footer matches those Paper measurements on both target breakpoints: desktop renders the footer at `1440x150` with `144px` inline padding, `36px` top margin, `rgb(246, 244, 238)` background, `1px solid rgb(216, 210, 196)` top border, `251px` brandline width, and `94px` Instagram link width; mobile renders the footer at `390x96` with `16px` inline padding, `24px` top margin, `8px` stack gap, `221px` brandline width, and `79px` Instagram link width.
+- No residual `US-010` visual mismatch remains after the refactor: the local footer now matches the Paper desktop and mobile footer geometry, spacing, and typography, so there was no additional deviation to record for this story.
+- `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the footer refactor.

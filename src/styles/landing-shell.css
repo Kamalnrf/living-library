@@ -198,8 +198,7 @@ a {
 :where(
     .landing-get-involved__card-link,
     .landing-get-involved__connect-link,
-    .landing-get-involved__connect-action,
-    .landing-footer__link
+    .landing-get-involved__connect-action
   ):focus-visible {
   outline: 2px solid var(--landing-accent);
   outline-offset: 4px;
