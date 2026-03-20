@@ -11,8 +11,8 @@ Created: 2026-03-20
 
 ## Status
 
-Current story: US-011 (ready to start)
-Completed: 10/11
+Current story: All stories complete
+Completed: 11/11
 
 ## Ralph Instructions
 
@@ -41,7 +41,7 @@ Completed: 10/11
 - [x] US-008: Refactor feedback styles and align the section to the shared frame
 - [x] US-009: Refactor Get Involved and Connect styles and align them to the shared frame
 - [x] US-010: Refactor the footer with colocated styles and exact Paper spacing
-- [ ] US-011: Run the final Paper audit and repo validation pass
+- [x] US-011: Run the final Paper audit and repo validation pass
 
 ## Notes
 
@@ -104,3 +104,9 @@ Completed: 10/11
 - Browser verification at `http://127.0.0.1:4321/` confirmed the refactored footer matches those Paper measurements on both target breakpoints: desktop renders the footer at `1440x150` with `144px` inline padding, `36px` top margin, `rgb(246, 244, 238)` background, `1px solid rgb(216, 210, 196)` top border, `251px` brandline width, and `94px` Instagram link width; mobile renders the footer at `390x96` with `16px` inline padding, `24px` top margin, `8px` stack gap, `221px` brandline width, and `79px` Instagram link width.
 - No residual `US-010` visual mismatch remains after the refactor: the local footer now matches the Paper desktop and mobile footer geometry, spacing, and typography, so there was no additional deviation to record for this story.
 - `npm run astro -- check` still passes with the existing repo hints only, and `npm run build` passes after the footer refactor.
+- Completed `US-011` with a final Paper audit against the desktop artboard `Wireframe (1-0)` and mobile artboard `Wireframe Mobile (34X-0)`, using the top-level section nodes `Header`, `Hero`, `Join A Session`, `How It Works`, `Feedback Section`, `Get Involved`, and `Footer` on both breakpoints as the source of truth for the closing comparison.
+- Browser verification at `http://127.0.0.1:4321/` confirmed the current landing page still matches the audited Paper geometry section by section: desktop body `1440x5921`, header `1440x109` with `144px` inline padding, hero `1188x1083`, How It Works `1188x1556`, feedback `1188x1178`, Get Involved `1188x873`, footer `1440x150`, and desktop guide offsets at `126px` from each side; mobile header `390x143` with `16px` inline padding and `10px` row gap, hero `358x1468`, How It Works `358x2355`, feedback `358x1952`, Get Involved `358x1346`, footer `390x96`, and guides hidden.
+- The live upcoming-sessions section remains in the intentional compact variant required by the PRD, so it continues to differ from the full Paper placeholder shell: desktop renders `1188x610` instead of the full `1188x840` composition, and mobile renders `358x748` instead of the full `358x846` composition. This remains an intentional, acceptable deviation for the current low-volume Luma state.
+- The remaining intentional visual/content deviations after the final audit are unchanged from earlier stories: the Instagram embed interior still shows Instagram's live profile chrome and post grid instead of Paper's static placeholder panel; the Luma iframe interior still shows the live Luma empty-state/content treatment instead of Paper's static placeholder; and the second connect card still points to the live Luma destination with `Luma calendar` copy instead of Paper's static `Email updates` content.
+- Repo validation for `US-011` confirmed the landing page no longer depends on the removed monolithic stylesheet: [LandingPage.astro](/Users/kamal/.codex/worktrees/59c2/living-library/src/components/landing/LandingPage.astro) composes the landing from colocated section components, [LandingPageShell.astro](/Users/kamal/.codex/worktrees/59c2/living-library/src/layouts/LandingPageShell.astro) imports only [landing-shell.css](/Users/kamal/.codex/worktrees/59c2/living-library/src/styles/landing-shell.css), `src/styles/` now contains only `landing-shell.css`, and `rg` found no remaining `src/` references to `src/styles/landing-page.css`.
+- Final validation for `US-011`: `npm run astro -- check` passes with the existing repo hints only, and `npm run build` passes. No new non-embed visual mismatches were found during the closing audit, so the story queue is complete.
