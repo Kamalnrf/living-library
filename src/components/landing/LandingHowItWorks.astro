@@ -60,5 +60,19 @@ import {HOW_IT_WORKS_SECTION} from './howItWorksData'
     :global(.landing-section--how-it-works) {
       margin-top: 24px;
     }
+
+    :global(
+      .landing-how-it-works [data-editorial-block-id='borrow-a-living-book'] .editorial-story-row__quote,
+      .landing-how-it-works
+        [data-editorial-block-id='return-with-a-changed-perspective']
+        .editorial-story-row__quote
+    ) {
+      position: relative;
+      top: auto;
+      left: auto;
+      width: 100%;
+      max-width: 100%;
+      margin-top: 8px;
+    }
   }
 </style>
