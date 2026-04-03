@@ -37,10 +37,6 @@ const HOW_IT_WORKS_STEPS = [
 				height: 762,
 			},
 		},
-		quote: {
-			speaker: "Participant",
-			text: '"People should not be judged beforehand."',
-		},
 	},
 	{
 		kind: "story-row",
@@ -53,24 +49,18 @@ const HOW_IT_WORKS_STEPS = [
 		media: {
 			kind: "collage",
 			stackedImages: [
-				{
-					src: "/images/mcr-hrd-book-1-reading.png",
+        {
+					src: "/images/mcr-hrd-book-e-2-book-3-reading.jpeg",
 					alt: "Participants seated around a table during a Living Stories Collective conversation circle.",
-					width: 688,
-					height: 374,
 				},
 				{
 					src: "/images/mcr-hrd-e-2-book-10-reading.png",
 					alt: "A Living Book conversation underway at a community event.",
-					width: 688,
-					height: 374,
 				},
 			],
 			accentImage: {
 				src: "/images/hlf-book-1-reading.png",
 				alt: "Two participants engaged in an intimate Living Book conversation.",
-				width: 332,
-				height: 762,
 			},
 			accentFrameTone: "sand",
 		},
@@ -91,16 +81,12 @@ const HOW_IT_WORKS_STEPS = [
 				mobile: "228px",
 			},
 			image: {
-				src: "/images/yulu.png",
+				src: "/images/perception.png",
 				alt: "A participant riding home at night after a Living Stories Collective session.",
 				width: 1048,
 				height: 764,
 			},
-		},
-		quote: {
-			speaker: "Participant",
-			text: '"Understanding the trauma and experiences of specially abled children."',
-		},
+		}
 	},
 ] as const satisfies readonly EditorialStoryRowBlock[];
 

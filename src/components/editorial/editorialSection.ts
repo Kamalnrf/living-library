@@ -52,6 +52,11 @@ export type EditorialMediaImage = {
   height: number
 }
 
+export type EditorialCollageImage = {
+  src: string
+  alt: string
+}
+
 export type EditorialStoryRowQuoteCallout = {
   speaker: string
   text: string
@@ -70,8 +75,8 @@ export type EditorialStoryRowMedia =
   | {
       kind: 'collage'
       accentFrameTone?: 'sage' | 'lavender' | 'sand'
-      stackedImages: readonly [EditorialMediaImage, EditorialMediaImage]
-      accentImage: EditorialMediaImage
+      stackedImages: readonly [EditorialCollageImage, EditorialCollageImage]
+      accentImage: EditorialCollageImage
     }
 
 export type EditorialStoryRowBlock = {

@@ -30,14 +30,14 @@ const FEEDBACK_INTRO = {
 export const FEEDBACK_QUOTES = [
 	{
 		id: "cherish-experience",
-		label: "QUOTE · PARTICIPANT",
+		label: "QUOTE · LISTENER",
 		quote: '"One such experience I will cherish for the rest of my life."',
 		supportingCopy:
 			"Participants repeatedly described this about their experience.",
 	},
 	{
 		id: "changed-perception",
-		label: "QUOTE · PARTICIPANT",
+		label: "QUOTE · LISTENER",
 		quote: '"Every story we heard changed our perception of society."',
 		supportingCopy: "Empathy toward others became the biggest takeaway.",
 	},
@@ -50,14 +50,13 @@ const FEEDBACK_QUOTES_BLOCK = {
 
 export const FEEDBACK_AGGREGATE = {
 	voice: {
-		eyebrow: "PARTICIPANT VOICE",
+		eyebrow: "LISTENERS VOICE",
 		title: "What stayed with people",
 		description: "One reflection appeared repeatedly in participant responses.",
-		quoteLabel: "Participant",
+		quoteLabel: "LISTENER",
 		quote: '"Empathy was my biggest takeaway."',
 	},
 	snapshot: {
-		eyebrow: "SNAPSHOT",
 		perspectiveShift: {
 			label: "Perspective shift",
 			value: "76%",
@@ -77,13 +76,13 @@ export const FEEDBACK_AGGREGATE = {
 			] as const satisfies readonly FeedbackLegendItem[],
 		},
 		metrics: [
-			{
-				id: "top-score",
-				label: "Top score (5/5)",
-				value: "64.3%",
-				fillWidth: "64.3%",
-				fillColor: "#6FA06E",
-			},
+			// {
+			// 	id: "top-score",
+			// 	label: "Top score (5/5)",
+			// 	value: "64.3%",
+			// 	fillWidth: "64.3%",
+			// 	fillColor: "#6FA06E",
+			// },
 			{
 				id: "rated-four-or-five",
 				label: "Rated 4 or 5",
@@ -91,13 +90,13 @@ export const FEEDBACK_AGGREGATE = {
 				fillWidth: "93%",
 				fillColor: "#76A977",
 			},
-			{
-				id: "stereotype-shift",
-				label: "Stereotype shift",
-				value: "75.7%",
-				fillWidth: "75.7%",
-				fillColor: "#6FA06E",
-			},
+			// {
+			// 	id: "stereotype-shift",
+			// 	label: "Stereotype shift",
+			// 	value: "75.7%",
+			// 	fillWidth: "75.7%",
+			// 	fillColor: "#6FA06E",
+			// },
 		] as const satisfies readonly FeedbackSnapshotMetric[],
 		topics: {
 			label: "WHAT PEOPLE OPENED UP ABOUT",
@@ -108,7 +107,7 @@ export const FEEDBACK_AGGREGATE = {
 
 const FEEDBACK_AGGREGATE_BLOCK = {
 	kind: "snapshot",
-	eyebrow: FEEDBACK_AGGREGATE.snapshot.eyebrow,
+	eyebrow: "",
 	voice: FEEDBACK_AGGREGATE.voice,
 	perspectiveShift: FEEDBACK_AGGREGATE.snapshot.perspectiveShift,
 	metrics: FEEDBACK_AGGREGATE.snapshot.metrics,

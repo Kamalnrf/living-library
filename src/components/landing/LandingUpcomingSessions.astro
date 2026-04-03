@@ -1,11 +1,11 @@
 ---
-import EditorialFrame from '../editorial/EditorialFrame.astro'
-import {LUMA_CALENDAR_EMBED_URL} from '../../utils/site'
+import EditorialFrame from "../editorial/EditorialFrame.astro";
+import { LUMA_CALENDAR_EMBED_URL } from "../../utils/site";
 
-const sectionEyebrow = '01 / JOIN OUR EVENT'
-const sectionDescription = 'Browse upcoming events and RSVP'
+const sectionEyebrow = "01 / JOIN OUR EVENT";
+const sectionDescription = "Browse upcoming events and RSVP";
 const participantQuote =
-  '"The whole session is really worthy and every story we heard today will change our perception."'
+  '"The whole session is really worthy and every story we heard today will change our perception."';
 ---
 
 <EditorialFrame
@@ -26,13 +26,13 @@ const participantQuote =
         </div>
       </div>
 
-      <figure class="landing-upcoming__quote">
+      <!-- <figure class="landing-upcoming__quote">
         <figcaption class="landing-upcoming__quote-speaker">Participant</figcaption>
 
         <blockquote class="landing-upcoming__quote-text">
           <p>{participantQuote}</p>
         </blockquote>
-      </figure>
+      </figure> -->
     </div>
 
     <div class="landing-upcoming__calendar-column">
@@ -43,8 +43,7 @@ const participantQuote =
           title="Living Stories Collective upcoming sessions"
           loading="lazy"
           referrerpolicy="strict-origin-when-cross-origin"
-          allowfullscreen
-        ></iframe>
+          allowfullscreen></iframe>
       </div>
     </div>
   </div>
@@ -115,7 +114,7 @@ const participantQuote =
   }
 
   .landing-upcoming__body::after {
-    content: '.';
+    content: ".";
   }
 
   .landing-upcoming__quote {
@@ -133,7 +132,7 @@ const participantQuote =
   }
 
   .landing-upcoming__quote::before {
-    content: '';
+    content: "";
     position: absolute;
     top: -10px;
     left: -12px;
@@ -176,7 +175,11 @@ const participantQuote =
     border: 1px solid var(--editorial-color-widget-border);
     background-color: var(--editorial-color-surface-embed);
     background-image:
-      radial-gradient(circle farthest-corner at 0% 0%, rgb(233 231 225 / 0.8) 0%, transparent 76%),
+      radial-gradient(
+        circle farthest-corner at 0% 0%,
+        rgb(233 231 225 / 0.8) 0%,
+        transparent 76%
+      ),
       linear-gradient(180deg, #f5f3ed 0%, #efede6 100%);
   }
 
@@ -226,7 +229,7 @@ const participantQuote =
     }
 
     .landing-upcoming__body::after {
-      content: '';
+      content: "";
     }
 
     .landing-upcoming__quote {
