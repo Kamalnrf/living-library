@@ -1,0 +1,40 @@
+src/components/editorial/EditorialStoryRowBlock.astro
+  1d6425c5cde3e3e2 286,297,302
+src/components/landing/howItWorksData.ts
+  1d6425c5cde3e3e2 53
+src/components/editorial/editorialSection.ts
+  1d6425c5cde3e3e2 55-59,78-79
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.5",
+  "base_commit_sha": "200b657eed5e355ab71a6dea30b3f81f7b3f2356",
+  "prompts": {
+    "1d6425c5cde3e3e2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "0c95cc58-cd4a-4e20-86b9-a5c4cb53338c",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Kamal Mukkamala",
+      "messages": [],
+      "total_additions": 33,
+      "total_deletions": 200,
+      "accepted_lines": 29,
+      "overriden_lines": 0
+    },
+    "90659bc1a438e293": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "a9258fcc-3f82-4fa7-9787-de3b293cc6c4",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Kamal Mukkamala",
+      "messages": [],
+      "total_additions": 358,
+      "total_deletions": 2,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    }
+  }
+}
