@@ -1,0 +1,23 @@
+src/pages/book-cover-generator.astro
+  36565de6b4f885c2 738-740,747-752,770,772,775-779,781-793,796-798
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8",
+  "base_commit_sha": "ddd8213cdd63405beb83ecc5dbabda9acd00f069",
+  "prompts": {
+    "36565de6b4f885c2": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "7a527128-3b0f-47d4-9f7f-654b2c0c17bf",
+        "model": "claude-opus-4-6"
+      },
+      "human_author": "Kamal Mukkamala",
+      "messages": [],
+      "total_additions": 32,
+      "total_deletions": 16,
+      "accepted_lines": 32,
+      "overriden_lines": 0
+    }
+  }
+}
