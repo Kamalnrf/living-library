@@ -735,14 +735,21 @@
         g.strokeWeight(1);
         g.line(padding, dividerY, padding + 40 * scale, dividerY);
 
-        // Blurb
+        // Blurb — render line-by-line using pre-wrapped lines so we don't
+        // depend on p5's internal wrap + bounding-box clipping, which clips
+        // text at higher export scales.
         g.noStroke();
         g.fill(TEXT_COLOR);
         g.textFont("Poppins");
         g.textSize(13 * scale);
         g.textLeading(blurbLineHeight);
         g.textAlign(LEFT, TOP);
-        g.text(blurb, padding, blurbStartY, maxTextWidth, blurbHeight + 50);
+
+        let blurbY = blurbStartY;
+        for (const line of blurbLines) {
+          g.text(line, padding, blurbY);
+          blurbY += blurbLineHeight;
+        }
 
         // Branding - pinned to bottom
         g.fill(150);
@@ -760,26 +767,35 @@
         ctx.restore();
       }
 
-      // Helper function to wrap text
+      // Helper function to wrap text — honors explicit newlines in the source
       function wrapText(txt, maxWidth, g = window) {
-        const words = txt.split(" ");
+        const paragraphs = txt.split("\n");
         const lines = [];
-        let currentLine = "";
 
-        for (const word of words) {
-          const testLine = currentLine ? currentLine + " " + word : word;
-          const testWidth = g.textWidth(testLine);
-
-          if (testWidth > maxWidth && currentLine) {
-            lines.push(currentLine);
-            currentLine = word;
-          } else {
-            currentLine = testLine;
+        for (const paragraph of paragraphs) {
+          if (paragraph === "") {
+            lines.push("");
+            continue;
           }
-        }
 
-        if (currentLine) {
-          lines.push(currentLine);
+          const words = paragraph.split(" ");
+          let currentLine = "";
+
+          for (const word of words) {
+            const testLine = currentLine ? currentLine + " " + word : word;
+            const testWidth = g.textWidth(testLine);
+
+            if (testWidth > maxWidth && currentLine) {
+              lines.push(currentLine);
+              currentLine = word;
+            } else {
+              currentLine = testLine;
+            }
+          }
+
+          if (currentLine) {
+            lines.push(currentLine);
+          }
         }
 
         return lines.length > 0 ? lines : [""];
