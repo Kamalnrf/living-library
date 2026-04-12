@@ -271,7 +271,7 @@ export default function Step2BookBrowser({ eventId, eventName, eventDate, reader
               <SearchIcon size="16" />
               <input
                 type="text"
-                placeholder="Search books or authors…"
+                placeholder="Search books…"
                 value={search}
                 onChange={e => setSearch(e.target.value)} />
             </div>

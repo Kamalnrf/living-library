@@ -1,3 +1,4 @@
+import { useRef, useState } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import type { Book } from './api'
 
@@ -8,6 +9,8 @@ type Props = {
 }
 
 export default function BookCard({ book, isDisabled, onToggle }: Props) {
+  const [synopsisExpanded, setSynopsisExpanded] = useState(false)
+  const synopsisRef = useRef<HTMLDivElement>(null)
   const slotsLeft = book.slotsLeft ?? 0
   const isFull = slotsLeft <= 0
   const isRegistered = book.isRegistered
@@ -61,7 +64,7 @@ export default function BookCard({ book, isDisabled, onToggle }: Props) {
             )}
              {isDisabled && !isRegistered && (
               <motion.span
-                className="table-badge"
+                className="already-registered-badge"
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.8 }}
@@ -73,7 +76,31 @@ export default function BookCard({ book, isDisabled, onToggle }: Props) {
         </div>
       </div>
       {book.synopsis && (
-        <div className="book-row-synopsis">{book.synopsis}</div>
+        <div className="book-row-synopsis-wrap">
+          <div
+            ref={synopsisRef}
+            className={`book-row-synopsis${synopsisExpanded ? ' expanded' : ''}`}
+          >
+            {book.synopsis}
+          </div>
+          <button
+            type="button"
+            className="synopsis-toggle"
+            onClick={e => {
+              e.stopPropagation()
+              setSynopsisExpanded(prev => !prev)
+            }}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.stopPropagation()
+                e.preventDefault()
+                setSynopsisExpanded(prev => !prev)
+              }
+            }}
+          >
+            {synopsisExpanded ? 'Show less' : 'Read more'}
+          </button>
+        </div>
       )}
       <div className="book-row-bottom">
         <div className="book-row-slots">
