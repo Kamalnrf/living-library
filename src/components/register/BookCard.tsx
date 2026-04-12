@@ -90,6 +90,13 @@ export default function BookCard({ book, isDisabled, onToggle }: Props) {
               e.stopPropagation()
               setSynopsisExpanded(prev => !prev)
             }}
+            onKeyDown={e => {
+              if (e.key === 'Enter' || e.key === ' ') {
+                e.stopPropagation()
+                e.preventDefault()
+                setSynopsisExpanded(prev => !prev)
+              }
+            }}
           >
             {synopsisExpanded ? 'Show less' : 'Read more'}
           </button>
