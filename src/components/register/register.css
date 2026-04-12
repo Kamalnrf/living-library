@@ -546,6 +546,19 @@ body {
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' fill='black'/%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.3'/%3E%3C/svg%3E");
 }
 
+.already-registered-badge {
+  flex-shrink: 0;
+  font-family: "Sometype Mono", monospace;
+  font-size: 10px;
+  font-weight: 600;
+  color: hsl(24, 60%, 40%);
+  background: hsl(30, 50%, 92%);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid hsl(24, 50%, 78%);
+  white-space: nowrap;
+}
+
 .book-row-badge {
   flex-shrink: 0;
   font-family: "Sometype Mono", monospace;
