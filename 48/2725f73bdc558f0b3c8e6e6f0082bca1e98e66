@@ -1,0 +1,24 @@
+src/components/landing/howItWorksData.ts
+  56e0f13c3a4d8bea 12-13,22,24,47,72,74,84-87
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.3.4",
+  "base_commit_sha": "482725f73bdc558f0b3c8e6e6f0082bca1e98e66",
+  "prompts": {
+    "56e0f13c3a4d8bea": {
+      "agent_id": {
+        "tool": "opencode",
+        "id": "ses_217cfe84affed7kWgTWWXzLOtj",
+        "model": "openai/gpt-5.5"
+      },
+      "human_author": "Kamal Mukkamala",
+      "messages": [],
+      "total_additions": 15,
+      "total_deletions": 70,
+      "accepted_lines": 11,
+      "overriden_lines": 0,
+      "messages_url": "https://usegitai.com/cas/d41a6b0b6b26df8e3057560b0c9eae562b2c0b45a174f29f94dd737752682b35"
+    }
+  }
+}
