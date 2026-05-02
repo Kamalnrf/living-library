@@ -9,8 +9,8 @@ const HOW_IT_WORKS_INTRO = {
 	title: "How It Works",
 	description: {
 		desktop:
-			"Our simple process creates meaningful connections through personal storytelling.",
-		mobile: "Our process builds connection through personal storytelling.",
+			"Our process builds connection and empathy through personal storytelling.",
+		mobile: "Our process builds connection and empathy through personal storytelling.",
 	},
 } as const satisfies EditorialSectionIntroData;
 
@@ -19,9 +19,9 @@ const HOW_IT_WORKS_STEPS = [
 		kind: "story-row",
 		id: "borrow-a-living-book",
 		stepLabel: "STEP 1",
-		title: "Borrow a Living Book",
+		title: "Borrow a Living Story",
 		description:
-			"Choose from real people who volunteer to share their lived experiences - a refugee, a former addict, someone who has experienced homelessness, or a person living with disabilities.",
+			"Choose from our collective of real people who volunteer to share their lived experiences - a refugee, a former addict, someone who has experienced homelessness, a person living with disabilities, and more.",
 		layout: "media-first",
 		media: {
 			kind: "single-image",
@@ -44,7 +44,7 @@ const HOW_IT_WORKS_STEPS = [
 		stepLabel: "STEP 2",
 		title: "Have a Conversation",
 		description:
-			"Engage in a 30-minute open dialogue in a safe, respectful environment where questions are encouraged.",
+			"Engage in a 30-minute open dialogue in a safe, respectful environment where respectful questions are encouraged.",
 		layout: "text-first",
 		media: {
 			kind: "collage",
@@ -69,9 +69,9 @@ const HOW_IT_WORKS_STEPS = [
 		kind: "story-row",
 		id: "return-with-a-changed-perspective",
 		stepLabel: "STEP 3",
-		title: "Return with a Changed Perspective",
+		title: "Question Your Perspective",
 		description:
-			"Return with new insights, challenged assumptions, and a deeper understanding of diverse experiences.",
+			"Return with new insights, changed opinions, and a deeper understanding of experiences different from yours.",
 		layout: "media-first",
 		media: {
 			kind: "single-image",
@@ -81,10 +81,10 @@ const HOW_IT_WORKS_STEPS = [
 				mobile: "228px",
 			},
 			image: {
-				src: "/images/perception.png",
-				alt: "A participant riding home at night after a Living Stories Collective session.",
-				width: 1048,
-				height: 764,
+				src: "/images/reflection.jpg",
+				alt: "A speaker talks with participants seated in a circle during a reflection session.",
+				width: 1328,
+				height: 1312,
 			},
 		}
 	},

@@ -1,19 +1,25 @@
 ---
-import EditorialFrame from '../editorial/EditorialFrame.astro'
-import LandingInstagramEmbed from './LandingInstagramEmbed.astro'
+import EditorialFrame from "../editorial/EditorialFrame.astro";
+import LandingInstagramEmbed from "./LandingInstagramEmbed.astro";
 import {
   INSTAGRAM_EMBED_URL,
   INSTAGRAM_HANDLE,
   INSTAGRAM_PROFILE_NAME,
   INSTAGRAM_URL,
   SITE_TAGLINE,
-} from '../../utils/site'
+} from "../../utils/site";
 
-const heroBody =
-  `What if you could borrow a person instead of a book? In this unique experience, you won't just read a book, you'll borrow a person. Our "Books" are individuals from diverse walks of life who open up about their lived experiences, inviting you into real, honest, and empathetic conversations that challenge assumptions and break stereotypes.`
+const heroBody = `What if you could borrow a person instead of a book?
+  LSC hosts 30-minute chats with individuals from diverse walks of life. These real, honest, and empathetic conversations give you first-hand experiences of marginalized voices.
+  Get ready to challenge assumptions and break stereotypes through the power of dialogues.`;
 ---
 
-<EditorialFrame as="section" variant="section" class="landing-section--hero" aria-labelledby="landing-page-title">
+<EditorialFrame
+  as="section"
+  variant="section"
+  class="landing-section--hero"
+  aria-labelledby="landing-page-title"
+>
   <div class="landing-hero">
     <div class="landing-hero__content">
       <h1 id="landing-page-title">{SITE_TAGLINE}</h1>
@@ -33,7 +39,10 @@ const heroBody =
       </div>
     </div>
 
-    <div class="landing-hero__media" aria-label="Scenes from Living Stories Collective sessions">
+    <div
+      class="landing-hero__media"
+      aria-label="Scenes from Living Stories Collective sessions"
+    >
       <figure class="landing-hero__figure">
         <img
           src="/images/mcr-hrd-book-13-reading.png"
@@ -79,7 +88,7 @@ const heroBody =
   }
 
   .landing-hero__content::before {
-    content: '';
+    content: "";
     position: absolute;
     inset: -28px -18px -24px -22px;
     z-index: -1;
