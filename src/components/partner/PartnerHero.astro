@@ -72,10 +72,10 @@ import { PARTNER_HERO } from "./partnerWithUsData";
     >
       <figure class="partner-hero__figure partner-hero__figure--large">
         <img
-          src="/images/events/hlf-2026-circle-wide.jpg"
-          alt="A Living Story addresses a full circle of listeners at the Hyderabad Literary Festival."
+          src="/images/events/partner-hero-roundtable-12.jpg"
+          alt="A storyteller leads a round-table conversation as participants listen."
           width="1800"
-          height="1350"
+          height="1200"
           loading="eager"
           fetchpriority="high"
           decoding="async"
@@ -83,23 +83,12 @@ import { PARTNER_HERO } from "./partnerWithUsData";
       </figure>
 
       <div class="partner-hero__stack">
-        <figure class="partner-hero__figure partner-hero__figure--conversation">
-          <img
-            src="/images/mcr-hrd-book-1-reading.png"
-            alt="Civil service officers listen to a Living Story during an MCR HRD Institute session."
-            width="688"
-            height="374"
-            loading="lazy"
-            decoding="async"
-          />
-        </figure>
-
         <figure class="partner-hero__figure partner-hero__figure--listeners">
           <img
-            src="/images/living_library.png"
-            alt="Abstract artwork of a reader moving through the pages of a story."
-            width="1024"
-            height="1024"
+            src="/images/events/partner-hero-roundtable-15.jpg"
+            alt="Participants listen closely during a Living Stories round-table session."
+            width="1600"
+            height="1200"
             loading="lazy"
             decoding="async"
           />
@@ -307,7 +296,7 @@ import { PARTNER_HERO } from "./partnerWithUsData";
   .partner-hero__stack {
     min-width: 0;
     display: grid;
-    grid-template-rows: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    grid-template-rows: minmax(0, 1fr);
     gap: 8px;
   }
 
@@ -327,15 +316,11 @@ import { PARTNER_HERO } from "./partnerWithUsData";
   }
 
   .partner-hero__figure--large img {
-    object-position: 58% center;
-  }
-
-  .partner-hero__figure--conversation img {
-    object-position: center center;
+    object-position: left center;
   }
 
   .partner-hero__figure--listeners img {
-    object-position: 52% center;
+    object-position: 42% center;
   }
 
   @media (max-width: 900px) {
@@ -396,8 +381,16 @@ import { PARTNER_HERO } from "./partnerWithUsData";
       height: 338px;
     }
 
-    .partner-hero__stack {
-      grid-template-rows: minmax(0, 1fr) minmax(0, 0.7fr);
+  }
+
+  @media (max-width: 560px) {
+    .partner-hero__media {
+      height: 292px;
+    }
+
+    .partner-hero h1 {
+      font-size: 48px;
+      line-height: 48px;
     }
   }
 </style>

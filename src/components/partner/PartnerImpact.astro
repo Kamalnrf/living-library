@@ -224,9 +224,18 @@ const ratingDisplay = rating.value.replace(".0%", "%");
   }
 
   @media (max-width: 560px) {
+    .partner-impact__outcome {
+      min-height: 0;
+      --impact-chart-size: clamp(164px, 44vw, 180px);
+      --impact-chart-inner-size: 88px;
+      --impact-chart-value-size: 36px;
+      --impact-chart-gap: 14px;
+    }
+
     .partner-impact__outcome-content {
+      margin-top: 28px;
       grid-template-columns: 1fr;
-      gap: 30px;
+      gap: 24px;
     }
 
     :global(.partner-impact__chart) {
@@ -234,8 +243,38 @@ const ratingDisplay = rating.value.replace(".0%", "%");
       align-items: flex-start;
     }
 
-    .partner-impact__outcome {
-      min-height: 560px;
+    .partner-impact__corroboration {
+      grid-template-rows: auto auto;
+    }
+
+    .partner-impact__experience {
+      min-height: 0;
+      justify-content: flex-start;
+    }
+
+    .partner-impact__experience .partner-impact__eyebrow {
+      margin-bottom: 28px;
+    }
+
+    .partner-impact__value {
+      font-size: clamp(68px, 20vw, 82px);
+      line-height: 0.9;
+    }
+
+    .partner-impact__experience h3 {
+      margin-top: 14px;
+      font-size: 34px;
+    }
+
+    .partner-impact__voice {
+      min-height: 0;
+      justify-content: flex-start;
+      gap: 28px;
+    }
+
+    .partner-impact__voice blockquote {
+      font-size: 30px;
+      line-height: 1.12;
     }
 
     .partner-impact__topics > p:last-child {
