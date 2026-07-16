@@ -93,7 +93,7 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
       <div class="partner-contact__actions">
         <button type="submit">Send message</button>
         <p data-partner-contact-status data-state="idle" aria-live="polite">
-          We’ll email you to confirm we received it.
+          Opens your email app.
         </p>
         <a data-partner-contact-fallback hidden>Email us instead</a>
       </div>
@@ -114,7 +114,21 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
   const fallbackLink = form?.querySelector<HTMLAnchorElement>(
     "[data-partner-contact-fallback]",
   );
-  let idempotencyKey = crypto.randomUUID();
+
+  function createIdempotencyKey() {
+    if (typeof crypto.randomUUID === "function") return crypto.randomUUID();
+
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = Array.from(bytes, (byte) =>
+      byte.toString(16).padStart(2, "0"),
+    );
+    return `${hex.slice(0, 4).join("")}-${hex.slice(4, 6).join("")}-${hex.slice(6, 8).join("")}-${hex.slice(8, 10).join("")}-${hex.slice(10).join("")}`;
+  }
+
+  let idempotencyKey = createIdempotencyKey();
+  if (status) status.textContent = "We’ll email you to confirm we received it.";
 
   form?.addEventListener("submit", async (event) => {
     if (!form.checkValidity()) {
@@ -200,7 +214,7 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
       }
 
       form.reset();
-      idempotencyKey = crypto.randomUUID();
+      idempotencyKey = createIdempotencyKey();
       if (status) {
         status.dataset.state = "success";
         status.textContent = "Thank you — your inquiry has been received. We’ll email you a confirmation shortly.";

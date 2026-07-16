@@ -25,6 +25,7 @@ const ALLOWED_ORIGINS = new Set([
   "https://www.livingstoriescollective.org",
   "http://localhost:4321",
 ]);
+const VERCEL_PREVIEW_ORIGIN = /^https:\/\/living-library(?:-[a-z0-9]+)*\.vercel\.app$/;
 const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 await initDb();
@@ -83,7 +84,7 @@ async function requireDashboardUser(c: any, next: any) {
 
 function applyCors(c: any) {
   const origin = c.req.header("origin");
-  if (origin && ALLOWED_ORIGINS.has(origin)) {
+  if (origin && isAllowedOrigin(origin)) {
     c.header("Access-Control-Allow-Origin", origin);
     c.header("Access-Control-Allow-Methods", "POST, OPTIONS");
     c.header("Access-Control-Allow-Headers", "Content-Type");
@@ -91,16 +92,20 @@ function applyCors(c: any) {
   }
 }
 
+function isAllowedOrigin(origin: string) {
+  return ALLOWED_ORIGINS.has(origin) || VERCEL_PREVIEW_ORIGIN.test(origin);
+}
+
 app.options("/api/inquiries", (c) => {
   applyCors(c);
   const origin = c.req.header("origin");
-  return ALLOWED_ORIGINS.has(origin ?? "") ? c.body(null, 204) : c.body(null, 403);
+  return isAllowedOrigin(origin ?? "") ? c.body(null, 204) : c.body(null, 403);
 });
 
 app.post("/api/inquiries", async (c) => {
   applyCors(c);
   const origin = c.req.header("origin") ?? "";
-  if (!ALLOWED_ORIGINS.has(origin)) {
+  if (!isAllowedOrigin(origin)) {
     return c.json({ error: "This submission origin is not allowed." }, 403);
   }
 
