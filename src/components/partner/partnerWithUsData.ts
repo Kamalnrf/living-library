@@ -86,22 +86,18 @@ const PARTNER_EXPERIENCE_STEPS = [
       "On the day, the Living Stories share their experiences in small-group conversations. Each one runs 20–30 minutes, and listeners rotate through several stories.",
     layout: "text-first",
     media: {
-      kind: "collage",
-      stackedImages: [
-        {
-          src: "/images/mcr-hrd-book-e-2-book-3-reading.jpeg",
-          alt: "Participants seated around a table during a Living Stories Collective conversation circle.",
-        },
-        {
-          src: "/images/mcr-hrd-e-2-book-10-reading.png",
-          alt: "A Living Story conversation underway at a community event.",
-        },
-      ],
-      accentImage: {
-        src: "/images/hlf-book-1-reading.png",
-        alt: "Two participants engaged in an intimate Living Story conversation.",
+      kind: "single-image",
+      frameTone: "sand",
+      height: {
+        desktop: "381px",
+        mobile: "236px",
       },
-      accentFrameTone: "sand",
+      image: {
+        src: "/images/events/hlf-2026-circle-wide.jpg",
+        alt: "A Living Story addresses a full circle of listeners at the Hyderabad Literary Festival.",
+        width: 1800,
+        height: 1350,
+      },
     },
   },
   {
