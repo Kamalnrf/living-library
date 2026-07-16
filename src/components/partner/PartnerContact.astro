@@ -23,9 +23,8 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
   <div class="partner-contact__body">
     <form
       class="partner-contact__form"
-      action={`mailto:${CONTACT_EMAIL}`}
+      action={PARTNER_INQUIRIES_API_URL}
       method="post"
-      enctype="text/plain"
       data-partner-contact-form
       data-contact-email={CONTACT_EMAIL}
       data-api-url={PARTNER_INQUIRIES_API_URL}
@@ -93,7 +92,7 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
       <div class="partner-contact__actions">
         <button type="submit">Send message</button>
         <p data-partner-contact-status data-state="idle" aria-live="polite">
-          Opens your email app.
+          We’ll email you to confirm we received it.
         </p>
         <a data-partner-contact-fallback hidden>Email us instead</a>
       </div>

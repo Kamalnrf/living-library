@@ -94,6 +94,31 @@ function isAllowedOrigin(origin: string) {
   return ALLOWED_ORIGINS.has(origin) || VERCEL_PREVIEW_ORIGIN.test(origin);
 }
 
+function acceptedResponse(c: any, inquiryId: string, nativeForm: boolean) {
+  if (!nativeForm) return c.json({ ok: true, inquiryId }, 202);
+
+  c.header(
+    "Content-Security-Policy",
+    "default-src 'none'; style-src 'unsafe-inline'; base-uri 'none'; frame-ancestors 'none'",
+  );
+  return c.html(`<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Inquiry received · Living Stories Collective</title>
+    <style>
+      body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; box-sizing: border-box; background: #f2efe7; color: #25251f; font-family: ui-sans-serif, system-ui, sans-serif; }
+      main { width: min(560px, 100%); padding: clamp(28px, 7vw, 56px); box-sizing: border-box; border: 1px solid #d8d3c7; background: #fbfaf6; }
+      h1 { margin: 0; font-family: Georgia, serif; font-size: clamp(36px, 8vw, 58px); font-weight: 400; line-height: 1; }
+      p { margin: 20px 0 0; color: #68645a; font-size: 17px; line-height: 1.6; }
+      a { display: inline-flex; min-height: 44px; align-items: center; margin-top: 24px; color: #25251f; text-underline-offset: 4px; }
+    </style>
+  </head>
+  <body><main><h1>Thank you.</h1><p>Your inquiry has been received. We’ll email you a confirmation shortly.</p><a href="https://livingstoriescollective.org/partner-with-us/">Return to the website</a></main></body>
+</html>`, 202);
+}
+
 async function readBodyWithinLimit(request: Request, limit: number) {
   const reader = request.body?.getReader();
   if (!reader) return "";
@@ -135,17 +160,26 @@ app.post("/api/inquiries", async (c) => {
     return c.json({ error: "The submission is too large." }, 413);
   }
 
+  const contentType = (c.req.header("content-type") ?? "")
+    .split(";", 1)[0]
+    .trim()
+    .toLowerCase();
+  const nativeForm = contentType === "application/x-www-form-urlencoded";
   let body: Record<string, unknown>;
   try {
     const rawBody = await readBodyWithinLimit(c.req.raw, 20_000);
     if (rawBody === null) {
       return c.json({ error: "The submission is too large." }, 413);
     }
-    const parsed = JSON.parse(rawBody);
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
-      throw new TypeError("Expected a JSON object");
+    if (nativeForm) {
+      body = Object.fromEntries(new URLSearchParams(rawBody));
+    } else {
+      const parsed = JSON.parse(rawBody);
+      if (!parsed || typeof parsed !== "object" || Array.isArray(parsed)) {
+        throw new TypeError("Expected a JSON object");
+      }
+      body = parsed;
     }
-    body = parsed;
   } catch {
     return c.json({ error: "Expected a JSON submission." }, 415);
   }
@@ -154,7 +188,8 @@ app.post("/api/inquiries", async (c) => {
   const organisation = String(body.organisation ?? "").trim();
   const submittedEmail = String(body.email ?? "").trim().toLowerCase();
   const message = String(body.message ?? "").trim();
-  const idempotencyKey = String(body.idempotencyKey ?? "").trim();
+  const suppliedIdempotencyKey = String(body.idempotencyKey ?? "").trim();
+  const idempotencyKey = suppliedIdempotencyKey || (nativeForm ? crypto.randomUUID() : "");
   const honeypot = String(body.faxNumber ?? body.website ?? "").trim();
 
   if (honeypot) {
@@ -172,7 +207,7 @@ app.post("/api/inquiries", async (c) => {
 
   const existing = await findInquiryByIdempotencyKey(idempotencyKey);
   if (existing) {
-    return c.json({ ok: true, inquiryId: existing.id }, 202);
+    return acceptedResponse(c, existing.id, nativeForm);
   }
 
   const inquiryId = crypto.randomUUID();
@@ -201,7 +236,7 @@ app.post("/api/inquiries", async (c) => {
   } catch (error) {
     console.error("Immediate delivery attempt failed; cron will retry", error);
   }
-  return c.json({ ok: true, inquiryId }, 202);
+  return acceptedResponse(c, inquiryId, nativeForm);
 });
 
 app.get("/", (c) => c.redirect("/dashboard"));
