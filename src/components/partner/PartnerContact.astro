@@ -1,7 +1,10 @@
 ---
 import EditorialFrame from "../editorial/EditorialFrame.astro";
 import EditorialSectionIntro from "../editorial/EditorialSectionIntro.astro";
-import { CONTACT_EMAIL } from "../../utils/site";
+import {
+  CONTACT_EMAIL,
+  PARTNER_INQUIRIES_API_URL,
+} from "../../utils/site";
 import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
 ---
 
@@ -25,6 +28,7 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
       enctype="text/plain"
       data-partner-contact-form
       data-contact-email={CONTACT_EMAIL}
+      data-api-url={PARTNER_INQUIRIES_API_URL}
     >
       <div class="partner-contact__field">
         <label for="partner-contact-name">Your name</label>
@@ -33,6 +37,7 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
           name="name"
           type="text"
           autocomplete="name"
+          maxlength="120"
           required
         />
       </div>
@@ -44,6 +49,7 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
           name="organisation"
           type="text"
           autocomplete="organization"
+          maxlength="160"
           required
         />
       </div>
@@ -56,21 +62,39 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
           type="email"
           autocomplete="email"
           inputmode="email"
+          maxlength="254"
           required
         />
       </div>
 
       <div class="partner-contact__field partner-contact__field--wide">
         <label for="partner-contact-message">Message</label>
-        <textarea id="partner-contact-message" name="message" rows="6" required
+        <textarea
+          id="partner-contact-message"
+          name="message"
+          rows="6"
+          maxlength="5000"
+          required
         ></textarea>
+      </div>
+
+      <div class="partner-contact__honeypot" aria-hidden="true">
+        <label for="partner-contact-fax">Fax number</label>
+        <input
+          id="partner-contact-fax"
+          name="faxNumber"
+          type="text"
+          tabindex="-1"
+          autocomplete="off"
+        />
       </div>
 
       <div class="partner-contact__actions">
         <button type="submit">Send message</button>
-        <p data-partner-contact-status aria-live="polite">
-          Opens your email app.
+        <p data-partner-contact-status data-state="idle" aria-live="polite">
+          We’ll email you to confirm we received it.
         </p>
+        <a data-partner-contact-fallback hidden>Email us instead</a>
       </div>
     </form>
   </div>
@@ -83,43 +107,120 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
   const status = document.querySelector<HTMLElement>(
     "[data-partner-contact-status]",
   );
+  const submitButton = form?.querySelector<HTMLButtonElement>(
+    'button[type="submit"]',
+  );
+  const fallbackLink = form?.querySelector<HTMLAnchorElement>(
+    "[data-partner-contact-fallback]",
+  );
+  let idempotencyKey = crypto.randomUUID();
 
-  form?.addEventListener("submit", (event) => {
+  form?.addEventListener("submit", async (event) => {
     if (!form.checkValidity()) {
       return;
     }
 
     event.preventDefault();
+    if (fallbackLink) fallbackLink.hidden = true;
 
     const formData = new FormData(form);
     const name = String(formData.get("name") ?? "").trim();
     const organisation = String(formData.get("organisation") ?? "").trim();
     const email = String(formData.get("email") ?? "").trim();
     const message = String(formData.get("message") ?? "").trim();
+    const faxNumber = String(formData.get("faxNumber") ?? "").trim();
     const contactEmail = form.dataset.contactEmail;
+    const apiUrl = form.dataset.apiUrl;
 
-    if (!contactEmail) {
-      form.submit();
+    if (!name || !organisation || !email || !message) {
+      if (status) {
+        status.dataset.state = "error";
+        status.textContent = "Please complete each field before sending.";
+      }
       return;
     }
 
-    const subject = ["Partner session inquiry", organisation || name]
+    const fallbackSubject = ["Partner session inquiry", organisation || name]
       .filter(Boolean)
       .join(" - ");
-    const body = [
+    const fallbackBody = [
       `Name: ${name}`,
       `Organisation: ${organisation}`,
       `Email: ${email}`,
       "",
       message,
     ].join("\n");
+    if (fallbackLink) {
+      fallbackLink.href = `mailto:${contactEmail ?? "mail@livingstoriescollective.org"}?subject=${encodeURIComponent(fallbackSubject)}&body=${encodeURIComponent(fallbackBody)}`;
+    }
 
-    window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(
-      subject,
-    )}&body=${encodeURIComponent(body)}`;
+    if (!apiUrl) {
+      if (status) {
+        status.dataset.state = "error";
+        status.textContent = `Please email us at ${contactEmail ?? "mail@livingstoriescollective.org"}.`;
+      }
+      if (fallbackLink) fallbackLink.hidden = false;
+      return;
+    }
 
     if (status) {
-      status.textContent = "Opening your email app...";
+      status.dataset.state = "pending";
+      status.textContent = "Sending your inquiry…";
+    }
+    if (submitButton) {
+      submitButton.disabled = true;
+      submitButton.textContent = "Sending…";
+    }
+    form.setAttribute("aria-busy", "true");
+
+    const controller = new AbortController();
+    const timeout = window.setTimeout(() => controller.abort(), 15_000);
+
+    try {
+      const response = await fetch(apiUrl, {
+        method: "POST",
+        credentials: "omit",
+        signal: controller.signal,
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name,
+          organisation,
+          email,
+          message,
+          faxNumber,
+          idempotencyKey,
+        }),
+      });
+      const result = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(
+          typeof result.error === "string" ? result.error : "Unable to send your inquiry.",
+        );
+      }
+
+      form.reset();
+      idempotencyKey = crypto.randomUUID();
+      if (status) {
+        status.dataset.state = "success";
+        status.textContent = "Thank you — your inquiry has been received. We’ll email you a confirmation shortly.";
+      }
+    } catch (error) {
+      if (status) {
+        status.dataset.state = "error";
+        status.textContent = error instanceof DOMException && error.name === "AbortError"
+          ? "We couldn’t confirm receipt. Please press Send message again — it won’t create a duplicate."
+          : `${
+            error instanceof Error ? error.message : "We couldn’t send this right now."
+          } Please try again, or email ${contactEmail ?? "mail@livingstoriescollective.org"}.`;
+      }
+      if (fallbackLink) fallbackLink.hidden = false;
+    } finally {
+      window.clearTimeout(timeout);
+      form.removeAttribute("aria-busy");
+      if (submitButton) {
+        submitButton.disabled = false;
+        submitButton.textContent = "Send message";
+      }
     }
   });
 </script>
@@ -150,6 +251,14 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
   .partner-contact__field--wide,
   .partner-contact__actions {
     grid-column: 1 / -1;
+  }
+
+  .partner-contact__honeypot {
+    position: absolute;
+    left: -10000px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
   }
 
   .partner-contact__field label {
@@ -199,8 +308,11 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
   }
 
   .partner-contact__actions button {
-    min-height: 42px;
+    min-height: 48px;
     padding-inline: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
     border: 1px solid var(--editorial-color-action-border);
     background: var(--editorial-color-action-surface);
     color: var(--editorial-color-action-text);
@@ -222,6 +334,12 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
     transform: translateY(-1px);
   }
 
+  .partner-contact__actions button:disabled {
+    cursor: wait;
+    opacity: 0.62;
+    transform: none;
+  }
+
   .partner-contact__actions button:focus-visible {
     outline: 2px solid var(--editorial-color-accent);
     outline-offset: 4px;
@@ -233,6 +351,23 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
     font-family: var(--editorial-font-sans);
     font-size: 15px;
     line-height: 22px;
+  }
+
+  .partner-contact__actions p[data-state="success"] {
+    color: #315f48;
+  }
+
+  .partner-contact__actions p[data-state="error"] {
+    color: #8b3f36;
+  }
+
+  .partner-contact__actions a {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    color: var(--editorial-color-text);
+    font-family: var(--editorial-font-sans);
+    text-underline-offset: 4px;
   }
 
   @media (max-width: 900px) {
