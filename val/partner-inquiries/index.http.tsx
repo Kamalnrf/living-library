@@ -96,6 +96,29 @@ function isAllowedOrigin(origin: string) {
   return ALLOWED_ORIGINS.has(origin) || VERCEL_PREVIEW_ORIGIN.test(origin);
 }
 
+async function readBodyWithinLimit(request: Request, limit: number) {
+  const reader = request.body?.getReader();
+  if (!reader) return "";
+
+  const decoder = new TextDecoder();
+  let byteLength = 0;
+  let body = "";
+
+  while (true) {
+    const { done, value } = await reader.read();
+    if (done) break;
+
+    byteLength += value.byteLength;
+    if (byteLength > limit) {
+      await reader.cancel();
+      return null;
+    }
+    body += decoder.decode(value, { stream: true });
+  }
+
+  return body + decoder.decode();
+}
+
 app.options("/api/inquiries", (c) => {
   applyCors(c);
   const origin = c.req.header("origin");
@@ -116,8 +139,8 @@ app.post("/api/inquiries", async (c) => {
 
   let body: Record<string, unknown>;
   try {
-    const rawBody = await c.req.text();
-    if (new TextEncoder().encode(rawBody).byteLength > 20_000) {
+    const rawBody = await readBodyWithinLimit(c.req.raw, 20_000);
+    if (rawBody === null) {
       return c.json({ error: "The submission is too large." }, 413);
     }
     const parsed = JSON.parse(rawBody);
