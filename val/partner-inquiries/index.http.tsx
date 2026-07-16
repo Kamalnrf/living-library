@@ -31,12 +31,10 @@ const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 await initDb();
 
 const app = new Hono();
-app.onError((error) => {
+app.onError((error, c) => {
   console.error("Partner inquiries error", error instanceof Error ? error.message : error);
-  return new Response(JSON.stringify({ error: "Something went wrong." }), {
-    status: 500,
-    headers: { "content-type": "application/json; charset=utf-8" },
-  });
+  applyCors(c);
+  return c.json({ error: "Something went wrong." }, 500);
 });
 
 app.use("*", async (c, next) => {
@@ -198,7 +196,11 @@ app.post("/api/inquiries", async (c) => {
     );
   }
 
-  await deliverReadyEmails(2);
+  try {
+    await deliverReadyEmails(2);
+  } catch (error) {
+    console.error("Immediate delivery attempt failed; cron will retry", error);
+  }
   return c.json({ ok: true, inquiryId }, 202);
 });
 

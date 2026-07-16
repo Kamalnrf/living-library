@@ -16,6 +16,10 @@ The project requires a high-entropy `OAUTH_STATE_ENCRYPTION_KEY` environment
 variable. `DASHBOARD_ALLOWED_EMAILS` can optionally replace the default
 comma-separated dashboard allowlist.
 
+Outbound confirmation emails require a Val Town Pro account. On the Free plan,
+messages to anyone other than the account owner will fail and can exhaust their
+retries without reaching the submitter.
+
 Scoped SQLite stores inquiries and the email outbox. Do not remove the retry
 trigger without replacing its delivery-recovery behavior.
 

@@ -24,7 +24,7 @@ function DeliveryState({ state, label }: { state: string; label: string }) {
   return (
     <span class={`delivery delivery--${state}`}>
       <span aria-hidden="true" class="delivery__dot" />
-      {label}: {state === "accepted" ? "queued" : state}
+      {label}: {state}
     </span>
   );
 }
