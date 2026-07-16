@@ -19,6 +19,9 @@ pnpm-debug.log*
 .env
 .env.production
 
+# local Val Town CLI state
+val/**/.vt/
+
 # macOS-specific files
 .DS_Store
 
