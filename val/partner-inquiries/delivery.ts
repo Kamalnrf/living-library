@@ -10,9 +10,14 @@ import {
 // Email jobs are persisted before delivery so a temporary send failure never
 // loses the inquiry itself.
 const PARTNER_EMAIL = "partner@livingstoriescollective.org";
+const FROM_EMAIL = {
+  email: "kamalnrf.partner-inquiries@valtown.email",
+  name: "Living Stories Collective",
+};
 
 function confirmationMessage(job: EmailJob) {
   return {
+    from: FROM_EMAIL,
     to: job.recipient,
     replyTo: PARTNER_EMAIL,
     subject: "We received your partnership inquiry",
@@ -30,6 +35,7 @@ Living Stories Collective`,
 function notificationMessage(job: EmailJob) {
   const inquiry = job.inquiry;
   return {
+    from: FROM_EMAIL,
     to: job.recipient,
     replyTo: { email: inquiry.email, name: inquiry.name },
     subject: `New partner inquiry — ${inquiry.organisation}`,
@@ -52,15 +58,25 @@ async function deliverJob(job: EmailJob) {
   if (attempt === null) return;
 
   try {
-    await email(
+    const result = await email(
       job.kind === "confirmation"
         ? confirmationMessage(job)
         : notificationMessage(job),
     );
     await markEmailAccepted(job.id, attempt);
+    console.info("Partner email accepted", {
+      jobId: job.id,
+      kind: job.kind,
+      result: result.message,
+    });
   } catch (error) {
     const message = error instanceof Error ? error.message : String(error);
     await markEmailFailed(job.id, attempt, message);
+    console.error("Partner email failed", {
+      jobId: job.id,
+      kind: job.kind,
+      error: message,
+    });
   }
 }
 
