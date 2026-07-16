@@ -91,9 +91,7 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
 
       <div class="partner-contact__actions">
         <button type="submit">Send message</button>
-        <p data-partner-contact-status data-state="idle" aria-live="polite">
-          We’ll email you to confirm we received it.
-        </p>
+        <p data-partner-contact-status data-state="idle" aria-live="polite"></p>
         <a data-partner-contact-fallback hidden>Email us instead</a>
       </div>
     </form>
@@ -127,7 +125,6 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
   }
 
   let idempotencyKey = createIdempotencyKey();
-  if (status) status.textContent = "We’ll email you to confirm we received it.";
 
   form?.addEventListener("submit", async (event) => {
     if (!form.checkValidity()) {
@@ -216,7 +213,7 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
       idempotencyKey = createIdempotencyKey();
       if (status) {
         status.dataset.state = "success";
-        status.textContent = "Thank you — your inquiry has been received. We’ll email you a confirmation shortly.";
+        status.textContent = "Thank you — your inquiry has been received. We’ll get back to you shortly.";
       }
     } catch (error) {
       if (status) {
@@ -366,6 +363,10 @@ import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
     font-family: var(--editorial-font-sans);
     font-size: 15px;
     line-height: 22px;
+  }
+
+  .partner-contact__actions p:empty {
+    display: none;
   }
 
   .partner-contact__actions p[data-state="success"] {

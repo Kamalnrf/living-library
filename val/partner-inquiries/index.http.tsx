@@ -115,7 +115,7 @@ function acceptedResponse(c: any, inquiryId: string, nativeForm: boolean) {
       a { display: inline-flex; min-height: 44px; align-items: center; margin-top: 24px; color: #25251f; text-underline-offset: 4px; }
     </style>
   </head>
-  <body><main><h1>Thank you.</h1><p>Your inquiry has been received. We’ll email you a confirmation shortly.</p><a href="https://livingstoriescollective.org/partner-with-us/">Return to the website</a></main></body>
+  <body><main><h1>Thank you.</h1><p>Your inquiry has been received. We’ll get back to you shortly.</p><a href="https://livingstoriescollective.org/partner-with-us/">Return to the website</a></main></body>
 </html>`, 202);
 }
 
