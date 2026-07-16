@@ -3,7 +3,7 @@
 Private Val Town project backing the Partner With Us form and team dashboard.
 
 - Val: `kamalnrf/partner-inquiries`
-- Dashboard: `https://kamalnrf--71c0e50680fa11f193731607ee4eb77e.web.val.run/dashboard`
+- Dashboard: `https://lsc-inquiries.val.run/dashboard`
 - Public endpoint: `POST /api/inquiries`
 
 ## Deployment
