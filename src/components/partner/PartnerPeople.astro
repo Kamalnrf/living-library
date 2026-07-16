@@ -1,0 +1,354 @@
+---
+import EditorialFrame from "../editorial/EditorialFrame.astro";
+import EditorialSectionIntro from "../editorial/EditorialSectionIntro.astro";
+import { PARTNER_PEOPLE, PARTNER_PEOPLE_INTRO } from "./partnerWithUsData";
+---
+
+<EditorialFrame
+  as="section"
+  variant="section"
+  id="partner-people"
+  class="partner-section partner-people-spotlight"
+  aria-labelledby="partner-people-title"
+  data-people-spotlight
+>
+  <EditorialSectionIntro
+    intro={PARTNER_PEOPLE_INTRO}
+    headingId="partner-people-title"
+  />
+
+  <div
+    class="people-spotlight__roster"
+    role="group"
+    aria-label="Choose a team member"
+  >
+    {
+      PARTNER_PEOPLE.map((person, index) => (
+        <button
+          class:list={["people-spotlight__choice", index === 0 && "is-active"]}
+          type="button"
+          data-spotlight-choice={person.id}
+          aria-controls={`spotlight-profile-${person.id}`}
+          aria-pressed={index === 0 ? "true" : "false"}
+        >
+          <span class="people-spotlight__thumb" data-person={person.id}>
+            <img
+              src={person.image.src}
+              alt=""
+              width={person.image.width}
+              height={person.image.height}
+              loading="lazy"
+            />
+          </span>
+          <span class="people-spotlight__choice-copy">
+            <span class="people-spotlight__eyebrow">{person.eyebrow}</span>
+            <span class="people-spotlight__choice-name">{person.name}</span>
+          </span>
+          <span class="people-spotlight__choice-mark" aria-hidden="true">
+            ↘
+          </span>
+        </button>
+      ))
+    }
+  </div>
+
+  <div class="people-spotlight__profiles" aria-live="polite">
+    {
+      PARTNER_PEOPLE.map((person, index) => (
+        <article
+          class="people-spotlight__profile"
+          id={`spotlight-profile-${person.id}`}
+          data-spotlight-profile={person.id}
+          hidden={index !== 0}
+        >
+          <figure class="people-spotlight__portrait" data-person={person.id}>
+            <img
+              src={person.image.src}
+              alt={person.image.alt}
+              width={person.image.width}
+              height={person.image.height}
+              loading="lazy"
+            />
+          </figure>
+
+          <div class="people-spotlight__bio">
+            <p class="people-spotlight__eyebrow">{person.eyebrow}</p>
+            <h3>{person.name}</h3>
+            <div class="people-spotlight__paragraphs">
+              {person.bio.map((paragraph) => (
+                <p>{paragraph}</p>
+              ))}
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</EditorialFrame>
+
+<script>
+  document
+    .querySelectorAll<HTMLElement>("[data-people-spotlight]")
+    .forEach((root) => {
+      const choices = Array.from(
+        root.querySelectorAll<HTMLButtonElement>("[data-spotlight-choice]"),
+      );
+      const profiles = Array.from(
+        root.querySelectorAll<HTMLElement>("[data-spotlight-profile]"),
+      );
+
+      choices.forEach((choice) => {
+        choice.addEventListener("click", () => {
+          const selectedId = choice.dataset.spotlightChoice;
+          choices.forEach((item) => {
+            const isSelected = item === choice;
+            item.classList.toggle("is-active", isSelected);
+            item.setAttribute("aria-pressed", String(isSelected));
+          });
+          profiles.forEach((profile) => {
+            profile.hidden = profile.dataset.spotlightProfile !== selectedId;
+          });
+        });
+      });
+    });
+</script>
+
+<style>
+  :global(.partner-people-spotlight) {
+    background: var(--editorial-color-surface-elevated);
+    border: 1px solid var(--editorial-color-border);
+  }
+
+  .people-spotlight__roster {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    border-bottom: 1px solid var(--editorial-color-divider);
+  }
+
+  .people-spotlight__choice {
+    min-width: 0;
+    padding: 16px;
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 12px;
+    border: 0;
+    border-right: 1px solid var(--editorial-color-divider);
+    background: var(--editorial-color-surface-panel);
+    color: #252520;
+    cursor: pointer;
+    text-align: left;
+  }
+
+  .people-spotlight__choice:last-child {
+    border-right: 0;
+  }
+
+  .people-spotlight__choice:hover,
+  .people-spotlight__choice.is-active {
+    background: #eee9dc;
+  }
+
+  .people-spotlight__choice:focus-visible {
+    position: relative;
+    z-index: 1;
+    outline: 2px solid var(--editorial-color-accent);
+    outline-offset: -3px;
+  }
+
+  .people-spotlight__thumb {
+    width: 58px;
+    aspect-ratio: 1;
+    overflow: hidden;
+    border: 1px solid var(--editorial-color-border);
+    background: var(--editorial-color-surface-embed);
+  }
+
+  .people-spotlight__thumb img,
+  .people-spotlight__portrait img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: saturate(0.92) contrast(1.02);
+  }
+
+  .people-spotlight__choice-copy {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  .people-spotlight__eyebrow {
+    margin: 0;
+    color: #8e8776;
+    font-family: var(--editorial-font-sans);
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    line-height: 15px;
+  }
+
+  .people-spotlight__choice-name {
+    overflow: hidden;
+    color: #2b2a25;
+    font-family: var(--editorial-font-serif);
+    font-size: 22px;
+    line-height: 25px;
+    text-overflow: ellipsis;
+  }
+
+  .people-spotlight__choice-mark {
+    color: var(--editorial-color-accent);
+    opacity: 0;
+    transform: translate(-4px, -4px);
+    transition:
+      opacity 160ms ease,
+      transform 160ms ease;
+  }
+
+  .people-spotlight__choice.is-active .people-spotlight__choice-mark {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+
+  .people-spotlight__profile {
+    display: grid;
+    grid-template-columns: minmax(300px, 0.9fr) minmax(0, 1.35fr);
+    min-height: 520px;
+    animation: profile-enter 180ms ease both;
+  }
+
+  .people-spotlight__profile[hidden] {
+    display: none;
+  }
+
+  .people-spotlight__portrait {
+    min-height: 520px;
+    margin: 0;
+    overflow: hidden;
+    border-right: 1px solid var(--editorial-color-divider);
+    background: var(--editorial-color-surface-embed);
+  }
+
+  .people-spotlight__portrait[data-person="ritika"] img {
+    object-position: 72% center;
+  }
+
+  .people-spotlight__thumb[data-person="anu"] img,
+  .people-spotlight__portrait[data-person="anu"] img {
+    object-position: center 24%;
+  }
+
+  .people-spotlight__portrait[data-person="taha"] img {
+    object-position: center 18%;
+  }
+
+  .people-spotlight__bio {
+    padding: clamp(32px, 4vw, 64px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 14px;
+    background: #fff;
+  }
+
+  .people-spotlight__bio h3 {
+    margin: 0;
+    color: #252520;
+    font-family: var(--editorial-font-serif);
+    font-size: clamp(46px, 5vw, 72px);
+    font-weight: 400;
+    line-height: 0.98;
+  }
+
+  .people-spotlight__paragraphs {
+    max-width: 62ch;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .people-spotlight__paragraphs p {
+    margin: 0;
+    color: #4b4942;
+    font-family: var(--editorial-font-sans);
+    font-size: 16px;
+    line-height: 25px;
+  }
+
+  @keyframes profile-enter {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @media (max-width: 900px) {
+    .people-spotlight__roster {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .people-spotlight__choice:nth-child(2n) {
+      border-right: 0;
+    }
+    .people-spotlight__choice:nth-child(n + 3) {
+      border-top: 1px solid var(--editorial-color-divider);
+    }
+
+    .people-spotlight__profile {
+      grid-template-columns: 1fr;
+      min-height: 0;
+    }
+
+    .people-spotlight__portrait {
+      min-height: 0;
+      aspect-ratio: 16 / 12;
+      border-right: 0;
+      border-bottom: 1px solid var(--editorial-color-divider);
+    }
+
+    .people-spotlight__bio {
+      padding: var(--editorial-panel-padding-mobile);
+    }
+  }
+
+  @media (max-width: 560px) {
+    .people-spotlight__choice {
+      padding: 10px;
+      grid-template-columns: 46px minmax(0, 1fr);
+      gap: 9px;
+    }
+
+    .people-spotlight__thumb {
+      width: 46px;
+    }
+    .people-spotlight__choice-mark {
+      display: none;
+    }
+    .people-spotlight__choice-name {
+      font-size: 19px;
+      line-height: 22px;
+    }
+    .people-spotlight__eyebrow {
+      font-size: 9px;
+    }
+    .people-spotlight__bio h3 {
+      font-size: 44px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .people-spotlight__profile {
+      animation: none;
+    }
+    .people-spotlight__choice-mark {
+      transition: none;
+    }
+  }
+</style>

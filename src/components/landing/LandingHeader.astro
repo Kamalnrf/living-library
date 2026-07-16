@@ -3,19 +3,19 @@ import EditorialShellRegion from '../editorial/EditorialShellRegion.astro'
 import {SITE_NAME} from '../../utils/site'
 
 type NavigationItem = {
-  href: `#${string}`
+  href: string
   label: string
   emphasized?: boolean
 }
 
 const navigationItems: readonly NavigationItem[] = [
-  {href: '#how-it-works', label: 'how it works'},
-  {href: '#get-involved', label: 'partner with us', emphasized: true},
+  {href: '/#how-it-works', label: 'how it works'},
+  {href: '/partner-with-us/', label: 'partner with us', emphasized: true},
 ]
 ---
 
 <EditorialShellRegion as="header" class="landing-header" innerClass="landing-header__inner" id="landing-page-top">
-  <a class="landing-header__brand" href="#landing-page-top" aria-label={`${SITE_NAME} home`}>
+  <a class="landing-header__brand" href="/" aria-label={`${SITE_NAME} home`}>
     <img
       class="landing-header__mark"
       src="/images/logo.png"

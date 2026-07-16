@@ -1,0 +1,246 @@
+---
+import EditorialFrame from "../editorial/EditorialFrame.astro";
+import EditorialSectionIntro from "../editorial/EditorialSectionIntro.astro";
+import PartnerImpactPerspectiveChart from "./PartnerImpactPerspectiveChart.astro";
+import { PARTNER_IMPACT_SECTION } from "./partnerWithUsData";
+
+const impact = PARTNER_IMPACT_SECTION.blocks[0];
+const rating = impact.metrics[0];
+const ratingDisplay = rating.value.replace(".0%", "%");
+---
+
+<EditorialFrame
+  as="section"
+  variant="section"
+  id={PARTNER_IMPACT_SECTION.id}
+  class="partner-section partner-impact"
+  aria-labelledby="partner-impact-title"
+>
+  <EditorialSectionIntro
+    intro={PARTNER_IMPACT_SECTION.intro}
+    headingId="partner-impact-title"
+  />
+
+  <div class="partner-impact__body">
+    <article class="partner-impact__outcome">
+      <p class="partner-impact__eyebrow">01 / OUTCOME</p>
+      <div class="partner-impact__outcome-content">
+        <div>
+          <h3>{impact.perspectiveShift.label}</h3>
+          <p>Listener feedback</p>
+        </div>
+        <PartnerImpactPerspectiveChart class="partner-impact__chart" />
+      </div>
+    </article>
+
+    <div class="partner-impact__corroboration">
+      <article class="partner-impact__experience">
+        <p class="partner-impact__eyebrow">02 / EXPERIENCE</p>
+        <p class="partner-impact__value">{ratingDisplay}</p>
+        <h3>{rating.label}</h3>
+        <p>Listener rating</p>
+      </article>
+
+      <figure class="partner-impact__voice">
+        <figcaption>LISTENER VOICE</figcaption>
+        <blockquote>{impact.voice.quote}</blockquote>
+      </figure>
+    </div>
+  </div>
+
+  <div class="partner-impact__topics">
+    <p>{impact.topics.label}</p>
+    <p>{impact.topics.body}</p>
+  </div>
+</EditorialFrame>
+
+<style>
+  :global(.partner-impact) {
+    isolation: isolate;
+    background: #fff;
+    border: 1px solid var(--editorial-color-border);
+  }
+
+  :global(.partner-impact .editorial-section-intro) {
+    position: relative;
+    z-index: 1;
+    background: #fff;
+  }
+
+  .partner-impact__body {
+    display: grid;
+    grid-template-columns: minmax(0, 1.2fr) minmax(360px, 0.8fr);
+    border-bottom: 1px solid var(--editorial-color-divider);
+  }
+
+  .partner-impact__outcome {
+    min-height: 500px;
+    padding: var(--editorial-panel-padding);
+    display: flex;
+    flex-direction: column;
+    background: #edf3ef;
+    border-right: 1px solid var(--editorial-color-divider);
+    --impact-chart-size: 218px;
+    --impact-chart-inner-size: 112px;
+    --impact-chart-surface: #edf3ef;
+    --impact-chart-value-size: 40px;
+  }
+
+  .partner-impact__eyebrow,
+  .partner-impact__outcome h3,
+  .partner-impact__outcome p,
+  .partner-impact__experience p,
+  .partner-impact__experience h3,
+  .partner-impact__voice,
+  .partner-impact__voice blockquote,
+  .partner-impact__topics p {
+    margin: 0;
+  }
+
+  .partner-impact__eyebrow,
+  .partner-impact__voice figcaption,
+  .partner-impact__topics > p:first-child {
+    color: #8e8776;
+    font-size: 11px;
+    letter-spacing: 0.09em;
+    line-height: 15px;
+  }
+
+  .partner-impact__outcome-content {
+    margin-top: auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 36px;
+    align-items: end;
+  }
+
+  .partner-impact__outcome h3,
+  .partner-impact__experience h3 {
+    color: #2b2a25;
+    font-family: var(--editorial-font-serif);
+    font-size: clamp(36px, 4vw, 54px);
+    font-weight: 400;
+    line-height: 1.04;
+  }
+
+  .partner-impact__outcome-content > div > p,
+  .partner-impact__experience > p:last-child {
+    margin-top: 13px;
+    color: #57544d;
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  .partner-impact__corroboration {
+    display: grid;
+    grid-template-rows: 1fr auto;
+  }
+
+  .partner-impact__experience,
+  .partner-impact__voice {
+    padding: var(--editorial-panel-padding);
+  }
+
+  .partner-impact__experience {
+    min-height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    background: #f8f6ee;
+    border-bottom: 1px solid var(--editorial-color-divider);
+  }
+
+  .partner-impact__experience .partner-impact__eyebrow {
+    margin-bottom: 40px;
+  }
+
+  .partner-impact__value {
+    color: #2d4b40;
+    font-size: clamp(72px, 7vw, 104px);
+    letter-spacing: -0.055em;
+    line-height: 0.86;
+  }
+
+  .partner-impact__experience h3 {
+    margin-top: 22px;
+    font-size: 36px;
+  }
+
+  .partner-impact__voice {
+    min-height: 200px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 24px;
+    background: #fff;
+  }
+
+  .partner-impact__voice blockquote {
+    color: #2b2a25;
+    font-family: var(--editorial-font-serif);
+    font-size: clamp(28px, 3vw, 40px);
+    line-height: 1.08;
+  }
+
+  .partner-impact__topics {
+    padding: var(--editorial-panel-padding);
+    display: grid;
+    grid-template-columns: minmax(190px, 0.7fr) minmax(0, 2fr);
+    gap: clamp(28px, 5vw, 80px);
+    background: var(--editorial-color-surface-elevated);
+  }
+
+  .partner-impact__topics > p:last-child {
+    max-width: 72ch;
+    color: #3e3d38;
+    font-size: 20px;
+    line-height: 30px;
+  }
+
+  @media (max-width: 900px) {
+    .partner-impact__body {
+      grid-template-columns: 1fr;
+    }
+
+    .partner-impact__outcome {
+      min-height: 440px;
+      padding: var(--editorial-panel-padding-mobile);
+      border-right: 0;
+      border-bottom: 1px solid var(--editorial-color-divider);
+      --impact-chart-size: 190px;
+      --impact-chart-inner-size: 98px;
+    }
+
+    .partner-impact__experience,
+    .partner-impact__voice {
+      padding: var(--editorial-panel-padding-mobile);
+    }
+
+    .partner-impact__topics {
+      padding: var(--editorial-panel-padding-mobile);
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .partner-impact__outcome-content {
+      grid-template-columns: 1fr;
+      gap: 30px;
+    }
+
+    :global(.partner-impact__chart) {
+      justify-self: start;
+      align-items: flex-start;
+    }
+
+    .partner-impact__outcome {
+      min-height: 560px;
+    }
+
+    .partner-impact__topics > p:last-child {
+      font-size: 18px;
+      line-height: 27px;
+    }
+  }
+</style>

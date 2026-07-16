@@ -1,0 +1,117 @@
+---
+import { PARTNER_IMPACT_SECTION } from "./partnerWithUsData";
+
+interface Props {
+  class?: string;
+}
+
+const { class: className } = Astro.props;
+const perspective = PARTNER_IMPACT_SECTION.blocks[0].perspectiveShift;
+const chartStyle = `--impact-chart-gradient: ${perspective.ringGradient};`;
+const chartLabel = `${perspective.label}: ${perspective.value}, split between ${perspective.legend.map(({ label }) => label).join(" and ")}.`;
+---
+
+<div class:list={["impact-perspective-chart", className]}>
+  <div
+    class="impact-perspective-chart__ring"
+    style={chartStyle}
+    role="img"
+    aria-label={chartLabel}
+  >
+    <div class="impact-perspective-chart__inner">
+      <span>{perspective.value}</span>
+    </div>
+  </div>
+
+  <ul
+    class="impact-perspective-chart__legend"
+    aria-label="Perspective shift breakdown"
+  >
+    {
+      perspective.legend.map((item) => (
+        <li>
+          <span
+            class="impact-perspective-chart__dot"
+            style={`--impact-chart-dot: ${item.color};`}
+            aria-hidden="true"
+          />
+          <span>{item.label}</span>
+        </li>
+      ))
+    }
+  </ul>
+</div>
+
+<style>
+  .impact-perspective-chart {
+    display: flex;
+    flex-direction: column;
+    gap: var(--impact-chart-gap, 16px);
+    align-items: center;
+  }
+
+  .impact-perspective-chart__ring {
+    width: var(--impact-chart-size, 186px);
+    height: var(--impact-chart-size, 186px);
+    flex: 0 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-image: var(
+      --impact-chart-gradient,
+      conic-gradient(
+        from 0deg,
+        #5e9a83 0% 40%,
+        #c5ae6d 40% 75.7%,
+        #ece7dd 75.7% 100%
+      )
+    );
+    border-radius: 50%;
+  }
+
+  .impact-perspective-chart__inner {
+    width: var(--impact-chart-inner-size, 96px);
+    height: var(--impact-chart-inner-size, 96px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--impact-chart-surface, #fff);
+    border-radius: 50%;
+  }
+
+  .impact-perspective-chart__inner span {
+    color: #2f2d28;
+    font-family: var(--editorial-font-sans);
+    font-size: var(--impact-chart-value-size, 35px);
+    letter-spacing: -0.04em;
+    line-height: 1;
+  }
+
+  .impact-perspective-chart__legend {
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 16px;
+    justify-content: center;
+    color: #625f57;
+    font-family: var(--editorial-font-sans);
+    font-size: 12px;
+    line-height: 16px;
+    list-style: none;
+  }
+
+  .impact-perspective-chart__legend li {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .impact-perspective-chart__dot {
+    width: 9px;
+    height: 9px;
+    flex: 0 0 auto;
+    background: var(--impact-chart-dot, #5e9a83);
+    border-radius: 50%;
+  }
+</style>

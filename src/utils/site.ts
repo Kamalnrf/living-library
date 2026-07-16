@@ -4,6 +4,7 @@ export const INSTAGRAM_HANDLE = "@livingstoriesco";
 export const INSTAGRAM_PROFILE_NAME = "livingstoriesco";
 export const INSTAGRAM_URL = "https://www.instagram.com/livingstoriesco";
 export const INSTAGRAM_EMBED_URL = `${INSTAGRAM_URL}/embed`;
+export const CONTACT_EMAIL = "mail@livingstoriescollective.org";
 export const LUMA_CALENDAR_URL = "https://lu.ma/livingstoriesco";
 export const LUMA_CALENDAR_EMBED_URL =
 	"https://lu.ma/embed/calendar/cal-GHDfTF0OIWzcDd9/events?lt=light";
@@ -15,3 +16,6 @@ export const HOME_DESCRIPTION =
 	"Human stories, shared live. Living Stories Collective brings people together for real conversations across lived experience.";
 
 export const REGISTER_PAGE_TITLE = `Register — ${SITE_NAME}`;
+export const PARTNER_PAGE_TITLE = `Partner With Us — ${SITE_NAME}`;
+export const PARTNER_PAGE_DESCRIPTION =
+	"Bring Living Stories sessions to your organisation. Living Stories Collective partners with schools, workplaces, and communities to create real conversations that shift perspectives.";

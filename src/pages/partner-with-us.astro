@@ -1,0 +1,79 @@
+---
+export const prerender = false;
+
+import EditorialFrame from "../components/editorial/EditorialFrame.astro";
+import EditorialSectionBlocks from "../components/editorial/EditorialSectionBlocks.astro";
+import EditorialSectionIntro from "../components/editorial/EditorialSectionIntro.astro";
+import LandingFooter from "../components/landing/LandingFooter.astro";
+import LandingHeader from "../components/landing/LandingHeader.astro";
+import PartnerContact from "../components/partner/PartnerContact.astro";
+import PartnerHero from "../components/partner/PartnerHero.astro";
+import PartnerImpact from "../components/partner/PartnerImpact.astro";
+import PartnerPeople from "../components/partner/PartnerPeople.astro";
+import PartnerWhyStudy from "../components/partner/PartnerWhyStudy.astro";
+import {
+  PARTNER_EXPERIENCE_SECTION,
+} from "../components/partner/partnerWithUsData";
+import LandingPageShell from "../layouts/LandingPageShell.astro";
+import { PARTNER_PAGE_DESCRIPTION, PARTNER_PAGE_TITLE } from "../utils/site";
+
+Astro.response.headers.set(
+  "Cache-Control",
+  "public, max-age=0, must-revalidate, s-maxage=604800, stale-while-revalidate=2592000",
+);
+
+---
+
+<LandingPageShell
+  title={PARTNER_PAGE_TITLE}
+  description={PARTNER_PAGE_DESCRIPTION}
+>
+  <LandingHeader slot="header" />
+
+  <PartnerHero />
+
+  <PartnerWhyStudy />
+
+  <EditorialFrame
+    as="section"
+    variant="section"
+    id={PARTNER_EXPERIENCE_SECTION.id}
+    class="partner-section partner-section--experience"
+    aria-labelledby="partner-experience-title"
+  >
+    <EditorialSectionIntro
+      intro={PARTNER_EXPERIENCE_SECTION.intro}
+      headingId="partner-experience-title"
+    />
+    <EditorialSectionBlocks blocks={PARTNER_EXPERIENCE_SECTION.blocks} />
+  </EditorialFrame>
+
+  <PartnerImpact />
+
+  <PartnerPeople />
+  <PartnerContact />
+  <LandingFooter slot="footer" />
+
+</LandingPageShell>
+
+<style>
+  :global(.partner-section) {
+    margin-top: 32px;
+    scroll-margin-top: 6rem;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid var(--editorial-color-border);
+  }
+
+  :global(.partner-section--experience) {
+    background: var(--editorial-color-surface-elevated);
+  }
+
+  @media (max-width: 900px) {
+    :global(.partner-section) {
+      margin-top: 24px;
+    }
+
+  }
+</style>

@@ -1,0 +1,403 @@
+---
+import EditorialFrame from "../editorial/EditorialFrame.astro";
+import { PARTNER_HERO } from "./partnerWithUsData";
+---
+
+<EditorialFrame
+  as="section"
+  variant="section"
+  class="partner-hero-section"
+  aria-labelledby="partner-page-title"
+>
+  <div class="partner-hero">
+    <div class="partner-hero__content">
+      <p class="partner-hero__eyebrow">{PARTNER_HERO.eyebrow}</p>
+      <h1 id="partner-page-title">{PARTNER_HERO.title}</h1>
+      <p class="partner-hero__lede">{PARTNER_HERO.description}</p>
+
+      <div class="partner-hero__actions">
+        <a class="partner-button" href={PARTNER_HERO.ctaHref}>
+          {PARTNER_HERO.ctaLabel}
+        </a>
+
+        <div
+          class="partner-hero__proof"
+          aria-label="Organisations we have worked with"
+        >
+          <p class="partner-hero__proof-label">We’ve worked with</p>
+
+          <ul class="partner-hero__logos" role="list">
+            <li class="partner-hero__logo partner-hero__logo--mcr">
+              <img
+                src="/images/partners/mcr-hrdi-mark-official.png"
+                alt="Dr. MCR HRD Institute of Telangana"
+                width="125"
+                height="134"
+                loading="eager"
+                decoding="async"
+              />
+              <span aria-hidden="true">Dr. MCR HRD Institute</span>
+            </li>
+
+            <li class="partner-hero__logo partner-hero__logo--de-shaw">
+              <img
+                src="/images/partners/de-shaw-india-official.svg"
+                alt="D. E. Shaw &amp; Co."
+                width="191"
+                height="42"
+                loading="eager"
+                decoding="async"
+              />
+            </li>
+
+            <li class="partner-hero__logo partner-hero__logo--hlf">
+              <img
+                src="/images/partners/hyderabad-literary-festival-official.svg"
+                alt="Hyderabad Literary Festival"
+                width="155"
+                height="155"
+                loading="eager"
+                decoding="async"
+              />
+              <span aria-hidden="true">Hyderabad Literary Festival</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="partner-hero__media"
+      aria-label="Scenes from recent Living Stories Collective sessions"
+    >
+      <figure class="partner-hero__figure partner-hero__figure--large">
+        <img
+          src="/images/events/hlf-2026-circle-wide.jpg"
+          alt="A Living Story addresses a full circle of listeners at the Hyderabad Literary Festival."
+          width="1800"
+          height="1350"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </figure>
+
+      <div class="partner-hero__stack">
+        <figure class="partner-hero__figure partner-hero__figure--conversation">
+          <img
+            src="/images/mcr-hrd-book-1-reading.png"
+            alt="Civil service officers listen to a Living Story during an MCR HRD Institute session."
+            width="688"
+            height="374"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+
+        <figure class="partner-hero__figure partner-hero__figure--listeners">
+          <img
+            src="/images/living_library.png"
+            alt="Abstract artwork of a reader moving through the pages of a story."
+            width="1024"
+            height="1024"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </div>
+    </div>
+  </div>
+</EditorialFrame>
+
+<style>
+  :global(.partner-hero-section) {
+    padding-block: 82px 50px;
+  }
+
+  .partner-hero {
+    display: grid;
+    grid-template-columns: minmax(0, 528px) minmax(0, 660px);
+    align-items: stretch;
+  }
+
+  .partner-hero__content {
+    position: relative;
+    z-index: 1;
+    min-width: 0;
+    padding: 34px 28px 14px 22px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+    isolation: isolate;
+  }
+
+  .partner-hero__content::before {
+    content: "";
+    position: absolute;
+    inset: -28px -36px -30px -22px;
+    z-index: -1;
+    pointer-events: none;
+    background:
+      radial-gradient(
+        circle at 22% 18%,
+        rgb(248 246 242 / calc(var(--landing-hero-scrim-opacity) * 0.96)) 0%,
+        rgb(248 246 242 / calc(var(--landing-hero-scrim-opacity) * 0.66)) 42%,
+        transparent 78%
+      ),
+      linear-gradient(
+        90deg,
+        rgb(248 246 242 / calc(var(--landing-hero-scrim-opacity) * 0.78)) 0%,
+        rgb(248 246 242 / calc(var(--landing-hero-scrim-opacity) * 0.34)) 62%,
+        transparent 100%
+      );
+  }
+
+  .partner-hero__eyebrow,
+  .partner-hero h1,
+  .partner-hero__lede {
+    margin: 0;
+  }
+
+  .partner-hero__eyebrow {
+    color: #8e8776;
+    font-family: var(--editorial-font-sans);
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 16px;
+    letter-spacing: 0.08em;
+  }
+
+  .partner-hero h1 {
+    max-width: 560px;
+    color: var(--editorial-color-text);
+    font-family: var(--editorial-font-sans);
+    font-size: 72px;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+    line-height: 69px;
+  }
+
+  .partner-hero__lede {
+    max-width: 536px;
+    color: var(--editorial-color-muted);
+    font-family: var(--editorial-font-sans);
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 28px;
+  }
+
+  .partner-button {
+    min-height: 42px;
+    padding-inline: 18px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--editorial-color-action-border);
+    background: var(--editorial-color-action-surface);
+    color: var(--editorial-color-action-text);
+    font-family: var(--editorial-font-sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    text-decoration: none;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .partner-button:hover,
+  .partner-button:focus-visible {
+    background: var(--editorial-color-action-surface-hover);
+    border-color: var(--editorial-color-action-border-hover);
+    transform: translateY(-1px);
+  }
+
+  .partner-button:focus-visible {
+    outline: 2px solid var(--editorial-color-accent);
+    outline-offset: 4px;
+  }
+
+  .partner-hero__actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 22px;
+  }
+
+  .partner-hero__proof {
+    width: min(100%, 450px);
+    padding-top: 16px;
+    border-top: 1px solid var(--editorial-color-border);
+  }
+
+  .partner-hero__proof-label {
+    margin: 0 0 12px;
+    color: #8e8776;
+    font-family: var(--editorial-font-sans);
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 14px;
+    letter-spacing: 0.09em;
+    text-transform: uppercase;
+  }
+
+  .partner-hero__logos {
+    display: grid;
+    grid-template-columns: 1fr 0.9fr 1.08fr;
+    align-items: center;
+    gap: 18px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .partner-hero__logo {
+    min-width: 0;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    color: #4f4d46;
+    filter: grayscale(1);
+    opacity: 0.72;
+  }
+
+  .partner-hero__logo--mcr {
+    gap: 8px;
+  }
+
+  .partner-hero__logo--mcr img {
+    width: auto;
+    height: 30px;
+  }
+
+  .partner-hero__logo--mcr span,
+  .partner-hero__logo--hlf span {
+    max-width: 86px;
+    font-family: var(--editorial-font-sans);
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 12px;
+  }
+
+  .partner-hero__logo--de-shaw img {
+    width: 114px;
+    height: auto;
+  }
+
+  .partner-hero__logo--hlf {
+    gap: 7px;
+  }
+
+  .partner-hero__logo--hlf img {
+    width: 30px;
+    height: 30px;
+  }
+
+  .partner-hero__media {
+    min-width: 0;
+    display: grid;
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+    gap: 8px;
+    min-height: 0;
+    height: 100%;
+  }
+
+  .partner-hero__stack {
+    min-width: 0;
+    display: grid;
+    grid-template-rows: minmax(0, 1.05fr) minmax(0, 0.95fr);
+    gap: 8px;
+  }
+
+  .partner-hero__figure {
+    min-width: 0;
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+    background: var(--editorial-color-surface-embed);
+    border: 1px solid var(--editorial-color-border);
+  }
+
+  .partner-hero__figure img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .partner-hero__figure--large img {
+    object-position: 58% center;
+  }
+
+  .partner-hero__figure--conversation img {
+    object-position: center center;
+  }
+
+  .partner-hero__figure--listeners img {
+    object-position: 52% center;
+  }
+
+  @media (max-width: 900px) {
+    :global(.partner-hero-section) {
+      padding-block: 12px 40px;
+    }
+
+    .partner-hero {
+      grid-template-columns: 1fr;
+      gap: 20px;
+    }
+
+    .partner-hero__content {
+      padding: 16px 18px 0;
+      gap: 16px;
+    }
+
+    .partner-hero__content::before {
+      inset: -16px -10px -16px;
+    }
+
+    .partner-hero h1 {
+      max-width: 334px;
+      font-size: 54px;
+      letter-spacing: -0.01em;
+      line-height: 54px;
+    }
+
+    .partner-hero__lede {
+      max-width: 342px;
+      color: #44423c;
+      font-size: 17px;
+      line-height: 27px;
+    }
+
+    .partner-button {
+      min-height: 44px;
+    }
+
+    .partner-hero__actions,
+    .partner-hero__proof {
+      width: 100%;
+    }
+
+    .partner-hero__logos {
+      grid-template-columns: 1fr 0.9fr 1.08fr;
+      gap: 12px;
+    }
+
+    .partner-hero__logo--de-shaw img {
+      width: 104px;
+    }
+
+    .partner-hero__media {
+      order: -1;
+      grid-template-columns: 1fr 0.74fr;
+      min-height: 0;
+      height: 338px;
+    }
+
+    .partner-hero__stack {
+      grid-template-rows: minmax(0, 1fr) minmax(0, 0.7fr);
+    }
+  }
+</style>

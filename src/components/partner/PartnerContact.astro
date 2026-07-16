@@ -1,0 +1,258 @@
+---
+import EditorialFrame from "../editorial/EditorialFrame.astro";
+import EditorialSectionIntro from "../editorial/EditorialSectionIntro.astro";
+import { CONTACT_EMAIL } from "../../utils/site";
+import { PARTNER_CONTACT_INTRO } from "./partnerWithUsData";
+---
+
+<EditorialFrame
+  as="section"
+  variant="section"
+  id="partner-contact"
+  class="partner-section partner-contact"
+  aria-labelledby="partner-contact-title"
+>
+  <EditorialSectionIntro
+    intro={PARTNER_CONTACT_INTRO}
+    headingId="partner-contact-title"
+  />
+
+  <div class="partner-contact__body">
+    <form
+      class="partner-contact__form"
+      action={`mailto:${CONTACT_EMAIL}`}
+      method="post"
+      enctype="text/plain"
+      data-partner-contact-form
+      data-contact-email={CONTACT_EMAIL}
+    >
+      <div class="partner-contact__field">
+        <label for="partner-contact-name">Your name</label>
+        <input
+          id="partner-contact-name"
+          name="name"
+          type="text"
+          autocomplete="name"
+          required
+        />
+      </div>
+
+      <div class="partner-contact__field">
+        <label for="partner-contact-organisation">Organisation</label>
+        <input
+          id="partner-contact-organisation"
+          name="organisation"
+          type="text"
+          autocomplete="organization"
+          required
+        />
+      </div>
+
+      <div class="partner-contact__field partner-contact__field--wide">
+        <label for="partner-contact-email">Email address</label>
+        <input
+          id="partner-contact-email"
+          name="email"
+          type="email"
+          autocomplete="email"
+          inputmode="email"
+          required
+        />
+      </div>
+
+      <div class="partner-contact__field partner-contact__field--wide">
+        <label for="partner-contact-message">Message</label>
+        <textarea id="partner-contact-message" name="message" rows="6" required
+        ></textarea>
+      </div>
+
+      <div class="partner-contact__actions">
+        <button type="submit">Send message</button>
+        <p data-partner-contact-status aria-live="polite">
+          Opens your email app.
+        </p>
+      </div>
+    </form>
+  </div>
+</EditorialFrame>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>(
+    "[data-partner-contact-form]",
+  );
+  const status = document.querySelector<HTMLElement>(
+    "[data-partner-contact-status]",
+  );
+
+  form?.addEventListener("submit", (event) => {
+    if (!form.checkValidity()) {
+      return;
+    }
+
+    event.preventDefault();
+
+    const formData = new FormData(form);
+    const name = String(formData.get("name") ?? "").trim();
+    const organisation = String(formData.get("organisation") ?? "").trim();
+    const email = String(formData.get("email") ?? "").trim();
+    const message = String(formData.get("message") ?? "").trim();
+    const contactEmail = form.dataset.contactEmail;
+
+    if (!contactEmail) {
+      form.submit();
+      return;
+    }
+
+    const subject = ["Partner session inquiry", organisation || name]
+      .filter(Boolean)
+      .join(" - ");
+    const body = [
+      `Name: ${name}`,
+      `Organisation: ${organisation}`,
+      `Email: ${email}`,
+      "",
+      message,
+    ].join("\n");
+
+    window.location.href = `mailto:${contactEmail}?subject=${encodeURIComponent(
+      subject,
+    )}&body=${encodeURIComponent(body)}`;
+
+    if (status) {
+      status.textContent = "Opening your email app...";
+    }
+  });
+</script>
+
+<style>
+  :global(.partner-contact) {
+    background: var(--editorial-color-surface-elevated);
+    border: 1px solid var(--editorial-color-border);
+  }
+
+  .partner-contact__body {
+    padding: var(--editorial-panel-padding);
+  }
+
+  .partner-contact__form {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .partner-contact__field {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .partner-contact__field--wide,
+  .partner-contact__actions {
+    grid-column: 1 / -1;
+  }
+
+  .partner-contact__field label {
+    color: #8e8776;
+    font-family: var(--editorial-font-sans);
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    line-height: 16px;
+    text-transform: uppercase;
+  }
+
+  .partner-contact__field input,
+  .partner-contact__field textarea {
+    width: 100%;
+    border: 1px solid var(--editorial-color-action-border);
+    background: var(--editorial-color-surface-panel);
+    color: var(--editorial-color-text);
+    font: inherit;
+    font-family: var(--editorial-font-sans);
+    font-size: 17px;
+    line-height: 24px;
+  }
+
+  .partner-contact__field input {
+    min-height: 48px;
+    padding-inline: 14px;
+  }
+
+  .partner-contact__field textarea {
+    min-height: 156px;
+    padding: 12px 14px;
+    resize: vertical;
+  }
+
+  .partner-contact__field input:focus,
+  .partner-contact__field textarea:focus {
+    border-color: var(--editorial-color-action-border-hover);
+    outline: 2px solid var(--editorial-color-accent);
+    outline-offset: 2px;
+  }
+
+  .partner-contact__actions {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .partner-contact__actions button {
+    min-height: 42px;
+    padding-inline: 18px;
+    border: 1px solid var(--editorial-color-action-border);
+    background: var(--editorial-color-action-surface);
+    color: var(--editorial-color-action-text);
+    font-family: var(--editorial-font-sans);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 20px;
+    cursor: pointer;
+    transition:
+      background-color 180ms ease,
+      border-color 180ms ease,
+      transform 180ms ease;
+  }
+
+  .partner-contact__actions button:hover,
+  .partner-contact__actions button:focus-visible {
+    background: var(--editorial-color-action-surface-hover);
+    border-color: var(--editorial-color-action-border-hover);
+    transform: translateY(-1px);
+  }
+
+  .partner-contact__actions button:focus-visible {
+    outline: 2px solid var(--editorial-color-accent);
+    outline-offset: 4px;
+  }
+
+  .partner-contact__actions p {
+    margin: 0;
+    color: #6a675e;
+    font-family: var(--editorial-font-sans);
+    font-size: 15px;
+    line-height: 22px;
+  }
+
+  @media (max-width: 900px) {
+    .partner-contact__body {
+      padding: var(--editorial-panel-padding-mobile);
+    }
+
+    .partner-contact__form {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+
+    .partner-contact__field input {
+      min-height: 46px;
+    }
+
+    .partner-contact__actions {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 8px;
+    }
+  }
+</style>
