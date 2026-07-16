@@ -38,7 +38,7 @@ const GET_INVOLVED_ACTION_CARDS = [
 		title: "Host an event with us",
 		description: "Plan a session for your organization, school, or community.",
 		action: {
-			href: "mailto:mail@livingstoriescollective.org",
+			href: "/partner-with-us/#partner-contact",
 			label: "Start partner conversation ↗",
 			external: false,
 		},

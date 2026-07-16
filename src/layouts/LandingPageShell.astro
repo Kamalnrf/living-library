@@ -24,6 +24,7 @@ const rulerTickIndices = Array.from({length: 14}, (_, index) => index)
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
     <title>{title}</title>
+    <meta name="description" content={description} />
 
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
@@ -87,5 +88,35 @@ const rulerTickIndices = Array.from({length: 14}, (_, index) => index)
     </div>
 
     {import.meta.env.DEV && <LandingVisualTuningPanel />}
+
+    <script is:inline>
+      const restoreHashPosition = () => {
+        const hash = window.location.hash.slice(1)
+
+        if (!hash) {
+          return
+        }
+
+        const target = document.getElementById(decodeURIComponent(hash))
+
+        if (target) {
+          target.scrollIntoView({block: 'start'})
+        }
+      }
+
+      const settleHashPosition = () => {
+        restoreHashPosition()
+        requestAnimationFrame(() => requestAnimationFrame(restoreHashPosition))
+        window.setTimeout(restoreHashPosition, 250)
+      }
+
+      if (document.readyState === 'complete') {
+        settleHashPosition()
+      } else {
+        window.addEventListener('load', settleHashPosition, {once: true})
+      }
+
+      document.fonts?.ready.then(settleHashPosition)
+    </script>
   </body>
 </html>

@@ -1,0 +1,204 @@
+---
+import EditorialFrame from "../editorial/EditorialFrame.astro";
+import EditorialSectionIntro from "../editorial/EditorialSectionIntro.astro";
+import { PARTNER_WHY_SECTION } from "./partnerWithUsData";
+
+const [, livedExperience] = PARTNER_WHY_SECTION.blocks[0].panels;
+const awarenessContext =
+  "Workshops and training sessions raise awareness, but changing how people feel about each other takes something different.";
+const differenceStatement =
+  "Reading about someone's experience is not the same as hearing it from them.";
+---
+
+<EditorialFrame
+  as="section"
+  variant="section"
+  id={PARTNER_WHY_SECTION.id}
+  class="partner-section partner-section--why"
+  aria-labelledby="partner-why-title"
+>
+  <EditorialSectionIntro
+    intro={PARTNER_WHY_SECTION.intro}
+    headingId="partner-why-title"
+  />
+
+  <div class="partner-why-study">
+    <div class="why-statement">
+      <div class="why-statement__lead">
+        <div class="why-statement__copy">
+          <p class="why-label">THE DIFFERENCE</p>
+          <blockquote>“{differenceStatement}”</blockquote>
+        </div>
+
+        <figure class="why-media why-statement__media">
+          <img
+            src="/images/events/hlf-2026-storyteller.jpg"
+            alt="A storyteller gestures while a listener watches during an HLF 2026 conversation."
+            width="1800"
+            height="1350"
+            loading="lazy"
+            decoding="async"
+          />
+        </figure>
+      </div>
+
+      <div class="why-statement__support">
+        <div class="why-statement__note">
+          <p class="why-label">AWARENESS ALONE</p>
+          <p>{awarenessContext}</p>
+        </div>
+
+        <div class="why-statement__note why-statement__note--outcome">
+          <p class="why-label">LIVED EXPERIENCE</p>
+          <p>{livedExperience.description}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</EditorialFrame>
+
+<style>
+  .partner-why-study,
+  .partner-why-study * {
+    min-width: 0;
+  }
+
+  .partner-why-study :is(p, blockquote) {
+    margin: 0;
+  }
+
+  .why-media {
+    min-height: 0;
+    margin: 0;
+    overflow: hidden;
+    border: 1px solid var(--editorial-color-border);
+    background: #dedbd2;
+  }
+
+  .why-media img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .why-label {
+    color: #827b6c;
+    font-family: var(--editorial-font-sans);
+    font-size: 12px;
+    font-weight: 500;
+    line-height: 16px;
+    letter-spacing: 0.1em;
+  }
+
+  .why-statement__lead {
+    display: grid;
+    min-height: 380px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    background: #edf3ef;
+  }
+
+  .why-statement__copy {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
+    padding: clamp(32px, 5vw, 72px);
+  }
+
+  .why-statement__media {
+    min-height: 380px;
+    border-block: 0;
+    border-right: 0;
+  }
+
+  .why-statement__media img {
+    object-position: 56% center;
+  }
+
+  .why-statement blockquote {
+    max-width: 18ch;
+    color: #272722;
+    font-family: var(--editorial-font-serif);
+    font-size: clamp(36px, 3.8vw, 52px);
+    font-weight: 400;
+    line-height: 1.06;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .why-statement__support {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    border-top: 1px solid var(--editorial-color-border);
+  }
+
+  .why-statement__note {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: clamp(26px, 3.2vw, 42px);
+    background: #f3f0e9;
+  }
+
+  .why-statement__note + .why-statement__note {
+    border-left: 1px solid var(--editorial-color-border);
+  }
+
+  .why-statement__note--outcome {
+    background: var(--editorial-color-surface-elevated);
+  }
+
+  .why-statement__note > p:last-child {
+    max-width: 48ch;
+    color: #494741;
+    font-family: var(--editorial-font-sans);
+    font-size: 16px;
+    line-height: 1.55;
+    text-wrap: pretty;
+  }
+
+  @media (max-width: 900px) {
+    .why-statement__lead {
+      min-height: 0;
+      grid-template-columns: 1fr;
+    }
+
+    .why-statement__copy {
+      gap: 18px;
+      padding: 30px 22px 36px;
+    }
+
+    .why-statement__media {
+      min-height: 0;
+      aspect-ratio: 4 / 3;
+      border: 0;
+      border-top: 1px solid var(--editorial-color-border);
+    }
+
+    .why-statement blockquote {
+      max-width: 100%;
+      font-size: clamp(32px, 9.2vw, 42px);
+      line-height: 1.1;
+    }
+
+    .why-statement__support {
+      grid-template-columns: 1fr;
+    }
+
+    .why-statement__note {
+      gap: 12px;
+      padding: 25px 22px 28px;
+    }
+
+    .why-statement__note + .why-statement__note {
+      border-top: 1px solid var(--editorial-color-border);
+      border-left: 0;
+    }
+
+    .why-statement__note > p:last-child {
+      font-size: 15px;
+      line-height: 1.52;
+    }
+  }
+</style>
