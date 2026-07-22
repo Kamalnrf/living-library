@@ -22,27 +22,26 @@ const ratingDisplay = rating.value.replace(".0%", "%");
   />
 
   <div class="partner-impact__body">
-    <article class="partner-impact__outcome">
-      <p class="partner-impact__eyebrow">01 / OUTCOME</p>
-      <div class="partner-impact__outcome-content">
-        <div>
-          <h3>{impact.perspectiveShift.label}</h3>
-          <p>Listener feedback</p>
-        </div>
-        <PartnerImpactPerspectiveChart class="partner-impact__chart" />
+    <article class="partner-impact__experience">
+      <div class="partner-impact__experience-content">
+        <p class="partner-impact__value">{ratingDisplay}</p>
+        <h3>{rating.label}</h3>
+        <p>of participants rated the experience 4 or 5</p>
       </div>
     </article>
 
     <div class="partner-impact__corroboration">
-      <article class="partner-impact__experience">
-        <p class="partner-impact__eyebrow">02 / EXPERIENCE</p>
-        <p class="partner-impact__value">{ratingDisplay}</p>
-        <h3>{rating.label}</h3>
-        <p>Listener rating</p>
+      <article class="partner-impact__outcome">
+        <div class="partner-impact__outcome-content">
+          <div>
+            <h3>{impact.perspectiveShift.label}</h3>
+            <p>significant + somewhat</p>
+          </div>
+          <PartnerImpactPerspectiveChart class="partner-impact__chart" />
+        </div>
       </article>
 
-      <figure class="partner-impact__voice">
-        <figcaption>LISTENER VOICE</figcaption>
+      <figure class="partner-impact__voice" aria-label="Listener reflection">
         <blockquote>{impact.voice.quote}</blockquote>
       </figure>
     </div>
@@ -69,24 +68,20 @@ const ratingDisplay = rating.value.replace(".0%", "%");
 
   .partner-impact__body {
     display: grid;
-    grid-template-columns: minmax(0, 1.2fr) minmax(360px, 0.8fr);
+    grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.88fr);
     border-bottom: 1px solid var(--editorial-color-divider);
   }
 
-  .partner-impact__outcome {
-    min-height: 500px;
+  .partner-impact__experience {
+    min-height: 420px;
     padding: var(--editorial-panel-padding);
     display: flex;
     flex-direction: column;
-    background: #edf3ef;
+    justify-content: center;
+    background: #f8f6ee;
     border-right: 1px solid var(--editorial-color-divider);
-    --impact-chart-size: 218px;
-    --impact-chart-inner-size: 112px;
-    --impact-chart-surface: #edf3ef;
-    --impact-chart-value-size: 40px;
   }
 
-  .partner-impact__eyebrow,
   .partner-impact__outcome h3,
   .partner-impact__outcome p,
   .partner-impact__experience p,
@@ -97,8 +92,6 @@ const ratingDisplay = rating.value.replace(".0%", "%");
     margin: 0;
   }
 
-  .partner-impact__eyebrow,
-  .partner-impact__voice figcaption,
   .partner-impact__topics > p:first-child {
     color: #8e8776;
     font-size: 11px;
@@ -107,11 +100,10 @@ const ratingDisplay = rating.value.replace(".0%", "%");
   }
 
   .partner-impact__outcome-content {
-    margin-top: auto;
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 36px;
-    align-items: end;
+    grid-template-columns: 1fr;
+    gap: 26px;
+    align-items: start;
   }
 
   .partner-impact__outcome h3,
@@ -124,7 +116,7 @@ const ratingDisplay = rating.value.replace(".0%", "%");
   }
 
   .partner-impact__outcome-content > div > p,
-  .partner-impact__experience > p:last-child {
+  .partner-impact__experience-content > p:last-child {
     margin-top: 13px;
     color: #57544d;
     font-size: 15px;
@@ -132,54 +124,69 @@ const ratingDisplay = rating.value.replace(".0%", "%");
   }
 
   .partner-impact__corroboration {
+    min-width: 0;
     display: grid;
-    grid-template-rows: 1fr auto;
+    grid-template-rows: minmax(0, 1fr) auto;
   }
 
-  .partner-impact__experience,
-  .partner-impact__voice {
+  .partner-impact__outcome {
     padding: var(--editorial-panel-padding);
   }
 
-  .partner-impact__experience {
+  .partner-impact__outcome {
     min-height: 300px;
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
-    background: #f8f6ee;
-    border-bottom: 1px solid var(--editorial-color-divider);
-  }
-
-  .partner-impact__experience .partner-impact__eyebrow {
-    margin-bottom: 40px;
-  }
-
-  .partner-impact__value {
-    color: #2d4b40;
-    font-size: clamp(72px, 7vw, 104px);
-    letter-spacing: -0.055em;
-    line-height: 0.86;
-  }
-
-  .partner-impact__experience h3 {
-    margin-top: 22px;
-    font-size: 36px;
+    justify-content: center;
+    background: #edf3ef;
+    --impact-chart-size: 148px;
+    --impact-chart-inner-size: 78px;
+    --impact-chart-surface: #edf3ef;
+    --impact-chart-value-size: 29px;
+    --impact-chart-gap: 10px;
   }
 
   .partner-impact__voice {
-    min-height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    gap: 24px;
+    padding: 24px var(--editorial-panel-padding);
+    border-top: 1px solid var(--editorial-color-divider);
     background: #fff;
   }
 
   .partner-impact__voice blockquote {
+    max-width: 24ch;
     color: #2b2a25;
     font-family: var(--editorial-font-serif);
-    font-size: clamp(28px, 3vw, 40px);
+    font-size: clamp(26px, 2.5vw, 34px);
     line-height: 1.08;
+    text-wrap: balance;
+  }
+
+  .partner-impact__outcome-content {
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: end;
+  }
+
+  .partner-impact__experience-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .partner-impact__value {
+    color: #2d4b40;
+    font-size: clamp(96px, 11vw, 148px);
+    letter-spacing: -0.055em;
+    line-height: 0.86;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .partner-impact__experience h3 {
+    margin-top: 28px;
+    font-size: clamp(38px, 4.5vw, 58px);
+  }
+
+  .partner-impact__outcome h3 {
+    font-size: clamp(30px, 3vw, 40px);
   }
 
   .partner-impact__topics {
@@ -202,18 +209,20 @@ const ratingDisplay = rating.value.replace(".0%", "%");
       grid-template-columns: 1fr;
     }
 
-    .partner-impact__outcome {
-      min-height: 440px;
+    .partner-impact__experience {
+      min-height: 320px;
       padding: var(--editorial-panel-padding-mobile);
       border-right: 0;
       border-bottom: 1px solid var(--editorial-color-divider);
-      --impact-chart-size: 190px;
-      --impact-chart-inner-size: 98px;
     }
 
-    .partner-impact__experience,
-    .partner-impact__voice {
+    .partner-impact__outcome {
+      min-height: 260px;
       padding: var(--editorial-panel-padding-mobile);
+    }
+
+    .partner-impact__voice {
+      padding: 22px var(--editorial-panel-padding-mobile);
     }
 
     .partner-impact__topics {
@@ -226,55 +235,48 @@ const ratingDisplay = rating.value.replace(".0%", "%");
   @media (max-width: 560px) {
     .partner-impact__outcome {
       min-height: 0;
-      --impact-chart-size: clamp(164px, 44vw, 180px);
-      --impact-chart-inner-size: 88px;
-      --impact-chart-value-size: 36px;
-      --impact-chart-gap: 14px;
+      --impact-chart-size: 116px;
+      --impact-chart-inner-size: 62px;
+      --impact-chart-value-size: 24px;
+      --impact-chart-gap: 8px;
     }
 
     .partner-impact__outcome-content {
-      margin-top: 28px;
-      grid-template-columns: 1fr;
-      gap: 24px;
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 18px;
+      align-items: center;
     }
 
     :global(.partner-impact__chart) {
-      justify-self: start;
-      align-items: flex-start;
-    }
-
-    .partner-impact__corroboration {
-      grid-template-rows: auto auto;
+      justify-self: end;
+      align-items: center;
     }
 
     .partner-impact__experience {
-      min-height: 0;
-      justify-content: flex-start;
-    }
-
-    .partner-impact__experience .partner-impact__eyebrow {
-      margin-bottom: 28px;
+      min-height: 290px;
     }
 
     .partner-impact__value {
-      font-size: clamp(68px, 20vw, 82px);
+      font-size: clamp(86px, 27vw, 112px);
       line-height: 0.9;
     }
 
     .partner-impact__experience h3 {
-      margin-top: 14px;
-      font-size: 34px;
+      margin-top: 18px;
+      font-size: 38px;
+    }
+
+    .partner-impact__outcome h3 {
+      font-size: 30px;
     }
 
     .partner-impact__voice {
-      min-height: 0;
-      justify-content: flex-start;
-      gap: 28px;
+      padding: 20px 22px;
     }
 
     .partner-impact__voice blockquote {
-      font-size: 30px;
-      line-height: 1.12;
+      font-size: 28px;
+      line-height: 1.1;
     }
 
     .partner-impact__topics > p:last-child {

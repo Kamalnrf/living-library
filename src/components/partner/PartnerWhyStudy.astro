@@ -26,18 +26,16 @@ const differenceStatement =
     <div class="why-statement">
       <div class="why-statement__lead">
         <div class="why-statement__copy">
-          <p class="why-label">THE DIFFERENCE</p>
           <blockquote>“{differenceStatement}”</blockquote>
         </div>
 
         <figure class="why-media why-statement__media">
           <img
-            src="/images/mcr-hrd-book-1-reading-2000.webp"
-            srcset="/images/mcr-hrd-book-1-reading-1000.webp 1000w, /images/mcr-hrd-book-1-reading-2000.webp 2000w"
             sizes="(max-width: 900px) 100vw, 50vw"
-            alt="Civil service officers listen to a Living Story during an MCR HRD Institute session."
-            width="2000"
-            height="1500"
+            src="/images/mcr-hrd-book-e-2-book-3-reading.jpeg"
+            alt="A Living Story with vivid green hair speaks with listeners gathered around a table."
+            width="3024"
+            height="4032"
             loading="lazy"
             decoding="async"
           />
@@ -95,7 +93,7 @@ const differenceStatement =
 
   .why-statement__lead {
     display: grid;
-    min-height: 380px;
+    height: clamp(340px, 30vw, 380px);
     grid-template-columns: repeat(2, minmax(0, 1fr));
     background: #edf3ef;
   }
@@ -104,25 +102,24 @@ const differenceStatement =
     display: flex;
     flex-direction: column;
     justify-content: center;
-    gap: 22px;
-    padding: clamp(32px, 5vw, 72px);
+    padding: clamp(28px, 3.4vw, 46px);
   }
 
   .why-statement__media {
-    min-height: 380px;
+    min-height: 0;
     border-block: 0;
     border-right: 0;
   }
 
   .why-statement__media img {
-    object-position: 56% center;
+    object-position: 52% 58%;
   }
 
   .why-statement blockquote {
-    max-width: 18ch;
+    max-width: 20ch;
     color: #272722;
     font-family: var(--editorial-font-serif);
-    font-size: clamp(36px, 3.8vw, 52px);
+    font-size: clamp(34px, 2.8vw, 39px);
     font-weight: 400;
     line-height: 1.06;
     letter-spacing: -0.025em;
@@ -138,8 +135,8 @@ const differenceStatement =
   .why-statement__note {
     display: flex;
     flex-direction: column;
-    gap: 14px;
-    padding: clamp(26px, 3.2vw, 42px);
+    gap: 11px;
+    padding: clamp(22px, 2.5vw, 32px);
     background: #f3f0e9;
   }
 
@@ -162,18 +159,18 @@ const differenceStatement =
 
   @media (max-width: 900px) {
     .why-statement__lead {
+      height: auto;
       min-height: 0;
       grid-template-columns: 1fr;
     }
 
     .why-statement__copy {
-      gap: 14px;
-      padding: 24px 22px 26px;
+      padding: 20px 22px 22px;
     }
 
     .why-statement__media {
       min-height: 0;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 2 / 1;
       border: 0;
       border-top: 1px solid var(--editorial-color-border);
     }
@@ -191,8 +188,8 @@ const differenceStatement =
     }
 
     .why-statement__note {
-      gap: 12px;
-      padding: 22px 22px 24px;
+      gap: 10px;
+      padding: 18px 22px 20px;
     }
 
     .why-statement__note + .why-statement__note {

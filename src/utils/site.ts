@@ -21,4 +21,4 @@ export const HOME_DESCRIPTION =
 export const REGISTER_PAGE_TITLE = `Register — ${SITE_NAME}`;
 export const PARTNER_PAGE_TITLE = `Partner With Us — ${SITE_NAME}`;
 export const PARTNER_PAGE_DESCRIPTION =
-	"Bring Living Stories sessions to your organisation. Living Stories Collective partners with schools, workplaces, and communities to create real conversations that shift perspectives.";
+	"Bring Living Stories sessions to your people. Living Stories Collective works with workplaces, institutions, communities, and independent hosts to create real conversations that shift perspectives.";

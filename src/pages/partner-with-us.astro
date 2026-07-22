@@ -10,6 +10,7 @@ import PartnerContact from "../components/partner/PartnerContact.astro";
 import PartnerHero from "../components/partner/PartnerHero.astro";
 import PartnerImpact from "../components/partner/PartnerImpact.astro";
 import PartnerPeople from "../components/partner/PartnerPeople.astro";
+import PartnerVoices from "../components/partner/PartnerVoices.astro";
 import PartnerWhyStudy from "../components/partner/PartnerWhyStudy.astro";
 import {
   PARTNER_EXPERIENCE_SECTION,
@@ -33,6 +34,8 @@ Astro.response.headers.set(
   <PartnerHero />
 
   <PartnerWhyStudy />
+
+  <PartnerVoices />
 
   <EditorialFrame
     as="section"
@@ -70,10 +73,22 @@ Astro.response.headers.set(
     background: var(--editorial-color-surface-elevated);
   }
 
+  :global(.partner-section--experience .editorial-story-row) {
+    min-height: 410px;
+  }
+
   @media (max-width: 900px) {
     :global(.partner-section) {
       margin-top: 24px;
     }
 
+    :global(.partner-section--experience .editorial-story-row) {
+      min-height: 0;
+    }
+
+    :global(.partner-section--experience .editorial-story-row__column) {
+      gap: 14px;
+      padding: 22px;
+    }
   }
 </style>

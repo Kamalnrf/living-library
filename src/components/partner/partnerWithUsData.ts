@@ -9,9 +9,9 @@ import { FEEDBACK_AGGREGATE } from "../landing/feedbackData";
 
 export const PARTNER_HERO = {
   eyebrow: "PARTNER WITH US",
-  title: "Bring living stories into your organisation",
+  title: "Bring living stories to your people",
   description:
-    "LSC creates spaces where people sit across from someone whose life looks nothing like theirs and listen. We partner with corporates, institutions, and communities to host sessions that replace assumptions with understanding.",
+    "LSC creates spaces where people sit across from someone whose life looks nothing like theirs and listen. We work with workplaces, institutions, communities, and independent hosts to create sessions that replace assumptions with understanding.",
   ctaLabel: "Start a conversation",
   ctaHref: "#partner-contact",
 } as const;
@@ -19,7 +19,6 @@ export const PARTNER_HERO = {
 const PARTNER_WHY_INTRO = {
   eyebrow: "01 / WHY IT WORKS",
   title: "From training to transformation",
-  description: "Awareness alone vs. lived experience.",
 } as const satisfies EditorialSectionIntroData;
 
 const PARTNER_WHY_BLOCK = {
@@ -47,10 +46,10 @@ export const PARTNER_WHY_SECTION = {
 } as const satisfies EditorialSection<EditorialSplitBandBlock>;
 
 const PARTNER_EXPERIENCE_INTRO = {
-  eyebrow: "02 / THE EXPERIENCE",
-  title: "How it works for your organisation",
+  eyebrow: "03 / THE EXPERIENCE",
+  title: "How a session comes together",
   description:
-    "We handle everything from curating the Living Stories to facilitating the session. Your team just shows up ready to listen.",
+    "We handle everything from curating the Living Stories to facilitating the session. You bring the people; we create the space to listen.",
 } as const satisfies EditorialSectionIntroData;
 
 const PARTNER_EXPERIENCE_STEPS = [
@@ -60,14 +59,14 @@ const PARTNER_EXPERIENCE_STEPS = [
     stepLabel: "STEP 1",
     title: "We plan together",
     description:
-      "Tell us about your organisation, your goals, and your people. We tailor the session and select Living Stories whose experiences speak to the themes that matter to you.",
+      "Tell us who you hope to bring together, what matters to them, and what you want the conversation to open up. We tailor the session and select Living Stories whose experiences speak to those themes.",
     layout: "media-first",
     media: {
       kind: "single-image",
       frameTone: "sage",
       height: {
-        desktop: "381px",
-        mobile: "228px",
+        desktop: "340px",
+        mobile: "196px",
       },
       image: {
         src: "/images/book-catalog.png",
@@ -89,8 +88,8 @@ const PARTNER_EXPERIENCE_STEPS = [
       kind: "single-image",
       frameTone: "sand",
       height: {
-        desktop: "381px",
-        mobile: "236px",
+        desktop: "340px",
+        mobile: "204px",
       },
       image: {
         src: "/images/events/hlf-2026-circle-wide.jpg",
@@ -104,7 +103,7 @@ const PARTNER_EXPERIENCE_STEPS = [
     kind: "story-row",
     id: "leave-changed",
     stepLabel: "STEP 3",
-    title: "Your team leaves changed",
+    title: "People leave changed",
     description:
       "Listeners walk away with shifted perspectives, deeper empathy, and a shared experience that keeps the conversation going long after the session ends.",
     layout: "media-first",
@@ -112,8 +111,8 @@ const PARTNER_EXPERIENCE_STEPS = [
       kind: "single-image",
       frameTone: "lavender",
       height: {
-        desktop: "382px",
-        mobile: "228px",
+        desktop: "340px",
+        mobile: "196px",
       },
       image: {
         src: "/images/reflection.jpg",
@@ -132,8 +131,8 @@ export const PARTNER_EXPERIENCE_SECTION = {
 } as const satisfies EditorialSection<EditorialStoryRowBlock>;
 
 const PARTNER_IMPACT_INTRO = {
-  eyebrow: "03 / IMPACT",
-  title: "What your team carries forward",
+  eyebrow: "04 / IMPACT",
+  title: "What people carry forward",
   description: "Evidence from listener feedback after Living Stories sessions.",
 } as const satisfies EditorialSectionIntroData;
 
@@ -183,10 +182,10 @@ export type PartnerPerson = {
 };
 
 export const PARTNER_PEOPLE_INTRO = {
-  eyebrow: "04 / THE PEOPLE",
+  eyebrow: "05 / THE PEOPLE",
   title: "The people behind the stories",
   description:
-    "Living Stories Collective is run by a small team that believes the shortest distance between a group of people is a story.",
+    "Living Stories Collective is run by a small team that believes the shortest distance between people is a story.",
 } as const satisfies EditorialSectionIntroData;
 
 export const PARTNER_PEOPLE = [
@@ -254,8 +253,8 @@ export const PARTNER_PEOPLE = [
 ] as const satisfies readonly PartnerPerson[];
 
 export const PARTNER_CONTACT_INTRO = {
-  eyebrow: "05 / GET IN TOUCH",
+  eyebrow: "06 / GET IN TOUCH",
   title: "Let's plan your session",
   description:
-    "Tell us a bit about your organisation and what you're looking for. We'll get back to you in a few days.",
+    "Tell us who you'd like to bring together and what you're looking for. We'll get back to you in a few days.",
 } as const satisfies EditorialSectionIntroData;
