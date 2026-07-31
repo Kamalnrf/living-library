@@ -38,7 +38,7 @@ const getFrameToneClass = (frameTone: 'sage' | 'lavender' | 'sand' = 'sand') =>
                 getFrameToneClass(block.media.frameTone),
               ]}
               data-editorial-frame-tone={block.media.frameTone ?? 'sand'}
-              style={`--editorial-story-row-media-height: ${block.media.height.desktop}; --editorial-story-row-media-height-mobile: ${block.media.height.mobile};`}
+              style={`--editorial-story-row-media-height-mobile: ${block.media.height.mobile};`}
             >
               <img
                 class="editorial-story-row__media-image"
@@ -132,7 +132,7 @@ const getFrameToneClass = (frameTone: 'sage' | 'lavender' | 'sand' = 'sand') =>
                 getFrameToneClass(block.media.frameTone),
               ]}
               data-editorial-frame-tone={block.media.frameTone ?? 'sand'}
-              style={`--editorial-story-row-media-height: ${block.media.height.desktop}; --editorial-story-row-media-height-mobile: ${block.media.height.mobile};`}
+              style={`--editorial-story-row-media-height-mobile: ${block.media.height.mobile};`}
             >
               <img
                 class="editorial-story-row__media-image"
@@ -185,7 +185,6 @@ const getFrameToneClass = (frameTone: 'sage' | 'lavender' | 'sand' = 'sand') =>
 <style>
   .editorial-story-row {
     display: flex;
-    min-height: 450px;
     border-bottom: 1px solid var(--editorial-color-divider);
   }
 
@@ -211,6 +210,7 @@ const getFrameToneClass = (frameTone: 'sage' | 'lavender' | 'sand' = 'sand') =>
 
   .editorial-story-row__column--text {
     position: relative;
+    justify-content: center;
   }
 
   .editorial-story-row__step-label,
@@ -247,7 +247,8 @@ const getFrameToneClass = (frameTone: 'sage' | 'lavender' | 'sand' = 'sand') =>
   .editorial-story-row__media-frame {
     position: relative;
     width: 100%;
-    height: var(--editorial-story-row-media-height, 381px);
+    height: auto;
+    aspect-ratio: 3 / 2;
     margin: 0;
     overflow: hidden;
     border: 1px solid transparent;
@@ -376,14 +377,20 @@ const getFrameToneClass = (frameTone: 'sage' | 'lavender' | 'sand' = 'sand') =>
       line-height: 25px;
     }
 
+    .editorial-story-row__column--text {
+      justify-content: flex-start;
+    }
+
     .editorial-story-row__media-frame {
       height: var(--editorial-story-row-media-height-mobile, 228px);
+      aspect-ratio: auto;
     }
 
     .editorial-story-row__collage {
       grid-template-columns: 1fr;
       gap: 12px;
       height: auto;
+      aspect-ratio: auto;
     }
 
     .editorial-story-row__collage-stack {

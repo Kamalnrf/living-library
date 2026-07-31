@@ -67,7 +67,6 @@ export type EditorialStoryRowMedia =
       kind: 'single-image'
       frameTone?: 'sage' | 'lavender' | 'sand'
       height: {
-        desktop: string
         mobile: string
       }
       image: EditorialMediaImage

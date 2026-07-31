@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root"
+
+echo "Checking the Node.js toolchain..."
+command -v node >/dev/null || {
+  echo "Node.js is required but is not installed." >&2
+  exit 1
+}
+command -v npm >/dev/null || {
+  echo "npm is required but is not installed." >&2
+  exit 1
+}
+
+node -e '
+  const [major, minor] = process.versions.node.split(".").map(Number);
+  if (major < 18 || (major === 18 && minor < 17)) {
+    console.error(`Node.js 18.17 or newer is required; found ${process.versions.node}.`);
+    process.exit(1);
+  }
+'
+
+echo "Installing dependencies from package-lock.json..."
+npm ci --no-audit --no-fund
+
+echo "Orb setup complete."
