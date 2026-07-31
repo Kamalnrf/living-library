@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$repo_root"
+
+command -v node >/dev/null || {
+  echo "Node.js is unavailable; rerun .agents/setup." >&2
+  exit 1
+}
+command -v npm >/dev/null || {
+  echo "npm is unavailable; rerun .agents/setup." >&2
+  exit 1
+}
+[[ -x node_modules/.bin/astro ]] || {
+  echo "Dependencies are unavailable; rerun .agents/setup." >&2
+  exit 1
+}
+
+echo "Orb dependencies are ready."

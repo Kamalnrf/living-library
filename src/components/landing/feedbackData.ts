@@ -23,8 +23,6 @@ export type FeedbackSnapshotMetric = {
 const FEEDBACK_INTRO = {
 	eyebrow: "03 / FEEDBACK",
 	title: "What People Say",
-	description:
-		"Short quotes plus aggregate event insights from participant forms.",
 } as const satisfies EditorialSectionIntroData;
 
 export const FEEDBACK_QUOTES = [
