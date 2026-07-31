@@ -27,7 +27,6 @@ const HOW_IT_WORKS_STEPS = [
 			kind: "single-image",
 			frameTone: "sage",
 			height: {
-				desktop: "381px",
 				mobile: "228px",
 			},
 			image: {
@@ -77,7 +76,6 @@ const HOW_IT_WORKS_STEPS = [
 			kind: "single-image",
 			frameTone: "lavender",
 			height: {
-				desktop: "382px",
 				mobile: "228px",
 			},
 			image: {

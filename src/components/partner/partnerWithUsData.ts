@@ -65,7 +65,6 @@ const PARTNER_EXPERIENCE_STEPS = [
       kind: "single-image",
       frameTone: "sage",
       height: {
-        desktop: "340px",
         mobile: "196px",
       },
       image: {
@@ -88,7 +87,6 @@ const PARTNER_EXPERIENCE_STEPS = [
       kind: "single-image",
       frameTone: "sand",
       height: {
-        desktop: "340px",
         mobile: "204px",
       },
       image: {
@@ -111,7 +109,6 @@ const PARTNER_EXPERIENCE_STEPS = [
       kind: "single-image",
       frameTone: "lavender",
       height: {
-        desktop: "340px",
         mobile: "196px",
       },
       image: {
