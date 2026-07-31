@@ -13,5 +13,11 @@ export default defineConfig({
     },
   }),
 
-  integrations: [react()]
+  integrations: [react()],
+
+  vite: {
+    server: {
+      allowedHosts: ['.e2b.app', '.onamp.dev'],
+    },
+  },
 });
