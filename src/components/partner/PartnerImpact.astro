@@ -1,8 +1,13 @@
 ---
 import EditorialFrame from "../editorial/EditorialFrame.astro";
 import EditorialSectionIntro from "../editorial/EditorialSectionIntro.astro";
+import EditorialTestimonialVideo from "../editorial/EditorialTestimonialVideo.astro";
 import PartnerImpactPerspectiveChart from "./PartnerImpactPerspectiveChart.astro";
 import { PARTNER_IMPACT_SECTION } from "./partnerWithUsData";
+import {
+  TESTIMONIAL_VIDEO_ID,
+  TESTIMONIAL_VIDEO_TITLE,
+} from "../../utils/site";
 
 const impact = PARTNER_IMPACT_SECTION.blocks[0];
 const rating = impact.metrics[0];
@@ -41,15 +46,14 @@ const ratingDisplay = rating.value.replace(".0%", "%");
         </div>
       </article>
 
-      <figure class="partner-impact__voice" aria-label="Listener reflection">
-        <blockquote>{impact.voice.quote}</blockquote>
-      </figure>
+      <EditorialTestimonialVideo
+        class="partner-impact__video"
+        videoId={TESTIMONIAL_VIDEO_ID}
+        title={TESTIMONIAL_VIDEO_TITLE}
+        captionLabel={impact.topics.label}
+        caption={impact.topics.body}
+      />
     </div>
-  </div>
-
-  <div class="partner-impact__topics">
-    <p>{impact.topics.label}</p>
-    <p>{impact.topics.body}</p>
   </div>
 </EditorialFrame>
 
@@ -85,18 +89,8 @@ const ratingDisplay = rating.value.replace(".0%", "%");
   .partner-impact__outcome h3,
   .partner-impact__outcome p,
   .partner-impact__experience p,
-  .partner-impact__experience h3,
-  .partner-impact__voice,
-  .partner-impact__voice blockquote,
-  .partner-impact__topics p {
+  .partner-impact__experience h3 {
     margin: 0;
-  }
-
-  .partner-impact__topics > p:first-child {
-    color: #8e8776;
-    font-size: 11px;
-    letter-spacing: 0.09em;
-    line-height: 15px;
   }
 
   .partner-impact__outcome-content {
@@ -146,19 +140,11 @@ const ratingDisplay = rating.value.replace(".0%", "%");
     --impact-chart-gap: 10px;
   }
 
-  .partner-impact__voice {
-    padding: 24px var(--editorial-panel-padding);
+  :global(.partner-impact__video) {
     border-top: 1px solid var(--editorial-color-divider);
-    background: #fff;
-  }
-
-  .partner-impact__voice blockquote {
-    max-width: 24ch;
-    color: #2b2a25;
-    font-family: var(--editorial-font-serif);
-    font-size: clamp(26px, 2.5vw, 34px);
-    line-height: 1.08;
-    text-wrap: balance;
+    border-right: 0;
+    border-bottom: 0;
+    border-left: 0;
   }
 
   .partner-impact__outcome-content {
@@ -189,19 +175,54 @@ const ratingDisplay = rating.value.replace(".0%", "%");
     font-size: clamp(30px, 3vw, 40px);
   }
 
-  .partner-impact__topics {
-    padding: var(--editorial-panel-padding);
-    display: grid;
-    grid-template-columns: minmax(190px, 0.7fr) minmax(0, 2fr);
-    gap: clamp(28px, 5vw, 80px);
-    background: var(--editorial-color-surface-elevated);
-  }
+  @media (min-width: 901px) {
+    .partner-impact__body {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
 
-  .partner-impact__topics > p:last-child {
-    max-width: 72ch;
-    color: #3e3d38;
-    font-size: 20px;
-    line-height: 30px;
+    .partner-impact__experience {
+      min-height: 360px;
+      grid-column: 1;
+      grid-row: 1;
+    }
+
+    .partner-impact__corroboration {
+      display: contents;
+    }
+
+    .partner-impact__outcome {
+      min-height: 360px;
+      grid-column: 2;
+      grid-row: 1;
+    }
+
+    :global(.partner-impact__video) {
+      grid-column: 1 / -1;
+      grid-row: 2;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    :global(.partner-impact__video .editorial-testimonial-video__player) {
+      min-width: 0;
+    }
+
+    :global(.partner-impact__video .editorial-testimonial-video__caption) {
+      padding: var(--editorial-panel-padding);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-left: 1px solid var(--editorial-color-divider);
+      background: #fff;
+    }
+
+    :global(.partner-impact__video .editorial-testimonial-video__caption-text) {
+      max-width: 23ch;
+      color: #2b2a25;
+      font-size: clamp(25px, 2.6vw, 36px);
+      line-height: 1.12;
+      text-wrap: balance;
+    }
   }
 
   @media (max-width: 900px) {
@@ -221,15 +242,6 @@ const ratingDisplay = rating.value.replace(".0%", "%");
       padding: var(--editorial-panel-padding-mobile);
     }
 
-    .partner-impact__voice {
-      padding: 22px var(--editorial-panel-padding-mobile);
-    }
-
-    .partner-impact__topics {
-      padding: var(--editorial-panel-padding-mobile);
-      grid-template-columns: 1fr;
-      gap: 18px;
-    }
   }
 
   @media (max-width: 560px) {
@@ -270,18 +282,5 @@ const ratingDisplay = rating.value.replace(".0%", "%");
       font-size: 30px;
     }
 
-    .partner-impact__voice {
-      padding: 20px 22px;
-    }
-
-    .partner-impact__voice blockquote {
-      font-size: 28px;
-      line-height: 1.1;
-    }
-
-    .partner-impact__topics > p:last-child {
-      font-size: 18px;
-      line-height: 27px;
-    }
   }
 </style>

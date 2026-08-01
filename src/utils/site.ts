@@ -13,6 +13,9 @@ export const LUMA_CALENDAR_EMBED_URL =
 	"https://lu.ma/embed/calendar/cal-GHDfTF0OIWzcDd9/events?lt=light";
 export const LIVING_BOOK_APPLICATION_URL =
 	"https://app.youform.com/forms/evyp3pwk";
+export const TESTIMONIAL_VIDEO_ID = "uP61fGBJ3CE";
+export const TESTIMONIAL_VIDEO_TITLE =
+	"Feedback for Living Stories Collective at MCR HRD";
 
 export const HOME_TITLE = SITE_NAME;
 export const HOME_DESCRIPTION =

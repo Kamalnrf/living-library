@@ -1,0 +1,83 @@
+---
+interface Props {
+  videoId: string;
+  title: string;
+  caption?: string;
+  captionLabel?: string;
+  class?: string;
+}
+
+const { videoId, title, caption, captionLabel, class: className } = Astro.props;
+const embedUrl = `https://www.youtube.com/embed/${videoId}?playsinline=1&rel=0`;
+---
+
+<figure class:list={["editorial-testimonial-video", className]}>
+  <div class="editorial-testimonial-video__player">
+    <iframe
+      class="editorial-testimonial-video__frame"
+      title={title}
+      src={embedUrl}
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen></iframe>
+  </div>
+
+  {
+    caption && (
+      <figcaption class="editorial-testimonial-video__caption">
+        {captionLabel && <p class="editorial-testimonial-video__caption-label">{captionLabel}</p>}
+        <p class="editorial-testimonial-video__caption-text">{caption}</p>
+      </figcaption>
+    )
+  }
+</figure>
+
+<style>
+  .editorial-testimonial-video,
+  .editorial-testimonial-video p {
+    margin: 0;
+  }
+
+  .editorial-testimonial-video {
+    width: 100%;
+    overflow: hidden;
+    border: 1px solid var(--editorial-color-border);
+    background: #fff;
+  }
+
+  .editorial-testimonial-video__player {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    background: #24231f;
+  }
+
+  .editorial-testimonial-video__frame {
+    width: 100%;
+    height: 100%;
+    display: block;
+    border: 0;
+  }
+
+  .editorial-testimonial-video__caption {
+    padding: 14px;
+    display: grid;
+    gap: 9px;
+  }
+
+  .editorial-testimonial-video__caption-label {
+    color: #8e8776;
+    font-family: var(--editorial-font-sans);
+    font-size: 11px;
+    line-height: 15px;
+    letter-spacing: 0.09em;
+  }
+
+  .editorial-testimonial-video__caption-text {
+    color: #66655f;
+    font-family: var(--editorial-font-serif);
+    font-size: 17px;
+    line-height: 22px;
+  }
+
+</style>
