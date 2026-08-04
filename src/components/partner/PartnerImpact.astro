@@ -1,9 +1,11 @@
 ---
 import EditorialFrame from "../editorial/EditorialFrame.astro";
+import EditorialQuoteGridBlock from "../editorial/EditorialQuoteGridBlock.astro";
 import EditorialSectionIntro from "../editorial/EditorialSectionIntro.astro";
 import EditorialTestimonialVideo from "../editorial/EditorialTestimonialVideo.astro";
 import PartnerImpactPerspectiveChart from "./PartnerImpactPerspectiveChart.astro";
 import { PARTNER_IMPACT_SECTION } from "./partnerWithUsData";
+import { FEEDBACK_QUOTES_BLOCK } from "../landing/feedbackData";
 import {
   TESTIMONIAL_VIDEO_ID,
   TESTIMONIAL_VIDEO_TITLE,
@@ -12,19 +14,32 @@ import {
 const impact = PARTNER_IMPACT_SECTION.blocks[0];
 const rating = impact.metrics[0];
 const ratingDisplay = rating.value.replace(".0%", "%");
+
+interface Props {
+  landing?: boolean;
+}
+
+const { landing = false } = Astro.props;
+const intro = landing
+  ? {
+      eyebrow: "03 / FEEDBACK",
+      title: "What people carry forward",
+      description:
+        "Evidence from listener feedback after Living Stories sessions.",
+    }
+  : PARTNER_IMPACT_SECTION.intro;
+const sectionId = landing ? "feedback" : PARTNER_IMPACT_SECTION.id;
+const headingId = landing ? "feedback-title" : "partner-impact-title";
 ---
 
 <EditorialFrame
   as="section"
   variant="section"
-  id={PARTNER_IMPACT_SECTION.id}
+  id={sectionId}
   class="partner-section partner-impact"
-  aria-labelledby="partner-impact-title"
+  aria-labelledby={headingId}
 >
-  <EditorialSectionIntro
-    intro={PARTNER_IMPACT_SECTION.intro}
-    headingId="partner-impact-title"
-  />
+  <EditorialSectionIntro intro={intro} headingId={headingId} />
 
   <div class="partner-impact__body">
     <article class="partner-impact__experience">
@@ -55,6 +70,8 @@ const ratingDisplay = rating.value.replace(".0%", "%");
       />
     </div>
   </div>
+
+  {landing && <EditorialQuoteGridBlock block={FEEDBACK_QUOTES_BLOCK} />}
 </EditorialFrame>
 
 <style>
@@ -210,17 +227,25 @@ const ratingDisplay = rating.value.replace(".0%", "%");
     :global(.partner-impact__video .editorial-testimonial-video__caption) {
       padding: var(--editorial-panel-padding);
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 20px;
       border-left: 1px solid var(--editorial-color-divider);
       background: #fff;
     }
 
+    :global(
+      .partner-impact__video .editorial-testimonial-video__caption-label
+    ) {
+      line-height: 1.45;
+    }
+
     :global(.partner-impact__video .editorial-testimonial-video__caption-text) {
-      max-width: 23ch;
+      max-width: 28ch;
+      margin: auto;
       color: #2b2a25;
-      font-size: clamp(25px, 2.6vw, 36px);
-      line-height: 1.12;
+      font-size: clamp(21px, 1.8vw, 26px);
+      line-height: 1.22;
       text-wrap: balance;
     }
   }
@@ -241,7 +266,6 @@ const ratingDisplay = rating.value.replace(".0%", "%");
       min-height: 260px;
       padding: var(--editorial-panel-padding-mobile);
     }
-
   }
 
   @media (max-width: 560px) {
@@ -281,6 +305,5 @@ const ratingDisplay = rating.value.replace(".0%", "%");
     .partner-impact__outcome h3 {
       font-size: 30px;
     }
-
   }
 </style>

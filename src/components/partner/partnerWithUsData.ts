@@ -68,7 +68,7 @@ const PARTNER_EXPERIENCE_STEPS = [
         mobile: "196px",
       },
       image: {
-        src: "/images/book-catalog.png",
+        src: "/images/book-catalog.webp",
         alt: "Living Story profiles displayed for listeners to choose from at a Living Stories Collective session.",
         width: 1048,
         height: 762,
@@ -90,7 +90,7 @@ const PARTNER_EXPERIENCE_STEPS = [
         mobile: "204px",
       },
       image: {
-        src: "/images/events/hlf-2026-circle-wide.jpg",
+        src: "/images/events/hlf-2026-circle-wide.webp",
         alt: "A Living Story addresses a full circle of listeners at the Hyderabad Literary Festival.",
         width: 1800,
         height: 1350,
@@ -112,10 +112,10 @@ const PARTNER_EXPERIENCE_STEPS = [
         mobile: "196px",
       },
       image: {
-        src: "/images/reflection.jpg",
-        alt: "A facilitator speaks with listeners seated in a reflection circle after a session.",
-        width: 1328,
-        height: 1312,
+        src: "/images/mcr-hrd-book-13-reading.webp",
+        alt: "Participants exchange perspectives around table 13 during a Living Stories session.",
+        width: 1170,
+        height: 920,
       },
     },
   },
@@ -155,7 +155,7 @@ const PARTNER_IMPACT_BLOCK = {
   ],
   topics: {
     label: "WHAT PEOPLE OPENED UP ABOUT",
-    body: "Listeners reflected on a range of topics: current issues, addiction, mental health, gender, LGBTQ+, culture, and everyday social prejudice.",
+    body: "Current issues, addiction, mental health, gender, LGBTQ+, culture, and everyday social prejudice.",
   },
 } as const satisfies EditorialSnapshotBlock;
 
@@ -191,7 +191,7 @@ export const PARTNER_PEOPLE = [
     name: "Ritika",
     eyebrow: "FOUNDER",
     image: {
-      src: "/images/people/ritika.jpeg",
+      src: "/images/people/ritika.webp",
       alt: "Portrait of Ritika Chawla.",
       width: 1600,
       height: 1066,
@@ -206,7 +206,7 @@ export const PARTNER_PEOPLE = [
     name: "Anu",
     eyebrow: "CORE TEAM",
     image: {
-      src: "/images/people/anu-in-conversation.jpeg",
+      src: "/images/people/anu-in-conversation.webp",
       alt: "Anu smiling during a Living Stories conversation.",
       width: 1066,
       height: 1599,
@@ -221,7 +221,7 @@ export const PARTNER_PEOPLE = [
     name: "Taha",
     eyebrow: "CORE TEAM",
     image: {
-      src: "/images/people/taha.jpeg",
+      src: "/images/people/taha.webp",
       alt: "Portrait of Taha.",
       width: 1204,
       height: 1600,
@@ -236,7 +236,7 @@ export const PARTNER_PEOPLE = [
     name: "Kamal",
     eyebrow: "CORE TEAM",
     image: {
-      src: "/images/people/kamal.jpeg",
+      src: "/images/people/kamal.webp",
       alt: "Portrait of Kamal.",
       width: 600,
       height: 600,

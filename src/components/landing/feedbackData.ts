@@ -41,7 +41,7 @@ export const FEEDBACK_QUOTES = [
 	},
 ] as const satisfies readonly EditorialQuoteGridItem[];
 
-const FEEDBACK_QUOTES_BLOCK = {
+export const FEEDBACK_QUOTES_BLOCK = {
 	kind: "quote-grid",
 	quotes: FEEDBACK_QUOTES,
 } as const satisfies EditorialQuoteGridBlock;

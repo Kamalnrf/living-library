@@ -1,19 +1,16 @@
 ---
-import type {EditorialQuoteGridBlock as EditorialQuoteGridBlockData} from './editorialSection'
+import type { EditorialQuoteGridBlock as EditorialQuoteGridBlockData } from "./editorialSection";
 
 interface Props {
-  block: EditorialQuoteGridBlockData
-  class?: string
+  block: EditorialQuoteGridBlockData;
+  class?: string;
 }
 
-const {
-  block,
-  class: className,
-} = Astro.props as Props
+const { block, class: className } = Astro.props as Props;
 ---
 
 <div
-  class:list={['editorial-quote-grid-block', className]}
+  class:list={["editorial-quote-grid-block", className]}
   data-editorial-block-kind="quote-grid"
   data-editorial-quote-count={block.quotes.length}
 >
@@ -24,11 +21,12 @@ const {
         data-editorial-quote-id={quote.id}
         data-editorial-quote-index={index + 1}
       >
-        <p class="editorial-quote-grid-card__label">{quote.label}</p>
         <blockquote class="editorial-quote-grid-card__quote">
           <p>{quote.quote}</p>
         </blockquote>
-        <p class="editorial-quote-grid-card__supporting">{quote.supportingCopy}</p>
+        <p class="editorial-quote-grid-card__supporting">
+          {quote.supportingCopy}
+        </p>
       </article>
     ))
   }
@@ -37,7 +35,7 @@ const {
 <style>
   .editorial-quote-grid-block {
     display: flex;
-    min-height: 420px;
+    min-height: 300px;
     border-bottom: 1px solid var(--editorial-color-divider);
   }
 
@@ -54,39 +52,33 @@ const {
     padding: var(--editorial-panel-padding);
     display: flex;
     flex-direction: column;
-    gap: 16px;
+    gap: 20px;
   }
 
-  .editorial-quote-grid-card__label,
   .editorial-quote-grid-card__quote,
   .editorial-quote-grid-card__quote p,
   .editorial-quote-grid-card__supporting {
     margin: 0;
   }
 
-  .editorial-quote-grid-card__label {
-    color: #8e8776;
-    font-family: var(--editorial-font-sans);
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 16px;
-    letter-spacing: 0.08em;
-  }
-
   .editorial-quote-grid-card__quote {
+    width: 100%;
+    max-width: 24ch;
+    margin: auto;
     color: #2e2d28;
     font-family: var(--editorial-font-serif);
-    font-size: 40px;
+    font-size: clamp(26px, 2.5vw, 34px);
     font-weight: 400;
-    line-height: 1.08;
+    line-height: 1.14;
+    text-wrap: balance;
   }
 
   .editorial-quote-grid-card__supporting {
     color: #3e3d38;
     font-family: var(--editorial-font-sans);
-    font-size: 18px;
+    font-size: 15px;
     font-weight: 400;
-    line-height: 1.45;
+    line-height: 23px;
   }
 
   @media (max-width: 900px) {
@@ -105,13 +97,13 @@ const {
     }
 
     .editorial-quote-grid-card__quote {
-      font-size: 34px;
-      line-height: 36px;
+      font-size: 27px;
+      line-height: 1.16;
     }
 
     .editorial-quote-grid-card__supporting {
-      font-size: 16px;
-      line-height: 25px;
+      font-size: 15px;
+      line-height: 23px;
     }
   }
 </style>

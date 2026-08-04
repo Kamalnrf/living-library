@@ -1,8 +1,9 @@
 ---
 import EditorialFrame from "../editorial/EditorialFrame.astro";
+import EditorialQuoteGridBlock from "../editorial/EditorialQuoteGridBlock.astro";
 import EditorialSectionIntro from "../editorial/EditorialSectionIntro.astro";
 import LandingInstagramEmbed from "../landing/LandingInstagramEmbed.astro";
-import { FEEDBACK_QUOTES } from "../landing/feedbackData";
+import { FEEDBACK_QUOTES_BLOCK } from "../landing/feedbackData";
 import {
   INSTAGRAM_EMBED_URL,
   INSTAGRAM_HANDLE,
@@ -28,22 +29,15 @@ const intro = {
   <EditorialSectionIntro intro={intro} headingId="partner-voices-title" />
 
   <div class="partner-voices__body">
-    <div class="partner-voices__quotes" aria-label="Listener reflections">
-      {
-        FEEDBACK_QUOTES.map((item) => (
-          <figure class="partner-voices__quote">
-            <blockquote>{item.quote}</blockquote>
-            <p>{item.supportingCopy}</p>
-          </figure>
-        ))
-      }
-    </div>
-
-    <aside class="partner-voices__media" aria-label="Recent session media on Instagram">
+    <aside
+      class="partner-voices__media"
+      aria-label="Recent session media on Instagram"
+    >
       <div class="partner-voices__media-intro">
         <h3>See what happens in the room</h3>
         <p>
-          Follow session moments, Living Story introductions, and event updates on Instagram.
+          Follow session moments, Living Story introductions, and event updates
+          on Instagram.
         </p>
       </div>
 
@@ -54,6 +48,11 @@ const intro = {
         profileUrl={INSTAGRAM_URL}
       />
     </aside>
+
+    <EditorialQuoteGridBlock
+      block={FEEDBACK_QUOTES_BLOCK}
+      class="partner-voices__quotes"
+    />
   </div>
 </EditorialFrame>
 
@@ -64,62 +63,26 @@ const intro = {
   }
 
   .partner-voices__body {
-    display: grid;
-    grid-template-columns: minmax(0, 1.08fr) minmax(360px, 0.92fr);
-  }
-
-  .partner-voices__quotes {
-    display: grid;
-    grid-template-rows: repeat(2, minmax(0, 1fr));
-    border-right: 1px solid var(--editorial-color-divider);
-  }
-
-  .partner-voices__quote {
-    min-height: 264px;
-    margin: 0;
-    padding: var(--editorial-panel-padding);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 28px;
-    background: #fff;
   }
 
-  .partner-voices__quote + .partner-voices__quote {
-    border-top: 1px solid var(--editorial-color-divider);
-    background: #f3f0e9;
-  }
-
-  .partner-voices__quote blockquote,
-  .partner-voices__quote p,
   .partner-voices__media-intro p,
   .partner-voices__media-intro h3 {
     margin: 0;
   }
 
-  .partner-voices__quote blockquote {
-    max-width: 21ch;
-    color: #2b2a25;
-    font-family: var(--editorial-font-serif);
-    font-size: clamp(30px, 3.5vw, 46px);
-    line-height: 1.08;
-    text-wrap: balance;
-  }
-
-  .partner-voices__quote > p {
-    max-width: 52ch;
-    color: #625f57;
-    font-family: var(--editorial-font-sans);
-    font-size: 15px;
-    line-height: 23px;
+  :global(.partner-voices__quotes) {
+    border-top: 1px solid var(--editorial-color-divider);
   }
 
   .partner-voices__media {
     min-width: 0;
     padding: var(--editorial-panel-padding);
-    display: flex;
-    flex-direction: column;
-    gap: 28px;
+    display: grid;
+    grid-template-columns: minmax(0, 0.8fr) minmax(360px, 1.2fr);
+    gap: var(--editorial-panel-padding);
+    align-items: start;
     background: #edf3ef;
   }
 
@@ -154,35 +117,21 @@ const intro = {
   }
 
   @media (max-width: 900px) {
-    .partner-voices__body {
+    .partner-voices__media {
       grid-template-columns: 1fr;
     }
 
-    .partner-voices__quotes {
-      border-right: 0;
-      border-bottom: 1px solid var(--editorial-color-divider);
-    }
-
-    .partner-voices__quote,
     .partner-voices__media {
       min-height: 0;
       padding: var(--editorial-panel-padding-mobile);
     }
-
-    .partner-voices__quote {
-      gap: 22px;
-    }
   }
 
   @media (max-width: 560px) {
-    .partner-voices__quote blockquote {
-      max-width: 24ch;
-      font-size: 30px;
-      line-height: 1.12;
-    }
-
     .partner-voices__media-intro h3 {
-      font-size: 36px;
+      max-width: none;
+      font-size: 32px;
+      line-height: 1.08;
     }
   }
 </style>

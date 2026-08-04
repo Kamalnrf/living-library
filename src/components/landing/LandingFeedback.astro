@@ -1,50 +1,21 @@
 ---
-import EditorialFrame from '../editorial/EditorialFrame.astro'
-import EditorialSectionBlocks from '../editorial/EditorialSectionBlocks.astro'
-import EditorialSectionIntro from '../editorial/EditorialSectionIntro.astro'
-import EditorialTestimonialVideo from '../editorial/EditorialTestimonialVideo.astro'
-import {FEEDBACK_SECTION} from './feedbackData'
-import {
-  TESTIMONIAL_VIDEO_ID,
-  TESTIMONIAL_VIDEO_TITLE,
-} from '../../utils/site'
+import PartnerImpact from "../partner/PartnerImpact.astro";
 ---
 
-<EditorialFrame
-  as="section"
-  variant="section"
-  id={FEEDBACK_SECTION.id}
-  class="landing-section--feedback landing-feedback"
-  aria-labelledby="feedback-title"
->
-  <EditorialSectionIntro intro={FEEDBACK_SECTION.intro} headingId="feedback-title" />
-  <EditorialTestimonialVideo
-    class="landing-feedback__video"
-    videoId={TESTIMONIAL_VIDEO_ID}
-    title={TESTIMONIAL_VIDEO_TITLE}
-  />
-  <EditorialSectionBlocks blocks={FEEDBACK_SECTION.blocks} />
-</EditorialFrame>
+<div class="landing-feedback">
+  <PartnerImpact landing />
+</div>
 
 <style>
-  :global(.landing-section--feedback) {
+  :global(.landing-feedback .partner-section) {
     margin-top: 32px;
-  }
-
-  :global(.landing-feedback) {
+    scroll-margin-top: 6rem;
     display: flex;
     flex-direction: column;
-    background: #fff;
-    border: 1px solid var(--editorial-color-border);
-  }
-
-  :global(.landing-feedback__video) {
-    border-right: 0;
-    border-left: 0;
   }
 
   @media (max-width: 900px) {
-    :global(.landing-section--feedback) {
+    :global(.landing-feedback .partner-section) {
       margin-top: 24px;
     }
   }

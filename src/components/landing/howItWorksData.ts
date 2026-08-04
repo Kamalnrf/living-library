@@ -30,7 +30,7 @@ const HOW_IT_WORKS_STEPS = [
 				mobile: "228px",
 			},
 			image: {
-				src: "/images/book-catalog.png",
+				src: "/images/book-catalog.webp",
 				alt: "Living Book profiles pinned to a blue display board at an event.",
 				width: 1048,
 				height: 762,
@@ -49,16 +49,16 @@ const HOW_IT_WORKS_STEPS = [
 			kind: "collage",
 			stackedImages: [
         {
-					src: "/images/mcr-hrd-book-e-2-book-3-reading.jpeg",
+					src: "/images/mcr-hrd-book-e-2-book-3-reading.webp",
 					alt: "Participants seated around a table during a Living Stories Collective conversation circle.",
 				},
 				{
-					src: "/images/mcr-hrd-e-2-book-10-reading.png",
+					src: "/images/mcr-hrd-e-2-book-10-reading.webp",
 					alt: "A Living Book conversation underway at a community event.",
 				},
 			],
 			accentImage: {
-				src: "/images/hlf-book-1-reading.png",
+				src: "/images/hlf-book-1-reading.webp",
 				alt: "Two participants engaged in an intimate Living Book conversation.",
 			},
 			accentFrameTone: "sand",
@@ -79,7 +79,7 @@ const HOW_IT_WORKS_STEPS = [
 				mobile: "228px",
 			},
 			image: {
-				src: "/images/reflection.jpg",
+				src: "/images/reflection.webp",
 				alt: "A speaker talks with participants seated in a circle during a reflection session.",
 				width: 1328,
 				height: 1312,
