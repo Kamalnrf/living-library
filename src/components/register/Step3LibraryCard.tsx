@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { formatDate, formatMonthYear, generateCelebrationBlob, PALETTE } from './utils'
 import { fetchFeedbackLink } from './api'
+import { renderShareImage, shareOrDownload, type ShareBook } from './shareImage'
 import type { Session, Registration } from './api'
 
 type Props = {
@@ -46,6 +47,47 @@ export default function Step3LibraryCard({ readerId, readerName, eventName, even
       }
     }).filter(b => b.title)
   }, [sessions, registrations])
+
+  // Shareable ticket-stub image, offered alongside the feedback link once the
+  // event is over. Titles are off by default: some stories are very personal.
+  const [showTitles, setShowTitles] = useState(false)
+  const [shareBlob, setShareBlob] = useState<Blob | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [sharing, setSharing] = useState(false)
+  useEffect(() => {
+    if (!feedbackUrl || !books.length) return
+    let cancelled = false
+    const shareBooks: ShareBook[] = books.map(b => ({
+      sessionNo: b.sessionName.match(/\d+/)?.[0] ?? '',
+      time: b.startTime,
+      title: b.title,
+      tableNo: String(b.tableNo || ''),
+    }))
+    renderShareImage({
+      readerName,
+      dateLabel: eventDate ? formatDate(eventDate) : formatDate(new Date()),
+      books: shareBooks,
+      showTitles,
+    }).then(blob => {
+      if (cancelled) return
+      setShareBlob(blob)
+      setPreviewUrl(prev => {
+        if (prev) URL.revokeObjectURL(prev)
+        return URL.createObjectURL(blob)
+      })
+    }).catch(() => {})
+    return () => { cancelled = true }
+  }, [feedbackUrl, books, readerName, eventDate, showTitles])
+
+  async function handleShare() {
+    if (!shareBlob) return
+    setSharing(true)
+    try {
+      await shareOrDownload(shareBlob, 'living-stories-tickets.png')
+    } finally {
+      setSharing(false)
+    }
+  }
 
   const cardLabels = [
     { text: <>Name: <b>{readerName}</b></>, className: 'label' },
@@ -116,6 +158,26 @@ export default function Step3LibraryCard({ readerId, readerName, eventName, even
             <a className="view-card-btn feedback-btn" href={feedbackUrl} target="_blank" rel="noopener noreferrer">
               Leave a note for your books
             </a>
+
+            {previewUrl && (
+              <div className="share-block">
+                <img className="share-preview" src={previewUrl} alt="Your Living Stories tickets" />
+                <div className="share-controls">
+                  <p className="share-heading">Share your day</p>
+                  <label className="share-toggle">
+                    <input
+                      type="checkbox"
+                      checked={showTitles}
+                      onChange={e => setShowTitles(e.target.checked)}
+                    />
+                    Show book titles
+                  </label>
+                  <button className="share-btn" type="button" onClick={handleShare} disabled={sharing || !shareBlob}>
+                    {sharing ? 'Opening…' : 'Share or save image'}
+                  </button>
+                </div>
+              </div>
+            )}
           </>
         ) : (
           <>

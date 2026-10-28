@@ -740,6 +740,68 @@ body {
   align-items: center;
   text-decoration: none;
 }
+/* Shareable ticket image: preview + controls, under the feedback button */
+.share-block {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 12px;
+  padding: 14px;
+  width: 100%;
+  max-width: 360px;
+  border: 1px solid hsl(30, 20%, 82%);
+  border-radius: 14px;
+  background: hsla(38, 40%, 96%, 0.7);
+  text-align: left;
+}
+.share-preview {
+  width: 96px;
+  aspect-ratio: 9 / 16;
+  border-radius: 8px;
+  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.45);
+  flex-shrink: 0;
+}
+.share-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.share-heading {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-size: 15px;
+  color: hsl(0, 0%, 15%);
+}
+.share-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: "Inter", sans-serif;
+  font-size: 13px;
+  color: hsl(0, 0%, 35%);
+  cursor: pointer;
+}
+.share-toggle input {
+  width: 18px;
+  height: 18px;
+  accent-color: hsl(24, 88%, 42%);
+}
+.share-btn {
+  padding: 10px 16px;
+  min-height: 44px;
+  border: 1.5px solid hsl(24, 88%, 42%);
+  border-radius: 12px;
+  background: transparent;
+  color: hsl(24, 88%, 38%);
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.share-btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
 .view-card-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
