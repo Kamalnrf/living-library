@@ -183,6 +183,7 @@ function RegisterWizardComponent() {
             transition={{ duration: 0.15 }}
           >
             <Step3LibraryCard
+              readerId={readerId}
               readerName={readerName}
               eventName={eventName}
               eventDate={eventDate}

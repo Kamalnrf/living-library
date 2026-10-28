@@ -1,9 +1,11 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion, useReducedMotion } from 'motion/react'
 import { formatDate, formatMonthYear, generateCelebrationBlob, PALETTE } from './utils'
+import { fetchFeedbackLink } from './api'
 import type { Session, Registration } from './api'
 
 type Props = {
+  readerId: string
   readerName: string
   eventName: string
   eventDate: string
@@ -22,8 +24,15 @@ type Props = {
  *  900ms   "See you at the event!" fades in
  * ───────────────────────────────────────────────────────── */
 
-export default function Step3LibraryCard({ readerName, eventName, eventDate, sessions, registrations, onBack }: Props) {
+export default function Step3LibraryCard({ readerId, readerName, eventName, eventDate, sessions, registrations, onBack }: Props) {
   const prefersReducedMotion = useReducedMotion()
+
+  // Once all sessions have closed, the card offers a link to leave feedback.
+  const [feedbackUrl, setFeedbackUrl] = useState<string | null>(null)
+  useEffect(() => {
+    if (!readerId) return
+    fetchFeedbackLink(readerId).then(setFeedbackUrl).catch(() => {})
+  }, [readerId])
 
   const books = useMemo(() => {
     return registrations.map(reg => {
@@ -106,10 +115,21 @@ export default function Step3LibraryCard({ readerName, eventName, eventDate, ses
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.9, duration: 0.4, ease: [0.25, 0.46, 0.45, 0.94] }}
       >
-        <p className="see-you-msg">Find a Volunteer to guide you!</p>
-        <button className="back-link" type="button" onClick={onBack}>
-          &larr; Select Different Books
-        </button>
+        {feedbackUrl ? (
+          <>
+            <p className="see-you-msg">Your books would love to hear what stayed with you.</p>
+            <a className="view-card-btn feedback-btn" href={feedbackUrl} target="_blank" rel="noopener noreferrer">
+              Leave a note for your books
+            </a>
+          </>
+        ) : (
+          <>
+            <p className="see-you-msg">Find a Volunteer to guide you!</p>
+            <button className="back-link" type="button" onClick={onBack}>
+              &larr; Select Different Books
+            </button>
+          </>
+        )}
       </motion.div>
     </div>
   )

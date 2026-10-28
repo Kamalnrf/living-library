@@ -706,6 +706,11 @@ body {
   min-height: 44px;
   transition: opacity 0.2s;
 }
+.feedback-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
 .view-card-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
