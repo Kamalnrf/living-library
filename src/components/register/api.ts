@@ -1,4 +1,4 @@
-const API_BASE = 'https://kamalnrf--dee1179407c611f19da142dde27851f2.web.val.run'
+const API_BASE = 'https://living-stories.val.run'
 
 export type Book = {
   bookSessionId: string
