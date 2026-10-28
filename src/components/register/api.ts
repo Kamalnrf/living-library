@@ -64,6 +64,23 @@ export async function fetchAvailability(eventId: string, readerId: string): Prom
   return res.json()
 }
 
+export type ReadBook = {
+  sessionName: string
+  startTime: string
+  title: string
+  tableNo: string | null
+}
+
+// After the event: a tracked link to the feedback form, pre-filled with the
+// reader's books, and the books they actually read (cancelled ones skipped).
+// The server returns url: null until every session of the event has closed.
+export async function fetchFeedbackLink(readerId: string): Promise<{ url: string | null; books: ReadBook[] }> {
+  const res = await fetch(`${API_BASE}/api/readers/${readerId}/feedback-link`)
+  if (!res.ok) return { url: null, books: [] }
+  const data = await res.json()
+  return { url: data.url ?? null, books: data.books ?? [] }
+}
+
 export async function registerForBook(readerId: string, bookSessionId: string, sessionId: string): Promise<void> {
   const res = await fetch(`${API_BASE}/api/register`, {
     method: 'POST',

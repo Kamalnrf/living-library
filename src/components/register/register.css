@@ -29,12 +29,17 @@ body {
 /* ── Progress indicator ── */
 .progress {
   position: fixed;
-  top: 16px;
+  top: 12px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: hsla(42, 80%, 92%, 0.85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   z-index: 100;
 }
 .progress .dot {
@@ -706,6 +711,27 @@ body {
   min-height: 44px;
   transition: opacity 0.2s;
 }
+.feedback-btn {
+  display: inline-flex;
+  align-items: center;
+  text-decoration: none;
+}
+.share-btn {
+  padding: 10px 16px;
+  min-height: 44px;
+  border: 1.5px solid hsl(24, 88%, 42%);
+  border-radius: 12px;
+  background: transparent;
+  color: hsl(24, 88%, 38%);
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+}
+.share-btn:disabled {
+  opacity: 0.5;
+  cursor: wait;
+}
 .view-card-btn:disabled {
   opacity: 0.3;
   cursor: not-allowed;
@@ -726,18 +752,6 @@ body {
 }
 
 /* ── Step 3 ── */
-.final-card {
-  animation: card-reveal 500ms cubic-bezier(0.68, -0.55, 0.27, 1.55) both;
-  margin: 0 auto;
-  box-shadow:
-    inset 0 0 30px hsla(38, 50%, 80%, 0.4),
-    0.6px 0.6px 0.9px hsl(0deg 0% 0% / 0.09),
-    1.8px 1.8px 2.8px -0.5px hsl(0deg 0% 0% / 0.09),
-    4.4px 4.3px 6.9px -1px hsl(0deg 0% 0% / 0.09),
-    10.8px 10.5px 16.8px -1.5px hsl(0deg 0% 0% / 0.09),
-    20px 20px 32px -2px hsl(0deg 0% 0% / 0.07);
-}
-
 .below-card {
   text-align: center;
   margin-top: 28px;
@@ -749,6 +763,7 @@ body {
 .see-you-msg {
   color: hsl(0, 0%, 40%);
   font-size: 14px;
+  text-wrap: balance;
 }
 .back-link {
   background: none;
@@ -763,6 +778,181 @@ body {
 }
 .back-link:hover {
   color: hsl(0, 0%, 7%);
+}
+
+/* ── Step 3: tickets ── */
+.tickets-page {
+  --ticket-paper: #fbf6ec;
+  --ticket-stub: hsl(24, 88%, 45%);
+  --ticket-ink: #23231f;
+  --page-bg: hsl(42, 80%, 92%);
+}
+.tickets-header {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto 20px;
+}
+.tickets-eyebrow {
+  font-family: "Sometype Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: hsl(0, 0%, 40%);
+}
+.tickets-headline {
+  font-family: "Prata", Georgia, serif;
+  font-weight: 400;
+  font-size: 2.1rem;
+  line-height: 1.15;
+  margin-top: 6px;
+  color: var(--ticket-ink);
+  text-wrap: balance;
+}
+.tickets {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+/* The li carries tilt, shadow and the "on now" outline; the paper inside is
+   masked so the notches are real holes and the shadow follows them. */
+.ticket {
+  position: relative;
+  border-radius: 10px;
+  filter:
+    drop-shadow(0 1px 1px hsl(30deg 30% 20% / 0.12))
+    drop-shadow(0 8px 10px hsl(30deg 40% 20% / 0.18));
+}
+.ticket__paper {
+  --notch: 7px;
+  --stub-w: 84px;
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--stub-w) 1fr;
+  min-height: 132px;
+  background: var(--ticket-paper);
+  border-radius: 10px;
+  overflow: hidden;
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at var(--stub-w) 0, transparent 96%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at var(--stub-w) 100%, transparent 96%, #000) bottom / 100% 51% no-repeat;
+  mask:
+    radial-gradient(circle var(--notch) at var(--stub-w) 0, transparent 96%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at var(--stub-w) 100%, transparent 96%, #000) bottom / 100% 51% no-repeat;
+}
+.ticket__stub {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: var(--ticket-stub);
+  color: #fff;
+}
+.ticket__label,
+.ticket__time {
+  font-family: "Sometype Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.ticket__no {
+  font-family: "Prata", Georgia, serif;
+  font-size: 2.6rem;
+  line-height: 1;
+}
+.ticket__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px 14px 18px;
+  border-left: 2px dashed hsl(38, 35%, 82%);
+  text-align: left;
+}
+.ticket__eyebrow {
+  font-family: "Sometype Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(0, 0%, 45%);
+}
+.ticket__title {
+  font-family: "Prata", Georgia, serif;
+  font-size: 1.1rem;
+  line-height: 1.25;
+  color: var(--ticket-ink);
+  text-wrap: pretty;
+}
+.ticket__table {
+  align-self: flex-end;
+  margin-top: auto;
+  padding: 3px 9px;
+  border: 2px solid var(--ticket-stub);
+  border-radius: 6px;
+  font-family: "Sometype Mono", monospace;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ticket-stub);
+  transform: rotate(-5deg);
+}
+/* Before and during the event the table is what readers look for */
+.ticket--upcoming .ticket__table,
+.ticket--next .ticket__table,
+.ticket--now .ticket__table {
+  font-size: 16px;
+  padding: 4px 11px;
+}
+.ticket--now {
+  outline: 2px solid var(--ticket-stub);
+  outline-offset: 3px;
+}
+.ticket--next .ticket__eyebrow,
+.ticket--now .ticket__eyebrow {
+  color: var(--ticket-stub);
+  font-weight: 700;
+}
+.ticket--read .ticket__body,
+.ticket--read .ticket__stub {
+  opacity: 0.7;
+}
+.ticket--read .ticket__table {
+  font-size: 13px;
+}
+.ticket__punch {
+  position: absolute;
+  bottom: 16px;
+  left: 102px;
+  padding: 2px 10px;
+  border: 2.5px double hsl(215, 70%, 28%);
+  border-radius: 6px;
+  font-family: "Sometype Mono", monospace;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: hsl(215, 70%, 28%);
+  transform: rotate(-8deg);
+}
+.tickets-tally {
+  margin-top: 20px;
+  font-family: "Gloria Hallelujah", cursive;
+  font-size: 1.05rem;
+  color: hsl(0, 0%, 25%);
+  text-align: center;
+  transform: rotate(-1deg);
+}
+.tickets-empty {
+  text-align: center;
+}
+.below-card .share-btn {
+  min-width: 240px;
 }
 
 /* ── Loading ── */
@@ -858,8 +1048,3 @@ body {
 }
 
 /* ── Responsive ── */
-@media (max-width: 400px) {
-  .card {
-    width: 260px;
-  }
-}
