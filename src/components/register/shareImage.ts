@@ -1,7 +1,8 @@
 /*
  * Shareable "ticket stubs" story image (1080×1920) of the books a reader read.
  * Drawn with Canvas 2D in the reader's browser; designed at 540×960 and
- * scaled ×2. Titles are optional because some stories are deeply personal.
+ * scaled ×2. Header, tickets and a handwritten tally are centred as one block
+ * so one ticket looks as deliberate as four.
  */
 
 export type ShareBook = {
@@ -15,7 +16,6 @@ type Options = {
   readerName: string
   dateLabel: string // e.g. "28 Oct 2026"
   books: ShareBook[]
-  showTitles: boolean
 }
 
 const W = 540
@@ -36,6 +36,7 @@ const C = {
 const SERIF = 'Prata, Georgia, serif'
 const MONO = '"Sometype Mono", "Courier New", monospace'
 const SANS = 'Inter, system-ui, sans-serif'
+const HAND = '"Gloria Hallelujah", cursive'
 
 /** "DIPTI MONALI" → "Dipti", "Dr. Sachin Goel" → "Sachin", "bharati" → "Bharati" */
 export function firstName(name: string): string {
@@ -165,7 +166,7 @@ function drawTicket(
   }
 
   // Stub text
-  const big = h >= 170 ? 64 : 46
+  const big = h >= 240 ? 80 : h >= 170 ? 64 : 46
   ctx.fillStyle = '#fff'
   ctx.textAlign = 'left'
   ctx.textBaseline = 'alphabetic'
@@ -192,11 +193,10 @@ function drawTicket(
   spaced(ctx, 'ADMIT ONE READER', px, 30, 2.2)
 
   ctx.fillStyle = C.ink
-  const titleSize = h >= 170 ? 24 : 20
+  const titleSize = h >= 240 ? 32 : h >= 170 ? 24 : 20
   ctx.font = `${titleSize}px ${SERIF}`
-  const title = opts.showTitles ? book.title : 'A human book'
-  const lines = wrap(ctx, title, maxW, h >= 170 ? 3 : 2)
-  lines.forEach((line, i) => ctx.fillText(line, px, 58 + i * titleSize * 1.2))
+  const lines = wrap(ctx, book.title, maxW, h >= 240 ? 3 : h >= 170 ? 3 : 2)
+  lines.forEach((line, i) => ctx.fillText(line, px, 34 + titleSize * 1.15 + i * titleSize * 1.2))
 
   ctx.fillStyle = C.muted
   ctx.font = `11px ${MONO}`
@@ -222,6 +222,7 @@ export async function renderShareImage(opts: Options): Promise<Blob> {
     document.fonts.load(`700 13px "Sometype Mono"`),
     document.fonts.load(`13px "Sometype Mono"`),
     document.fonts.load(`600 15px Inter`),
+    document.fonts.load(`22px "Gloria Hallelujah"`),
   ]).catch(() => {})
   const logo = await loadImage('/images/logo.webp')
 
@@ -239,30 +240,44 @@ export async function renderShareImage(opts: Options): Promise<Blob> {
     ctx.fillRect(Math.random() * W, Math.random() * H, 1, 1)
   }
 
-  // Header
+  // Header, tickets and tally laid out as one block, centred above the footer
+  const books = opts.books.slice(0, 4)
+  const n = Math.max(books.length, 1)
+  const h = n === 1 ? 250 : n === 2 ? 220 : n === 3 ? 180 : 140
+  const gap = n === 4 ? 20 : 30
+  const ticketsH = n * h + (n - 1) * gap
+  const headSize = n <= 2 ? 46 : 36
+  const headerH = 30 + headSize // eyebrow + headline
+  const tallyH = 56
+  const blockH = headerH + 44 + ticketsH + tallyH
+  const top = 40 + Math.max(0, (820 - blockH) / 2)
+
   ctx.fillStyle = C.light
   ctx.globalAlpha = 0.65
   ctx.font = `12px ${MONO}`
-  spaced(ctx, `LIVING STORIES · ${opts.dateLabel.toUpperCase()}`, 44, 84, 3)
+  spaced(ctx, `LIVING STORIES · ${opts.dateLabel.toUpperCase()}`, 44, top + 12, 3)
   ctx.globalAlpha = 1
-  ctx.font = `36px ${SERIF}`
+  ctx.font = `${headSize}px ${SERIF}`
   const headline = `${firstName(opts.readerName)} was there.`
-  ctx.fillText(wrap(ctx, headline, W - 88, 1)[0], 44, 130)
+  ctx.fillText(wrap(ctx, headline, W - 88, 1)[0], 44, top + 22 + headSize)
 
-  // Tickets, sized to how many books they read
-  const books = opts.books.slice(0, 4)
-  const n = Math.max(books.length, 1)
-  const h = n === 1 ? 220 : n === 2 ? 200 : n === 3 ? 170 : 136
-  const gap = n === 4 ? 20 : 30
-  const areaTop = 180
-  const areaBottom = 860
-  const total = n * h + (n - 1) * gap
-  let y = areaTop + (areaBottom - areaTop - total) / 2
-  const angles = [-0.05, 0.035, -0.035, 0.05]
+  let y = top + headerH + 44
+  const angles = n === 1 ? [-0.03] : [-0.05, 0.035, -0.035, 0.05]
   books.forEach((book, i) => {
     drawTicket(ctx, book, opts, 44, y, W - 88, h, angles[i])
     y += h + gap
   })
+
+  // Handwritten tally under the tickets
+  ctx.save()
+  ctx.fillStyle = C.light
+  ctx.globalAlpha = 0.85
+  ctx.font = `22px ${HAND}`
+  ctx.textAlign = 'center'
+  ctx.translate(W / 2, y - gap + 48)
+  ctx.rotate(-0.02)
+  ctx.fillText(`${n} human book${n === 1 ? '' : 's'}, read across a table.`, 0, 0)
+  ctx.restore()
 
   // Brand footer
   ctx.textAlign = 'left'

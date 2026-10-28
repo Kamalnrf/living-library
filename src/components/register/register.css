@@ -772,19 +772,11 @@ body {
   font-size: 15px;
   color: hsl(0, 0%, 15%);
 }
-.share-toggle {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+.share-sub {
   font-family: "Inter", sans-serif;
   font-size: 13px;
-  color: hsl(0, 0%, 35%);
-  cursor: pointer;
-}
-.share-toggle input {
-  width: 18px;
-  height: 18px;
-  accent-color: hsl(24, 88%, 42%);
+  line-height: 1.35;
+  color: hsl(0, 0%, 40%);
 }
 .share-btn {
   padding: 10px 16px;
