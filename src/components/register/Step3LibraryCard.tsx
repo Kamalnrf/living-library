@@ -38,9 +38,10 @@ export default function Step3LibraryCard({ readerId, readerName, eventName, even
     return registrations.map(reg => {
       const session = sessions.find(s => s.id === reg.sessionId)
       const book = session?.books?.find(b => b.bookSessionId === reg.bookSessionId)
-      return { 
-        title: book?.title || '', 
+      return {
+        title: book?.title || '',
         sessionName: session?.name || '',
+        startTime: session?.startTime || '',
         tableNo: book?.tableNo || session?.tableNo || ''
       }
     }).filter(b => b.title)
@@ -61,7 +62,7 @@ export default function Step3LibraryCard({ readerId, readerName, eventName, even
         animate={{ opacity: 1, y: 0, rotate: 0, scale: 1 }}
         transition={{ type: "spring", stiffness: 280, damping: 24, delay: 0.1 }}
         style={{
-          margin: "auto 0"
+          marginTop: 8
         }}
       >
         <div className="card-details">
@@ -77,13 +78,9 @@ export default function Step3LibraryCard({ readerId, readerName, eventName, even
             </motion.span>
           ))}
         </div>
-        <table>
-          <thead>
-            <tr>
-              <th style={{ width: '28%' }}>Session</th>
-              <th style={{ width: '72%' }}>Book</th>
-            </tr>
-          </thead>
+        {/* One row per book: session + time on a small typed line, the title
+            handwritten underneath at full width, the table stamp on the right. */}
+        <table className="card-books">
           <tbody>
             {books.map((b, i) => (
               <motion.tr
@@ -92,16 +89,14 @@ export default function Step3LibraryCard({ readerId, readerName, eventName, even
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ type: "spring", stiffness: 350, damping: 28, delay: 0.7 + i * 0.1 }}
               >
-                <td>{b.sessionName}</td>
-                <td style={{ verticalAlign: 'middle' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-                    {b.tableNo && (
-                      <span className="table-stamp">
-                        T{b.tableNo}
-                      </span>
-                    )}
-                    <span style={{ lineHeight: 1.2 }}>{b.title}</span>
-                  </div>
+                <td>
+                  <span className="card-books__session">
+                    {b.sessionName}{b.startTime && ` · ${b.startTime}`}
+                  </span>
+                  <span className="card-books__title">{b.title}</span>
+                </td>
+                <td className="card-books__stamp">
+                  {b.tableNo && <span className="table-stamp">T{b.tableNo}</span>}
                 </td>
               </motion.tr>
             ))}

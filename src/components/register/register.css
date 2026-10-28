@@ -167,6 +167,35 @@ body {
   font-size: 0.8rem;
 }
 
+/* Library card book list: session line + full-width title, stamp column */
+.card .card-books td {
+  vertical-align: top;
+  padding: 10px 12px;
+  border-right: none;
+}
+.card .card-books tr:not(:last-child) td {
+  border-bottom: 1px dashed hsl(30, 15%, 65%);
+}
+.card-books__session {
+  display: block;
+  font-family: "Sometype Mono", monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  opacity: 0.75;
+}
+.card-books__title {
+  display: block;
+  margin-top: 2px;
+  font-size: 0.95rem;
+  line-height: 1.3;
+}
+.card .card-books td.card-books__stamp {
+  width: 64px;
+  padding-left: 0;
+  text-align: right;
+}
+
 /* ── Step 1 Welcome & Instructions ── */
 .welcome-header {
   text-align: center;
@@ -754,6 +783,7 @@ body {
 .see-you-msg {
   color: hsl(0, 0%, 40%);
   font-size: 14px;
+  text-wrap: balance;
 }
 .back-link {
   background: none;
@@ -863,8 +893,3 @@ body {
 }
 
 /* ── Responsive ── */
-@media (max-width: 400px) {
-  .card {
-    width: 260px;
-  }
-}
