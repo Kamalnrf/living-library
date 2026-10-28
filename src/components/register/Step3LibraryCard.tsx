@@ -18,6 +18,7 @@ type Props = {
 
 // upcoming → next (first still-open session) → now (latest closed) → read.
 // Once every session has closed the event is over and tickets show no badge.
+// Each book is a ticket stub on the reader's library card.
 type TicketState = 'upcoming' | 'next' | 'now' | 'read' | 'done'
 
 type Ticket = ShareBook & { state: TicketState }
@@ -40,7 +41,7 @@ const ANGLES = [-1.2, 0.9, -0.8, 1.1]
  *  600ms   actions fade in
  * ───────────────────────────────────────────────────────── */
 
-export default function Step3Tickets({ eventId, readerId, readerName, eventDate, sessions, registrations, onBack }: Props) {
+export default function Step3LibraryCard({ eventId, readerId, readerName, eventDate, sessions, registrations, onBack }: Props) {
   const prefersReducedMotion = useReducedMotion()
 
   // Keep sessions fresh so tickets move through up next / on now / read as the
@@ -123,7 +124,7 @@ export default function Step3Tickets({ eventId, readerId, readerName, eventDate,
     if (!shareBlob) return
     setSharing(true)
     try {
-      await shareOrDownload(shareBlob, 'living-stories-tickets.png')
+      await shareOrDownload(shareBlob, 'living-stories-library-card.png')
     } finally {
       setSharing(false)
     }
@@ -140,7 +141,7 @@ export default function Step3Tickets({ eventId, readerId, readerName, eventDate,
         transition={{ duration: 0.3 }}
       >
         <p className="tickets-eyebrow">Living Stories · {dateLabel}</p>
-        <h1 className="tickets-headline">{feedbackUrl ? `${name} was there.` : `${name}'s tickets`}</h1>
+        <h1 className="tickets-headline">{feedbackUrl ? `${name} was there.` : `${name}'s library card`}</h1>
       </motion.header>
 
       {tickets.length > 0 ? (
@@ -190,7 +191,7 @@ export default function Step3Tickets({ eventId, readerId, readerName, eventDate,
               Leave a note for your books
             </a>
             <button className="share-btn" type="button" onClick={handleShare} disabled={sharing || !shareBlob}>
-              {sharing ? 'Opening…' : 'Share or save your tickets'}
+              {sharing ? 'Opening…' : 'Share or save your library card'}
             </button>
           </>
         ) : (

@@ -5,7 +5,7 @@ import ProgressDots from './ProgressDots'
 import Toast from './Toast'
 import Step1Registration from './Step1Registration'
 import Step2BookBrowser from './Step2BookBrowser'
-import Step3Tickets from './Step3Tickets'
+import Step3LibraryCard from './Step3LibraryCard'
 import { registerReader, fetchActiveEvent } from './api'
 import type { Session, Registration } from './api'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
@@ -182,7 +182,7 @@ function RegisterWizardComponent() {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.15 }}
           >
-            <Step3Tickets
+            <Step3LibraryCard
               eventId={eventId}
               readerId={readerId}
               readerName={readerName}
