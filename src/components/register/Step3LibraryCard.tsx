@@ -154,17 +154,19 @@ export default function Step3LibraryCard({ eventId, readerId, readerName, eventD
               animate={{ opacity: 1, y: 0, rotate: ANGLES[i % ANGLES.length] }}
               transition={{ type: 'spring', stiffness: 300, damping: 26, delay: 0.15 + i * 0.09 }}
             >
-              <div className="ticket__stub">
-                <span className="ticket__label">Session</span>
-                <span className="ticket__no">{t.sessionNo}</span>
-                <span className="ticket__time">{t.time}</span>
+              <div className="ticket__paper">
+                <div className="ticket__stub">
+                  <span className="ticket__label">Session</span>
+                  <span className="ticket__no">{t.sessionNo}</span>
+                  <span className="ticket__time">{t.time}</span>
+                </div>
+                <div className="ticket__body">
+                  <span className="ticket__eyebrow">{EYEBROW[t.state]}</span>
+                  <span className="ticket__title">{t.title}</span>
+                  {t.tableNo && <span className="ticket__table">Table {t.tableNo}</span>}
+                </div>
+                {t.state === 'read' && <span className="ticket__punch" aria-label="Read">Read</span>}
               </div>
-              <div className="ticket__body">
-                <span className="ticket__eyebrow">{EYEBROW[t.state]}</span>
-                <span className="ticket__title">{t.title}</span>
-                {t.tableNo && <span className="ticket__table">Table {t.tableNo}</span>}
-              </div>
-              {t.state === 'read' && <span className="ticket__punch" aria-label="Read">Read</span>}
             </motion.li>
           ))}
         </ol>

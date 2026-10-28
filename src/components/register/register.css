@@ -29,12 +29,17 @@ body {
 /* ── Progress indicator ── */
 .progress {
   position: fixed;
-  top: 16px;
+  top: 12px;
   left: 50%;
   transform: translateX(-50%);
   display: flex;
   align-items: center;
   gap: 8px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  background: hsla(42, 80%, 92%, 0.85);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
   z-index: 100;
 }
 .progress .dot {
@@ -813,19 +818,33 @@ body {
   flex-direction: column;
   gap: 22px;
 }
+/* The li carries tilt, shadow and the "on now" outline; the paper inside is
+   masked so the notches are real holes and the shadow follows them. */
 .ticket {
   position: relative;
+  border-radius: 10px;
+  filter:
+    drop-shadow(0 1px 1px hsl(30deg 30% 20% / 0.12))
+    drop-shadow(0 8px 10px hsl(30deg 40% 20% / 0.18));
+}
+.ticket__paper {
+  --notch: 7px;
+  --stub-w: 84px;
+  position: relative;
   display: grid;
-  grid-template-columns: 84px 1fr;
+  grid-template-columns: var(--stub-w) 1fr;
   min-height: 132px;
   background: var(--ticket-paper);
   border-radius: 10px;
-  box-shadow:
-    0 1px 2px hsl(30deg 30% 20% / 0.1),
-    0 10px 22px -10px hsl(30deg 40% 20% / 0.35);
+  overflow: hidden;
+  -webkit-mask:
+    radial-gradient(circle var(--notch) at var(--stub-w) 0, transparent 96%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at var(--stub-w) 100%, transparent 96%, #000) bottom / 100% 51% no-repeat;
+  mask:
+    radial-gradient(circle var(--notch) at var(--stub-w) 0, transparent 96%, #000) top / 100% 51% no-repeat,
+    radial-gradient(circle var(--notch) at var(--stub-w) 100%, transparent 96%, #000) bottom / 100% 51% no-repeat;
 }
 .ticket__stub {
-  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -833,25 +852,6 @@ body {
   gap: 2px;
   background: var(--ticket-stub);
   color: #fff;
-  border-radius: 10px 0 0 10px;
-}
-/* Notches cut out where the stub tears off */
-.ticket__stub::before,
-.ticket__stub::after {
-  content: "";
-  position: absolute;
-  right: -7px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  background: var(--page-bg);
-  z-index: 1;
-}
-.ticket__stub::before {
-  top: -7px;
-}
-.ticket__stub::after {
-  bottom: -7px;
 }
 .ticket__label,
 .ticket__time {
