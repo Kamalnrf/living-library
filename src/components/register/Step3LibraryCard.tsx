@@ -3,7 +3,8 @@ import { motion, useReducedMotion } from 'motion/react'
 import { useQuery } from '@tanstack/react-query'
 import { formatDate } from './utils'
 import { fetchAvailability, fetchFeedbackLink, type ReadBook } from './api'
-import { firstName, renderShareImage, shareOrDownload, type ShareBook } from './shareImage'
+import { firstName } from './shareImage'
+import { readBookTicket, TicketList, useShareImage, type Ticket, type TicketState } from './LibraryCardTickets'
 import type { Session, Registration } from './api'
 
 type Props = {
@@ -15,23 +16,6 @@ type Props = {
   registrations: Registration[]
   onBack: () => void
 }
-
-// upcoming → next (first still-open session) → now (latest closed) → read.
-// Once every session has closed the event is over and tickets show no badge.
-// Each book is a ticket stub on the reader's library card.
-type TicketState = 'upcoming' | 'next' | 'now' | 'read' | 'done'
-
-type Ticket = ShareBook & { state: TicketState }
-
-const EYEBROW: Record<TicketState, string> = {
-  upcoming: 'Admit one reader',
-  next: 'Up next',
-  now: 'On now',
-  read: 'Admit one reader',
-  done: 'Admit one reader',
-}
-
-const ANGLES = [-1.2, 0.9, -0.8, 1.1]
 
 /* ─────────────────────────────────────────────────────────
  * ANIMATION STORYBOARD
@@ -74,13 +58,7 @@ export default function Step3LibraryCard({ eventId, readerId, readerName, eventD
 
   const tickets = useMemo<Ticket[]>(() => {
     if (feedbackUrl && readBooks.length) {
-      return readBooks.map(b => ({
-        sessionNo: b.sessionName.match(/\d+/)?.[0] ?? '',
-        time: b.startTime,
-        title: b.title,
-        tableNo: b.tableNo ?? '',
-        state: 'done',
-      }))
+      return readBooks.map(readBookTicket)
     }
     const nextIdx = liveSessions.findIndex(s => s.registrationOpen)
     const nowIdx = (nextIdx === -1 ? liveSessions.length : nextIdx) - 1
@@ -107,28 +85,7 @@ export default function Step3LibraryCard({ eventId, readerId, readerName, eventD
   const dateLabel = eventDate ? formatDate(eventDate) : formatDate(new Date())
   const name = firstName(readerName)
 
-  // The share image is drawn ahead of time: iOS only opens the share sheet
-  // straight from a tap, so the button must not wait on rendering.
-  const [shareBlob, setShareBlob] = useState<Blob | null>(null)
-  const [sharing, setSharing] = useState(false)
-  useEffect(() => {
-    if (!feedbackUrl || !tickets.length) return
-    let cancelled = false
-    renderShareImage({ readerName, dateLabel, books: tickets })
-      .then(blob => { if (!cancelled) setShareBlob(blob) })
-      .catch(() => {})
-    return () => { cancelled = true }
-  }, [feedbackUrl, tickets, readerName, dateLabel])
-
-  async function handleShare() {
-    if (!shareBlob) return
-    setSharing(true)
-    try {
-      await shareOrDownload(shareBlob, 'living-stories-library-card.png')
-    } finally {
-      setSharing(false)
-    }
-  }
+  const shareImage = useShareImage(readerName, dateLabel, tickets, Boolean(feedbackUrl))
 
   const anyOpen = liveSessions.some(s => s.registrationOpen)
 
@@ -145,31 +102,7 @@ export default function Step3LibraryCard({ eventId, readerId, readerName, eventD
       </motion.header>
 
       {tickets.length > 0 ? (
-        <ol className="tickets">
-          {tickets.map((t, i) => (
-            <motion.li
-              key={`${t.sessionNo}-${t.title}`}
-              className={`ticket ticket--${t.state}`}
-              initial={prefersReducedMotion ? false : { opacity: 0, y: 24, rotate: 0 }}
-              animate={{ opacity: 1, y: 0, rotate: ANGLES[i % ANGLES.length] }}
-              transition={{ type: 'spring', stiffness: 300, damping: 26, delay: 0.15 + i * 0.09 }}
-            >
-              <div className="ticket__paper">
-                <div className="ticket__stub">
-                  <span className="ticket__label">Session</span>
-                  <span className="ticket__no">{t.sessionNo}</span>
-                  <span className="ticket__time">{t.time}</span>
-                </div>
-                <div className="ticket__body">
-                  <span className="ticket__eyebrow">{EYEBROW[t.state]}</span>
-                  <span className="ticket__title">{t.title}</span>
-                  {t.tableNo && <span className="ticket__table">Table {t.tableNo}</span>}
-                </div>
-                {t.state === 'read' && <span className="ticket__punch" aria-label="Read">Read</span>}
-              </div>
-            </motion.li>
-          ))}
-        </ol>
+        <TicketList tickets={tickets} />
       ) : (
         <p className="see-you-msg tickets-empty">You haven't picked any books yet.</p>
       )}
@@ -192,8 +125,8 @@ export default function Step3LibraryCard({ eventId, readerId, readerName, eventD
             <a className="view-card-btn feedback-btn" href={feedbackUrl} target="_blank" rel="noopener noreferrer">
               Leave a note for your books
             </a>
-            <button className="share-btn" type="button" onClick={handleShare} disabled={sharing || !shareBlob}>
-              {sharing ? 'Opening…' : 'Share or save your library card'}
+            <button className="share-btn" type="button" onClick={shareImage.share} disabled={shareImage.sharing || !shareImage.ready}>
+              {shareImage.sharing ? 'Opening…' : 'Share or save your library card'}
             </button>
           </>
         ) : (
