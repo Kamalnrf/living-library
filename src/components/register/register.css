@@ -167,35 +167,6 @@ body {
   font-size: 0.8rem;
 }
 
-/* Library card book list: session line + full-width title, stamp column */
-.card .card-books td {
-  vertical-align: top;
-  padding: 10px 12px;
-  border-right: none;
-}
-.card .card-books tr:not(:last-child) td {
-  border-bottom: 1px dashed hsl(30, 15%, 65%);
-}
-.card-books__session {
-  display: block;
-  font-family: "Sometype Mono", monospace;
-  font-size: 0.68rem;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  opacity: 0.75;
-}
-.card-books__title {
-  display: block;
-  margin-top: 2px;
-  font-size: 0.95rem;
-  line-height: 1.3;
-}
-.card .card-books td.card-books__stamp {
-  width: 64px;
-  padding-left: 0;
-  text-align: right;
-}
-
 /* ── Step 1 Welcome & Instructions ── */
 .welcome-header {
   text-align: center;
@@ -740,44 +711,6 @@ body {
   align-items: center;
   text-decoration: none;
 }
-/* Shareable ticket image: preview + controls, under the feedback button */
-.share-block {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-top: 12px;
-  padding: 14px;
-  width: 100%;
-  max-width: 360px;
-  border: 1px solid hsl(30, 20%, 82%);
-  border-radius: 14px;
-  background: hsla(38, 40%, 96%, 0.7);
-  text-align: left;
-}
-.share-preview {
-  width: 96px;
-  aspect-ratio: 9 / 16;
-  border-radius: 8px;
-  box-shadow: 0 6px 14px -6px rgba(0, 0, 0, 0.45);
-  flex-shrink: 0;
-}
-.share-controls {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.share-heading {
-  font-family: "Inter", sans-serif;
-  font-weight: 600;
-  font-size: 15px;
-  color: hsl(0, 0%, 15%);
-}
-.share-sub {
-  font-family: "Inter", sans-serif;
-  font-size: 13px;
-  line-height: 1.35;
-  color: hsl(0, 0%, 40%);
-}
 .share-btn {
   padding: 10px 16px;
   min-height: 44px;
@@ -814,18 +747,6 @@ body {
 }
 
 /* ── Step 3 ── */
-.final-card {
-  animation: card-reveal 500ms cubic-bezier(0.68, -0.55, 0.27, 1.55) both;
-  margin: 0 auto;
-  box-shadow:
-    inset 0 0 30px hsla(38, 50%, 80%, 0.4),
-    0.6px 0.6px 0.9px hsl(0deg 0% 0% / 0.09),
-    1.8px 1.8px 2.8px -0.5px hsl(0deg 0% 0% / 0.09),
-    4.4px 4.3px 6.9px -1px hsl(0deg 0% 0% / 0.09),
-    10.8px 10.5px 16.8px -1.5px hsl(0deg 0% 0% / 0.09),
-    20px 20px 32px -2px hsl(0deg 0% 0% / 0.07);
-}
-
 .below-card {
   text-align: center;
   margin-top: 28px;
@@ -852,6 +773,186 @@ body {
 }
 .back-link:hover {
   color: hsl(0, 0%, 7%);
+}
+
+/* ── Step 3: tickets ── */
+.tickets-page {
+  --ticket-paper: #fbf6ec;
+  --ticket-stub: hsl(24, 88%, 45%);
+  --ticket-ink: #23231f;
+  --page-bg: hsl(42, 80%, 92%);
+}
+.tickets-header {
+  width: 100%;
+  max-width: 380px;
+  margin: 0 auto 20px;
+}
+.tickets-eyebrow {
+  font-family: "Sometype Mono", monospace;
+  font-size: 11px;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: hsl(0, 0%, 40%);
+}
+.tickets-headline {
+  font-family: "Prata", Georgia, serif;
+  font-weight: 400;
+  font-size: 2.1rem;
+  line-height: 1.15;
+  margin-top: 6px;
+  color: var(--ticket-ink);
+  text-wrap: balance;
+}
+.tickets {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  width: 100%;
+  max-width: 380px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+.ticket {
+  position: relative;
+  display: grid;
+  grid-template-columns: 84px 1fr;
+  min-height: 132px;
+  background: var(--ticket-paper);
+  border-radius: 10px;
+  box-shadow:
+    0 1px 2px hsl(30deg 30% 20% / 0.1),
+    0 10px 22px -10px hsl(30deg 40% 20% / 0.35);
+}
+.ticket__stub {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  background: var(--ticket-stub);
+  color: #fff;
+  border-radius: 10px 0 0 10px;
+}
+/* Notches cut out where the stub tears off */
+.ticket__stub::before,
+.ticket__stub::after {
+  content: "";
+  position: absolute;
+  right: -7px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--page-bg);
+  z-index: 1;
+}
+.ticket__stub::before {
+  top: -7px;
+}
+.ticket__stub::after {
+  bottom: -7px;
+}
+.ticket__label,
+.ticket__time {
+  font-family: "Sometype Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  opacity: 0.9;
+}
+.ticket__no {
+  font-family: "Prata", Georgia, serif;
+  font-size: 2.6rem;
+  line-height: 1;
+}
+.ticket__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 14px 16px 14px 18px;
+  border-left: 2px dashed hsl(38, 35%, 82%);
+  text-align: left;
+}
+.ticket__eyebrow {
+  font-family: "Sometype Mono", monospace;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: hsl(0, 0%, 45%);
+}
+.ticket__title {
+  font-family: "Prata", Georgia, serif;
+  font-size: 1.1rem;
+  line-height: 1.25;
+  color: var(--ticket-ink);
+  text-wrap: pretty;
+}
+.ticket__table {
+  align-self: flex-end;
+  margin-top: auto;
+  padding: 3px 9px;
+  border: 2px solid var(--ticket-stub);
+  border-radius: 6px;
+  font-family: "Sometype Mono", monospace;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ticket-stub);
+  transform: rotate(-5deg);
+}
+/* Before and during the event the table is what readers look for */
+.ticket--upcoming .ticket__table,
+.ticket--next .ticket__table,
+.ticket--now .ticket__table {
+  font-size: 16px;
+  padding: 4px 11px;
+}
+.ticket--now {
+  outline: 2px solid var(--ticket-stub);
+  outline-offset: 3px;
+}
+.ticket--next .ticket__eyebrow,
+.ticket--now .ticket__eyebrow {
+  color: var(--ticket-stub);
+  font-weight: 700;
+}
+.ticket--read .ticket__body,
+.ticket--read .ticket__stub {
+  opacity: 0.7;
+}
+.ticket--read .ticket__table {
+  font-size: 13px;
+}
+.ticket__punch {
+  position: absolute;
+  bottom: 16px;
+  left: 102px;
+  padding: 2px 10px;
+  border: 2.5px double hsl(215, 70%, 28%);
+  border-radius: 6px;
+  font-family: "Sometype Mono", monospace;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: hsl(215, 70%, 28%);
+  transform: rotate(-8deg);
+}
+.tickets-tally {
+  margin-top: 20px;
+  font-family: "Gloria Hallelujah", cursive;
+  font-size: 1.05rem;
+  color: hsl(0, 0%, 25%);
+  text-align: center;
+  transform: rotate(-1deg);
+}
+.tickets-empty {
+  text-align: center;
+}
+.below-card .share-btn {
+  min-width: 240px;
 }
 
 /* ── Loading ── */
