@@ -81,6 +81,20 @@ export async function fetchFeedbackLink(readerId: string): Promise<{ url: string
   return { url: data.url ?? null, books: data.books ?? [] }
 }
 
+export type CardData = {
+  name: string
+  eventDate: string
+  feedbackUrl: string
+  books: ReadBook[]
+}
+
+// A reader's library card by its emailed token, for the shareable /card page.
+export async function fetchCard(token: string): Promise<CardData> {
+  const res = await fetch(`${API_BASE}/api/card/${encodeURIComponent(token)}`)
+  if (!res.ok) throw new Error('Card not found')
+  return res.json()
+}
+
 export async function registerForBook(readerId: string, bookSessionId: string, sessionId: string): Promise<void> {
   const res = await fetch(`${API_BASE}/api/register`, {
     method: 'POST',
